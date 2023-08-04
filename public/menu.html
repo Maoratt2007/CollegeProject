@@ -27,8 +27,9 @@
         // Product data received successfully
         renderProducts(data);
       },
-      error: function () {
+      error: function (err) {
         // Error handling in case API call fails
+        console.log(err)
         alert('Failed to fetch product data.');
       }
     });

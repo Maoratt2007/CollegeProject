@@ -5,7 +5,7 @@ const mongoose=require('mongoose');//sets off the mongoose
 const ProductRoute= require('./routes/productroute');
 const MealRoute= require('./routes/mealroute');
 
-mongoose.connect('mongodb://127.0.0.1:27017/mongodb');
+mongoose.connect('mongodb://127.0.0.1:27017/db');
 const port = 3000;
 
 const app = express(); // מופע של השרת
