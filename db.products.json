@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "64ccfb0253a3fbcd32b09051"
+  },
+  "name": "Regular pizza",
+  "price": 85,
+  "category": "food",
+  "image": "assets/regularPizza.jpg"
+},
+{
+  "_id": {
+    "$oid": "64cd008a53a3fbcd32b09055"
+  },
+  "name": "pizza with olives",
+  "price": 90,
+  "category": "food",
+  "image": "assets/pizzaOlive.jpg"
+}]
