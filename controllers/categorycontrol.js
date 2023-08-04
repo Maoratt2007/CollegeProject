@@ -69,5 +69,7 @@ module.exports={
 // git status      ---> not necessarily, used to check what files have actually been added 
 
 // git commit -m "message"      ----> commit your changes with a short message of what you did
+//ls -la  --->show me our files
 
 // git push  ----> push your changes into your current branch
+//maor comment
