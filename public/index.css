@@ -11,7 +11,7 @@ body {
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
-    background: url('tasty-pepperoni-pizza-black-concrete-background.jpg') no-repeat;
+    background: url('assets/home-background.jpg') no-repeat;
     background-size: cover;
     background-position: center;
 }
