@@ -15,7 +15,7 @@ const findProductById=async (_id)=>{
 }
 
 const getProducts= async()=>{
-    return await Product.find({});
+    return Product.find({});
 }
 
 const updateProduct=async(_id,name,price,category,image)=>{

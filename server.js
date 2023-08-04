@@ -2,16 +2,10 @@ const path = require('path') // creates a path
 const express = require('express'); // תקיית express
 const bodyParser = require('body-parser');//get from body the parameters, for example if i type in form "maor", the bodyParser will recive this 'maor'
 const mongoose=require('mongoose');//sets off the mongoose
-const CategoryRoute= require('./routes/categoryroute');//get the route(the module)
 const ProductRoute= require('./routes/productroute');
 const MealRoute= require('./routes/mealroute');
 
-mongoose.connect('mongodb://127.0.0.1:27017/db');
-
-
-
-
-
+mongoose.connect('mongodb://127.0.0.1:27017/mongodb');
 const port = 3000;
 
 const app = express(); // מופע של השרת
@@ -21,9 +15,8 @@ app.use(express.urlencoded({extended:true})) // add the option to use data from 
 app.use(express.static(path.join(__dirname, 'public')))  // express.static means that the app will have permision to access the folder 'public' __dirname is the fodler we were in and when you join __dirname and public it takes you to that path (app)
 app.set('view engine', 'ejs')
 app.use(bodyParser.json());
-app.use('/routes/categoryroute',CategoryRoute);
-app.use('/routes/productroute', ProductRoute);
-app.use('/routes/mealroute',MealRoute);
+app.use('/api/products', ProductRoute);
+app.use('/api/meals',MealRoute);
 
 // let index = 0
 // const movies = [
