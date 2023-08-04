@@ -9,7 +9,10 @@ const Product= new Schema({
     price:{
         type:Number
     },
-    category:Category.schema,
+    category: {
+        type: String,
+        enum: ["food", "drinks","dessert"]
+    },
     image:{
         type:String
     }
