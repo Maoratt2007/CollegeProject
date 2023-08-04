@@ -5,13 +5,8 @@ const creatProduct=async(req,res)=>{
     res.json(new_pro);
 }
 
-const getProducts=async(req,res)=>{
+const getProducts=async(req,res)=> {
     const arr_pro= await productService.getProducts();
-    if(!arr_pro)
-    {
-        res.status(404).json({errors:['pro was not found']})
-
-    }
     res.json(arr_pro);   
 }
 

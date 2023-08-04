@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List</title>
+  <!-- Include jQuery library -->
+  <script src="jquery.js"></script>
+</head>
+<body>
+<h1>Product List</h1>
+<div id="productList">
+  <!-- Product list will be rendered here -->
+</div>
+
+<script>
+  // Replace this URL with your actual API endpoint to fetch product data
+  const apiEndpoint = 'http://localhost:3000/api/products';
+
+  // Function to fetch and render product data
+  function fetchProducts() {
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        renderProducts(data);
+      },
+      error: function () {
+        // Error handling in case API call fails
+        alert('Failed to fetch product data.');
+      }
+    });
+  }
+
+  // Function to render the product data on the screen
+  function renderProducts(products) {
+    const productListContainer = $('#productList');
+
+    // Loop through each product and create an HTML element to display it
+    products.forEach(function (product) {
+      const productElement = `
+                    <div class="product">
+                        <h2>${product.name}</h2>
+                        <p>Price: $${product.price}</p>
+                        <p>Category: ${product.category}</p>
+                        <img src="${product.image}" alt="${product.name}" width="100">
+                    </div>
+                `;
+      productListContainer.append(productElement);
+    });
+  }
+
+  // Fetch the product data when the page loads
+  $(document).ready(function () {
+    fetchProducts();
+  });
+</script>
+</body>
+</html>
