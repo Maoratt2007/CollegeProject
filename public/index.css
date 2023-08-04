@@ -277,7 +277,7 @@ header {
     text-decoration: underline;
     transition: .5s;
 }
-
+/* 
 
 .services {
     background:whitesmoke;
@@ -287,8 +287,8 @@ header {
     bottom: 0px;
     min-height:100px;
     width:100%;
-}
-
+} */
+/* 
 .serviceList {
     display:flex;
     flex-direction: column;
@@ -297,8 +297,8 @@ header {
     padding:8px;
     row-gap: 8px;
     padding:4px;
-}
-.serviceContinentLabel {
+} */
+/* .serviceContinentLabel {
     font-weight: bold;
     font-size: 22px;
 }
@@ -311,13 +311,13 @@ header {
 .cityLabel:hover {
     text-decoration: underline;
     cursor: pointer;
-}
+} */
 
-.serviceWrapper {
+/* .serviceWrapper {
     width:50%;
     padding:16px;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
 
-}
+} */
