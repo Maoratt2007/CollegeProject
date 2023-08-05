@@ -3,6 +3,7 @@ const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
+const btn_login= document.querySelector('.btn');
 
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');//change to register-page
@@ -18,6 +19,9 @@ btnPopup.addEventListener('click', ()=> {
 
 iconClose.addEventListener('click', ()=> {
     wrapper.classList.remove('active-popup');
+});
+btn.addEventListener('click', ()=> {
+//the quiz 2
 });
 
 
