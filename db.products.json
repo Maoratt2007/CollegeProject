@@ -3,16 +3,38 @@
     "$oid": "64ccfb0253a3fbcd32b09051"
   },
   "name": "Regular pizza",
-  "price": 85,
+  "price": 30,
   "category": "food",
-  "image": "assets/regularPizza.jpg"
+  "image": "assets/regularPizza.jpg",
+  "description": "kjmdlkmkld"
 },
 {
   "_id": {
     "$oid": "64cd008a53a3fbcd32b09055"
   },
   "name": "pizza with olives",
-  "price": 90,
+  "price": 35,
   "category": "food",
-  "image": "assets/pizzaOlive.jpg"
+  "image": "assets/pizzaOlive.jpg",
+  "description": "kkkk"
+},
+{
+  "_id": {
+    "$oid": "64ce762553a3fbcd32b0905b"
+  },
+  "name": "pizza with mushrooms",
+  "price": 35,
+  "category": "food",
+  "image": "assets/pizzamush.jpg",
+  "description": "kkkk"
+},
+{
+  "_id": {
+    "$oid": "64ce78ff53a3fbcd32b0905c"
+  },
+  "name": "small regular pizza",
+  "price": 10,
+  "category": "food",
+  "image": "assets/smallregularpizza.jpg",
+  "description": "kkk"
 }]

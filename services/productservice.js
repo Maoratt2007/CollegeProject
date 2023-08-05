@@ -1,10 +1,11 @@
 const Product=require('../modules/product');
 
-const creatProduct=async (name,price,category,image)=>{
+const creatProduct=async (name,price,category,description,image)=>{
     const product=new Product({
         name:name,
         price:price,
         category:category,
+        description:description,
         image:image
     });
     return await product.save();
@@ -18,7 +19,7 @@ const getProducts= async()=>{
     return Product.find({});
 }
 
-const updateProduct=async(_id,name,price,category,image)=>{
+const updateProduct=async(_id,name,price,category,description,image)=>{
     const product=await findProductById(_id);
     if(!product)
     {
@@ -27,6 +28,7 @@ const updateProduct=async(_id,name,price,category,image)=>{
     product.name=name;
     product.price=price;
     product.category=category;
+    product.description=description;
     product.image=image;
     return await product.save();
 }
