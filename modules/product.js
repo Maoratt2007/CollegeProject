@@ -12,6 +12,9 @@ const Product= new Schema({
         type: String,
         enum: ["food", "drinks","dessert"]
     },
+    description: {
+        type:String
+    },
     image:{
         type:String
     }

@@ -1,7 +1,7 @@
 const productService= require('../services/productservice');
 
 const creatProduct=async(req,res)=>{
-    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category,req.body.image);
+    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image);
     res.json(new_pro);
 }
 
@@ -40,6 +40,10 @@ const updateProduct=async(req,res)=>{
     {
         res.status(400).json({errors:['you dont have price to product']});
     }
+    if(!req.body.description)
+    {
+        res.status(400).json({errors:['you dont have description to product']});
+    }
 
     if(!req.body.category)
     {
@@ -47,7 +51,7 @@ const updateProduct=async(req,res)=>{
     }
 
 
-    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category,req.body.image);
+    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image);
     if(!pro)
     {
         return res.status(404).json({errors:['pro was not found']})

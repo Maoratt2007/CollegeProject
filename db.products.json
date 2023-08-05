@@ -2,17 +2,239 @@
   "_id": {
     "$oid": "64ccfb0253a3fbcd32b09051"
   },
-  "name": "Regular pizza",
-  "price": 85,
+  "name": "Pizza 1",
+  "price": 17,
   "category": "food",
-  "image": "assets/regularPizza.jpg"
+  "image": "assets/pizza 1.jpg",
+  "description": "tomato sauce, fresh mozzarella chesse"
 },
 {
   "_id": {
     "$oid": "64cd008a53a3fbcd32b09055"
   },
-  "name": "pizza with olives",
-  "price": 90,
+  "name": "pizza 2",
+  "price": 20,
   "category": "food",
-  "image": "assets/pizzaOlive.jpg"
+  "image": "assets/pizza 2.jpg",
+  "description": "tomato sauce, fresh mozzarella chesse, ortiz anchovies and kalamata olives"
+},
+{
+  "_id": {
+    "$oid": "64ce762553a3fbcd32b0905b"
+  },
+  "name": "pizza 3",
+  "price": 20,
+  "category": "food",
+  "image": "assets/pizza 3.jpg",
+  "description": "tomato sauce, fresh mozzarella chesse, confit garlic and basil"
+},
+{
+  "_id": {
+    "$oid": "64ce78ff53a3fbcd32b0905c"
+  },
+  "name": "pizza 4",
+  "price": 20,
+  "category": "food",
+  "image": "assets/pizza 4.avif",
+  "description": "cream sauce, fresh mozzarella, sheep feta, gorgonzola, walnuts and spinach leaves"
+},
+{
+  "_id": {
+    "$oid": "64ce863653a3fbcd32b0905d"
+  },
+  "name": "pizza 5",
+  "price": 25,
+  "category": "food",
+  "description": "cream sauce, fresh mozzarella, goat cheese, dried tomatoes, green onions",
+  "image": "assets/pizza 5.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce871b53a3fbcd32b0905e"
+  },
+  "name": "pizza 6",
+  "price": 25,
+  "category": "food",
+  "description": "Spicy curry sauce contains walnuts, fresh mozzarella, sweet potatoes, mushrooms and green onions",
+  "image": "assets/pizza 6.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce888553a3fbcd32b0905f"
+  },
+  "name": "pizza 7",
+  "price": 25,
+  "category": "food",
+  "description": "Tomato sauce, fresh mozzarella, artichoke, arugula, balsamic cream and parmesan",
+  "image": "assets/pizza 7.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce889653a3fbcd32b09060"
+  },
+  "name": "pizza 8",
+  "price": 25,
+  "category": "food",
+  "description": "Tomato sauce, fresh mozzarella, red onions, green onions and onion jam;",
+  "image": "assets/pizza 8.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce88c153a3fbcd32b09062"
+  },
+  "name": "pizza 9",
+  "price": 25,
+  "category": "food",
+  "description": "Polenta cream, fresh mozzarella, mushrooms, truffle oil and parsley",
+  "image": "assets/pizza 9.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce88d053a3fbcd32b09063"
+  },
+  "name": "pizza 10",
+  "price": 25,
+  "category": "food",
+  "description": "Pesto sauce contains walnuts, fresh mozzarella, dried tomatoes, sheep feta, walnuts and arugula",
+  "image": "assets/pizza 10.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce88df53a3fbcd32b09064"
+  },
+  "name": "pizza 11",
+  "price": 25,
+  "category": "food",
+  "description": "Beet cream, mozzarella, feta, spinach leaves, balsamic cream and roasted almonds",
+  "image": "assets/pizza 11.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8ba053a3fbcd32b09065"
+  },
+  "name": "cola",
+  "price": 5,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 1.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c0053a3fbcd32b09066"
+  },
+  "name": "Cola Zero",
+  "price": 5,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 2.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c1553a3fbcd32b09067"
+  },
+  "name": "Fanta",
+  "price": 3,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 3.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c2253a3fbcd32b09068"
+  },
+  "name": "Sprite",
+  "price": 3,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 4.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c3053a3fbcd32b09069"
+  },
+  "name": "Sprite Zero",
+  "price": 4,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 5.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c3e53a3fbcd32b0906a"
+  },
+  "name": "Grape juice",
+  "price": 3,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 6.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c4f53a3fbcd32b0906b"
+  },
+  "name": "Fuzetea",
+  "price": 3,
+  "category": "drink",
+  "description": "0,33",
+  "image": "assets/drink 7.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c5b53a3fbcd32b0906c"
+  },
+  "name": "Mineral water",
+  "price": 4,
+  "category": "drink",
+  "description": "0,5",
+  "image": "assets/drink 8.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c7553a3fbcd32b0906d"
+  },
+  "name": "Soda",
+  "price": 3,
+  "category": "drink",
+  "description": "0,5",
+  "image": "assets/drink 9.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8c8153a3fbcd32b0906e"
+  },
+  "name": "Hot sticks",
+  "price": 9,
+  "category": "dessert",
+  "description": "Hot dough sticks with white chocolate, nutella, milk jam and pistachio sauce",
+  "image": "assets/dessert 1.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8ca353a3fbcd32b0906f"
+  },
+  "name": "Nutella Pizza",
+  "price": 13,
+  "category": "dessert",
+  "description": "Pizza dough with Nutella and milk jam",
+  "image": "assets/dessert 2.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8cb153a3fbcd32b09070"
+  },
+  "name": "Knafeh Pizza",
+  "price": 15,
+  "category": "dessert",
+  "description": "Knafeh pizza with kadaif hairs in butter, chopped pistachios, white chocolate and pistachio paste",
+  "image": "assets/dessert 3.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8cbc53a3fbcd32b09071"
+  },
+  "name": "Fudge Pizza",
+  "price": 15,
+  "category": "dessert",
+  "description": "Fudge Pizza with white chocolate",
+  "image": "assets/dessert 4.avif"
 }]
