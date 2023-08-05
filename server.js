@@ -2,7 +2,7 @@ const path = require('path') // creates a path
 const express = require('express'); // תקיית express
 const bodyParser = require('body-parser');//get from body the parameters, for example if i type in form "maor", the bodyParser will recive this 'maor'
 const mongoose=require('mongoose');//sets off the mongoose
-const ProductRoute= require('./routes/productroute');
+const ProductRoute= require('./routes/productroute');//let you the actions: put delete post get
 const MealRoute= require('./routes/mealroute');
 
 mongoose.connect('mongodb://127.0.0.1:27017/db');

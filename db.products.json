@@ -110,6 +110,36 @@
 },
 {
   "_id": {
+    "$oid": "64ce8ca353a3fbcd32b0906f"
+  },
+  "name": "Nutella Pizza",
+  "price": 13,
+  "category": "dessert",
+  "description": "Pizza dough with Nutella and milk jam",
+  "image": "assets/dessert 2.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8cb153a3fbcd32b09070"
+  },
+  "name": "Knafeh Pizza",
+  "price": 15,
+  "category": "dessert",
+  "description": "Knafeh pizza with kadaif hairs in butter, chopped pistachios, white chocolate and pistachio paste",
+  "image": "assets/dessert 3.avif"
+},
+{
+  "_id": {
+    "$oid": "64ce8cbc53a3fbcd32b09071"
+  },
+  "name": "Fudge Pizza",
+  "price": 15,
+  "category": "dessert",
+  "description": "Fudge Pizza with white chocolate",
+  "image": "assets/dessert 4.avif"
+},
+{
+  "_id": {
     "$oid": "64ce8ba053a3fbcd32b09065"
   },
   "name": "cola",
@@ -207,34 +237,4 @@
   "category": "dessert",
   "description": "Hot dough sticks with white chocolate, nutella, milk jam and pistachio sauce",
   "image": "assets/dessert 1.avif"
-},
-{
-  "_id": {
-    "$oid": "64ce8ca353a3fbcd32b0906f"
-  },
-  "name": "Nutella Pizza",
-  "price": 13,
-  "category": "dessert",
-  "description": "Pizza dough with Nutella and milk jam",
-  "image": "assets/dessert 2.avif"
-},
-{
-  "_id": {
-    "$oid": "64ce8cb153a3fbcd32b09070"
-  },
-  "name": "Knafeh Pizza",
-  "price": 15,
-  "category": "dessert",
-  "description": "Knafeh pizza with kadaif hairs in butter, chopped pistachios, white chocolate and pistachio paste",
-  "image": "assets/dessert 3.avif"
-},
-{
-  "_id": {
-    "$oid": "64ce8cbc53a3fbcd32b09071"
-  },
-  "name": "Fudge Pizza",
-  "price": 15,
-  "category": "dessert",
-  "description": "Fudge Pizza with white chocolate",
-  "image": "assets/dessert 4.avif"
 }]

@@ -10,7 +10,7 @@ const Product= new Schema({
     },
     category: {
         type: String,
-        enum: ["food", "drinks","dessert"]
+        enum: ["food", "drink","dessert"]
     },
     description: {
         type:String
