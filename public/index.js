@@ -5,11 +5,11 @@ const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
 
 registerLink.addEventListener('click', ()=> {
-    wrapper.classList.add('active');
+    wrapper.classList.add('active');//change to register-page
 });
 
 loginLink.addEventListener('click', ()=> {
-    wrapper.classList.remove('active');
+    wrapper.classList.remove('active');//change to login-page
 });
 
 btnPopup.addEventListener('click', ()=> {
@@ -32,40 +32,40 @@ iconClose.addEventListener('click', ()=> {
 
 // ]
 
-const servicesArea = document.querySelector(".services")
+// const servicesArea = document.querySelector(".services")
 
 
-window.onload = function() {
+// window.onload = function() {
 
 
-    const serviceWrapper = document.createElement('div')
+//     const serviceWrapper = document.createElement('div')
 
-    serviceWrapper.classList.add('serviceWrapper')
+//     serviceWrapper.classList.add('serviceWrapper')
 
-    // add the cities that services are given at dynammically
-    for(let service  of services) {
-        let serviceList = document.createElement('div')
-        serviceList.classList.add("serviceList")
-        const serviceContinentLabel = document.createElement('h4')
-        serviceContinentLabel.innerText = service.continent
-        serviceContinentLabel.classList.add('serviceContinentLabel')
-        serviceList.appendChild(serviceContinentLabel)
-        // create a city label for each city
-        for (let city of service.cities) {
-            let cityLabel = document.createElement('p')
-            cityLabel.innerText = city
-            cityLabel.classList.add("cityLabel")
-            serviceList.appendChild(cityLabel) 
+//     // add the cities that services are given at dynammically
+//     for(let service  of services) {
+//         let serviceList = document.createElement('div')
+//         serviceList.classList.add("serviceList")
+//         const serviceContinentLabel = document.createElement('h4')
+//         serviceContinentLabel.innerText = service.continent
+//         serviceContinentLabel.classList.add('serviceContinentLabel')
+//         serviceList.appendChild(serviceContinentLabel)
+//         // create a city label for each city
+//         for (let city of service.cities) {
+//             let cityLabel = document.createElement('p')
+//             cityLabel.innerText = city
+//             cityLabel.classList.add("cityLabel")
+//             serviceList.appendChild(cityLabel) 
             
-            cityLabel.addEventListener('click', () =>  {
-                window.location.href = `/services/${city}`
-            })
-        }
+//             cityLabel.addEventListener('click', () =>  {
+//                 window.location.href = `/services/${city}`
+//             })
+//         }
 
 
-        // add the list to the services area
-        serviceWrapper.appendChild(serviceList)
-    }
-      servicesArea.appendChild(serviceWrapper)
-}
+//         // add the list to the services area
+//         serviceWrapper.appendChild(serviceList)
+//     }
+//       servicesArea.appendChild(serviceWrapper)
+// }
 

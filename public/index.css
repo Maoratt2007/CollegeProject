@@ -103,7 +103,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow: hidden; /*hide the sign up to sign in*/
     transform: scale(0);
     transition: transform .5s ease, height .2s ease;
 }
