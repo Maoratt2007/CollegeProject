@@ -35,7 +35,7 @@ mongodbConnect();
 // ]
 
 // // Create
-// app.post('/save' /* Path name (can be anything) */, (req /* req is where all of the data is stored */, res) => {
+// app.post('/save' /* Path name (can be anything) /, (req / req is where all of the data is stored */, res) => {
 //     let movie = req.body // the form sends us data and it goes in req.body so we put the data in movie
 //     movie.id = index++ // movie index, when you want to delete something you'll have to delete it from its index so it doesnt delete many movies with the same name/year/genre
 //     movies.push(movie) // add the data as a new movie
@@ -77,3 +77,4 @@ mongodbConnect();
 app.listen(port);
 
 //לבדוק איך לחבר בין שתי html בjs
+//comment to check
