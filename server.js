@@ -4,9 +4,19 @@ const bodyParser = require('body-parser');//get from body the parameters, for ex
 const mongoose=require('mongoose');//sets off the mongoose
 const ProductRoute= require('./routes/productroute');//let you the actions: put delete post get
 const MealRoute= require('./routes/mealroute');
+const dotenv= require('dotenv');
+dotenv.config();
 
-mongoose.connect('mongodb://127.0.0.1:27017/db');
-const port = 3000;
+const mongodbConnect = async () => {
+    try {
+        await mongoose.connect(process.env.uri);
+        console.log("connect to db")
+    }
+    catch(error) {
+     console.log("fail to connect to db", error.message)
+    }
+}
+    const port = 3000;
 
 const app = express(); // מופע של השרת
 
@@ -17,6 +27,7 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.json());
 app.use('/api/products', ProductRoute);
 app.use('/api/meals',MealRoute);
+mongodbConnect();
 
 // let index = 0
 // const movies = [
