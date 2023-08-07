@@ -140,6 +140,16 @@
 },
 {
   "_id": {
+    "$oid": "64ce8c8153a3fbcd32b0906e"
+  },
+  "name": "Hot sticks",
+  "price": 9,
+  "category": "dessert",
+  "description": "Hot dough sticks with white chocolate, nutella, milk jam and pistachio sauce",
+  "image": "assets/dessert 1.avif"
+},
+{
+  "_id": {
     "$oid": "64ce8ba053a3fbcd32b09065"
   },
   "name": "cola",
@@ -227,14 +237,4 @@
   "category": "drink",
   "description": "0,5",
   "image": "assets/drink 9.avif"
-},
-{
-  "_id": {
-    "$oid": "64ce8c8153a3fbcd32b0906e"
-  },
-  "name": "Hot sticks",
-  "price": 9,
-  "category": "dessert",
-  "description": "Hot dough sticks with white chocolate, nutella, milk jam and pistachio sauce",
-  "image": "assets/dessert 1.avif"
 }]
