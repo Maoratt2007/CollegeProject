@@ -11,6 +11,7 @@ const MenuRoute= require('./routes/menuroute');
 const dotenv= require('dotenv');
 dotenv.config();
 
+//mongodb
 const mongodbConnect = async () => {
     try {
         await mongoose.connect(process.env.uri);
