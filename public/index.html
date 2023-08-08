@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title> 10Free </title>
+        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that unable us to use the icons -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+    </head>
+
+    <body>
+
+        <header>
+            <!--header is the top of the web-->
+            <h2 class="logo">10Free</h2>
+            <img src="assets/home-pizza.png" class="logo-pic" alt="...">
+            <nav class="navigation">
+                <a href="/order">Order</a>
+                <a href="#">About</a>
+                <a href="#">Services</a>
+                <a href="#">Contact</a>
+                <button class="btnLogin-popup">Login</button>
+                <a href="#" class="fas fa-shopping-cart"></a>
+                <a href="#" class="fas fa-user"></a>
+
+
+            </nav> 
+        </header>
+
+        <div class="wrapper">
+            <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
+            <div class="form-box login">
+                <h2>Login</h2>
+                <form action="#">
+                    <!--action='#' will return you to home-page -->
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                        <input type="email" required> <!-- required means to you must type your email in this input-->
+                        <label>Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password" required>
+                        <label>Password</label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox">Remember me</label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    <div class="login-register">
+                        <p>Don't have an account? <a href="#"
+                        class="register-link">Register</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="form-box register">
+                <h2>Registration</h2>
+                <form id="register-form">
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-outline"></ion-icon></ion-icon></span>
+                        <input type="text" name="name" required>
+                        <label>Username</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                        <input type="email" name="email" required>
+                        <label>Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password" name="password" required>
+                        <label>Password</label>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox">Agree to terms & conditions</label>
+                    </div>
+                    <button type="submit" class="btn">Register</button>
+                    <div class="login-register">
+                        <p>Already have an account? <a href="#"
+                        class="login-link">Login</a></p>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+        
+        <div class="order">
+                
+        </div>
+
+  
+
+
+        <div class="about">
+
+        </div>
+
+        <div class="contact-us">
+
+        </div>
+
+              
+        <div class="services">
+            
+        </div>
+        
+        <script src="index.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </body>
+</html>
