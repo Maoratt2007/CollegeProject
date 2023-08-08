@@ -1,0 +1,66 @@
+/* Reset some default styling */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Set a background color and center content */
+  body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  /* Style the product container */
+  #productList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Style individual product items */
+  .product {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .product img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .product p {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  /* Style the page title */
+  h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .product {
+      width: 100%;
+    }
+  }
