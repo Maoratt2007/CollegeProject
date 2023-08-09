@@ -25,7 +25,7 @@
       dataType: 'json',
       success: function (data) {
         // Product data received successfully
-        $('body').html(data);
+        renderProducts(data);
       },
       error: function (err) {
         // Error handling in case API call fails

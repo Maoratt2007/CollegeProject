@@ -7,6 +7,7 @@ const UserRoute= require('./routes/userroute');
 const BranchRoute= require('./routes/branchroute');
 const OrderItemRoute= require('./routes/orderItemroute');
 const OrderRoute= require('./routes/orderroute');
+const MenuRoute=require('./routes/menuroute');
 
 
 
@@ -43,6 +44,7 @@ app.use('/api/user', UserRoute);
 app.use('/api/branch', BranchRoute);
 app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
+app.use('/order', MenuRoute);
 
 
 

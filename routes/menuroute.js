@@ -1,7 +1,8 @@
 const express=require('express');
-const route= require('Router');
+const route= express.Router();
 
-route.get('/',(req,res)=>
+route.get('/order',(req,res)=>
 {
-    res.render('menu');
+    res.render('menuejs');
 })
+module.exports=route;
