@@ -3,7 +3,15 @@ const express = require('express'); // תקיית express
 const bodyParser = require('body-parser');//get from body the parameters, for example if i type in form "maor", the bodyParser will recive this 'maor'
 const mongoose=require('mongoose');//sets off the mongoose
 const ProductRoute= require('./routes/productroute');//let you the actions: put delete post get
-const MealRoute= require('./routes/mealroute');
+const UserRoute= require('./routes/userroute');
+const BranchRoute= require('./routes/branchroute');
+const OrderItemRoute= require('./routes/orderItemroute');
+const OrderRoute= require('./routes/orderroute');
+
+
+
+
+
 const dotenv= require('dotenv');
 dotenv.config();
 
@@ -13,7 +21,7 @@ const mongodbConnect = async () => {
         console.log("connect to db")
     }
     catch(error) {
-     console.log("fail to connect to db", error.message)
+        console.log("fail to connect to db", error.message)
     }
 }
     const port = 3000;
@@ -23,10 +31,23 @@ const app = express(); // מופע של השרת
 // app.use(express.json()) // add the option to use json
 app.use(express.urlencoded({extended:true})) // add the option to use data from form
 app.use(express.static(path.join(__dirname, 'public')))  // express.static means that the app will have permision to access the folder 'public' __dirname is the fodler we were in and when you join __dirname and public it takes you to that path (app)
-app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static('Views'));
+app.set('view engine', 'ejs');
+app.set('views', './views');
 app.use(bodyParser.json());
+app.use(bodyParser.text());
+
 app.use('/api/products', ProductRoute);
-app.use('/api/meals',MealRoute);
+app.use('/api/user', UserRoute);
+app.use('/api/branch', BranchRoute);
+app.use('/api/orderitem',OrderItemRoute );
+app.use('/api/order', OrderRoute);
+
+
+
+
+
 mongodbConnect();
 
 // let index = 0
@@ -35,7 +56,7 @@ mongodbConnect();
 // ]
 
 // // Create
-// app.post('/save' /* Path name (can be anything) /, (req / req is where all of the data is stored */, res) => {
+// app.post('/save' /* Path name (can be anything) */, (req /* req is where all of the data is stored */, res) => {
 //     let movie = req.body // the form sends us data and it goes in req.body so we put the data in movie
 //     movie.id = index++ // movie index, when you want to delete something you'll have to delete it from its index so it doesnt delete many movies with the same name/year/genre
 //     movies.push(movie) // add the data as a new movie
@@ -78,3 +99,5 @@ app.listen(port);
 
 //לבדוק איך לחבר בין שתי html בjs
 //comment to check
+//comment onto abulbul
+//comment to SHUTAF
