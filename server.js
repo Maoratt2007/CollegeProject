@@ -46,7 +46,7 @@ app.use('/api/user', UserRoute);
 app.use('/api/branch', BranchRoute);
 app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
-app.use('/order', MenuRoute);
+app.use('/menu', MenuRoute);
 app.use('/branch', BranchesRoute);
 
 
