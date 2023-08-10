@@ -35,23 +35,38 @@ registerForm.addEventListener('submit', async (e) => {
 
 })
 
-registerLink.addEventListener('click', ()=> {
-    wrapper.classList.add('active');//change to register-page
+
+registerLink.addEventListener('click', () => {
+    wrapper.classList.add('active');
 });
 
-loginLink.addEventListener('click', ()=> {
-    wrapper.classList.remove('active');//change to login-page
+loginLink.addEventListener('click', () => {
+    wrapper.classList.remove('active');
 });
 
-btnPopup.addEventListener('click', ()=> {
+btnPopup.addEventListener('click', () => {
     wrapper.classList.add('active-popup');
 });
 
-iconClose.addEventListener('click', ()=> {
+iconClose.addEventListener('click', () => {
     wrapper.classList.remove('active-popup');
 });
 
+// // Additional code for handling user authentication and showing/hiding content
+// window.addEventListener('DOMContentLoaded', () => {
+//     const isLoggedIn = checkUserLoggedIn(); // Replace this with actual logic
 
+//     const $loginContainer = document.querySelector('.form-box.login');
+//     const $contentContainer = document.querySelector('.content-container');
+
+//     if (isLoggedIn) {
+//         $loginContainer.style.display = 'none';
+//         $contentContainer.style.display = 'block';
+//     } else {
+//         $loginContainer.style.display = 'block';
+//         $contentContainer.style.display = 'none';
+//     }
+// });
 
 
 
