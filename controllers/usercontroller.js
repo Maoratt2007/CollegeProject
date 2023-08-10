@@ -24,7 +24,7 @@ const login = async(req,res)=>{
 
 
 const createUser=async(req,res)=>{
-    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password);
+    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager);
     res.json(new_user);
 }
 
@@ -72,6 +72,10 @@ const updateUser=async(req,res)=>{
     if(!req.body.password)
     {
         res.status(400).json({errors:['you dont have your password of user']});
+    }
+    if(!req.body.manager)
+    {
+        res.status(400).json({errors:['you dont have your manager of user']});
     }
 
 
