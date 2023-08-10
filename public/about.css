@@ -3,17 +3,18 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 /* Set a background color for the body */
 body {
-    font-family: Arial, sans-serif;
+    font-family:Georgia, 'Times New Roman', Times, serif;
     background-color: #f4f4f4;
 }
 
 /* Style the header */
 header {
-    background-color: #ff0000;
+    background-color: #c41717;
     color: #fff;
     text-align: center;
     padding: 30px;
@@ -67,31 +68,3 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Style the footer */
-footer {
-    background-color: #f8f8f8;
-    padding: 20px 0;
-    text-align: center;
-}
-
-.footer-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.social-media-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.social-media-list li {
-    margin: 0 10px;
-}
-
-.social-media-list a img {
-    width: 30px;
-    height: 30px;
-}

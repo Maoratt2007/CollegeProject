@@ -9,7 +9,8 @@ const OrderItemRoute= require('./routes/orderItemroute');
 const OrderRoute= require('./routes/orderroute');
 const MenuRoute=require('./routes/menuroute');
 const BranchesRoute=require('./routes/branchesroute');
-const AbourRoute=require('./routes/aboutroute');
+const AboutRoute=require('./routes/aboutroute');
+const ContactRoute=require('./routes/contactroute');
 
 
 
@@ -49,7 +50,8 @@ app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
 app.use('/order', MenuRoute);
 app.use('/branch', BranchesRoute);
-app.use('/about', AbourRoute);
+app.use('/about', AboutRoute);
+app.use('/contact', ContactRoute);
 
 
 
