@@ -12,6 +12,9 @@ const User = new Schema({
     password: {
         type:String,
         required:true
+    },
+    manager:{
+        type:Boolean
     }
 }); // A Order a has an array of OrderItem
 

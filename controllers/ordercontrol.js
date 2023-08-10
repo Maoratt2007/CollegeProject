@@ -6,7 +6,7 @@ const createOrder = async(req,res)=>{
 }
 
 const getOrder = async(req,res)=>{
-    const arr_order= await OrderService.getOrder();
+    const arr_Order= await OrderService.getOrder();
     if(!arr_Order)
     {
         res.status(404).json({errors:['Order was not found']})
