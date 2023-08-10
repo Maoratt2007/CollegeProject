@@ -24,7 +24,6 @@ header {
   left: 0;
   width: 100%;
   padding: 30px 180px;
-  background: #ff0000;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -109,7 +108,7 @@ header {
   display: block; /* Make the button appear on a new line */
   margin-top: 10px;
   padding: 8px 20px;
-  background-color: red;
+  background-color: #c22525;
   color: white;
   border: none;
   border-radius: 5px;
@@ -119,14 +118,14 @@ header {
 }
 
 .order-btn:hover {
-  background-color: #c22525;
+  background-color: red;
 }
 
 /* Style the page title */
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: red;
+  color: black;
 }
 
 /* Responsive styles */
@@ -140,14 +139,14 @@ h1 {
 
 /* Style the filter and category buttons */
 .filter-buttons {
-  margin: 20px 0;
+  margin: 20px 0 0 0; /* Remove the margin-bottom to minimize spacing */
   display: flex;
   align-items: center;
 }
 
 .filter-btn {
   padding: 8px 20px;
-  background-color: red;
+  background-color: #c41717;
   color: white;
   border: none;
   border-radius: 5px;
@@ -157,12 +156,12 @@ h1 {
 }
 
 .filter-btn:hover {
-  background-color: #c22525;
+  background-color: red;
 }
 
 .category-buttons {
   display: none;
-  margin-left: 10px;
+  /* margin-left: 10px; Remove the margin-left to minimize spacing */
 }
 
 .category-btn {
@@ -178,4 +177,13 @@ h1 {
 
 .category-btn:hover {
   background-color: #555;
+}
+
+
+/* Style the custom reply icon */
+.custom-reply-icon {
+  font-size: 24px; /* Adjust the size as needed */
+  color: #c41717; /* Set the desired color */
+  float: left; /* Float the icon to the left */
+  margin-left: 0; /* Remove any left margin */
 }
