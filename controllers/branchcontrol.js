@@ -3,6 +3,7 @@ const BranchService= require('../services/branchservice');
 
 const createBranch=async(req,res)=>{
     const new_branch= await BranchService.creatBranch(req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager);
+    console.log(new_branch);
     res.json(new_branch);
 }
 
