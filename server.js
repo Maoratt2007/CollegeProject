@@ -8,6 +8,8 @@ const BranchRoute= require('./routes/branchroute');
 const OrderItemRoute= require('./routes/orderItemroute');
 const OrderRoute= require('./routes/orderroute');
 const MenuRoute=require('./routes/menuroute');
+const BranchesRoute=require('./routes/branchesroute');
+
 
 
 
@@ -45,6 +47,8 @@ app.use('/api/branch', BranchRoute);
 app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
 app.use('/order', MenuRoute);
+app.use('/branch', BranchesRoute);
+
 
 
 

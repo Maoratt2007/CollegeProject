@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="menu.css">
   <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product List</title>
@@ -10,24 +9,24 @@
   <script src="jquery.js"></script>
 </head>
 <body>
-<h1>Product List</h1>
-<div id="productList">
+<h1>Branches List</h1>
+<div id="branchesList">
   <!-- Product list will be rendered here -->
 </div>
 
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
-  const apiEndpoint = 'http://localhost:300/api/products';
+  const apiEndpoint = 'http://localhost:300/api/branch';
 
   // Function to fetch and render product data
-  function fetchProducts() {
+  function fetchBranches() {
     $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
       success: function (data) {
         // Product data received successfully
-        renderProducts(data);
+        renderBranches(data);
       },
       error: function (err) {
         // Error handling in case API call fails
@@ -38,27 +37,28 @@
   }
 
   // Function to render the product data on the screen
-  function renderProducts(products) {
-    const productListContainer = $('#productList');
+  function renderBranches(branches) {
+    const branchListContainer = $('#branchesList');
 
     // Loop through each product and create an HTML element to display it
-    products.forEach(function (product) {
-      const productElement = `
-                    <div class="product">
-                        <h2>${product.name}</h2>
-                        Price: $${product.price}
-                       <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
-                       ${product.description}
-                    </div>
+    products.forEach(function (branch) {
+      const branchElement = `
+                    <div class="branch">
+                        <h2>${branch.name}</h2>
+                        Address: ${branch.address}
+                        phoneNumber:${brnach.phoneNumber}
+                        activityTime:${branch.activityTime}
+                        activityTime:${branch.activityTime}
+                        </div>
                 `;
-      productListContainer.append(productElement);
+      branchListContainer.append(branchElement);
     });
   }
 
   // Fetch the product data when the page loads
   $(document).ready(function () {
         console.log('insert to function');
-        fetchProducts();
+        fetchBranches();
   });
 </script>
 </body>
