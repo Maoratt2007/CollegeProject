@@ -1,14 +1,14 @@
 const Branch=require('../modules/branch');
 //add category for method post
 const creatBranch=async (name,address,phoneNumber,activityTime, manager)=>{
-    const branch =new Branch({
+    const branch =await Branch.create({
         name:name,
         address:address,
         phoneNumber:phoneNumber,
         activityTime:activityTime,
-        manager: manager
+        manager
     });
-    return await branch.save();
+    return branch
 
 }
 //find by id 
