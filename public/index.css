@@ -287,9 +287,13 @@ header {
 }
 
 
+.content-container {
+    display: none;
+  }
 
-
-
+.wrapper.active {
+    height: 520px;
+}
 
 
 /* 
