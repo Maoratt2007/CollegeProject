@@ -15,7 +15,12 @@ const User = new Schema({
     },
     manager:{
         type:Boolean
-    }
+    },
+    order:[{
+       type:Schema.Types.ObjectId,
+        ref: "Order",
+        required:true 
+    }]
 }); // A Order a has an array of OrderItem
 
 module.exports = mongoose.model('User', User)

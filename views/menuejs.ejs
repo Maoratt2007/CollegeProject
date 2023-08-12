@@ -8,11 +8,15 @@
   <title>Product List</title>
   <!-- Include jQuery library -->
   <script src="jquery.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
 </head>
 <body>
+
+  
 <h1>Product List</h1>
 
-<!-- Filter button and category buttons -->
+
 <div class="filter-buttons">
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
@@ -21,14 +25,24 @@
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
 </div>
+<div id="orderList">
+
+</div>
+
+<!-- Filter button and category buttons -->
+<a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
 
 <div id="productList">
   <!-- Product list will be rendered here -->
 </div>
 
+
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
+
+
+
 
   // Function to fetch and render product data
   function fetchProducts() {
@@ -48,6 +62,8 @@
     });
   }
 
+
+
   // Function to render the product data on the screen
   function renderProducts(products) {
     const productListContainer = $('#productList');
@@ -55,18 +71,51 @@
 
     // Loop through each product and create an HTML element to display it
     products.forEach(function (product) {
+      const name=product.name;
+      const price=product.price;
+      const id=product._id;
+      
       const productElement = `
         <div class="product">
           <h2>${product.name}</h2>
-          Price: $${product.price}
+          Price: ${product.price}$
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
-          <button class="order-btn">Order Now</button>
+         
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}")' method="post" action="http://localhost:3000/api/orderItem">Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
     });
   }
+ //function to order-btn
+ function addOrderProduct(name, price, id)
+ {
+   const orderListContainer = $('#orderList');
+
+
+   const OrderProductElement = `
+        <div class="productOrder">
+          <h2>name: "${name}"</h2>
+          Price:"${price}"$
+          <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${id}")'></a></button>
+        </div>
+      `;
+      orderListContainer.append(OrderProductElement );
+
+ }
+ function removeOrderProduct(productId) {
+  $.ajax({
+    url: `/api/order/${productId}`,
+    method: 'DELETE',
+    success: function (data) {
+      console.log(data.message); // Product deleted successfully message
+    },
+    error: function (error) {
+      console.error('Error deleting product:', error);
+    },
+  });}
+
 
     // Fetch the product data when the page loads
     $(document).ready(function () {
@@ -78,6 +127,7 @@
     $('.filter-btn').click(function () {
       $('.category-buttons').toggle();
     });
+    
   
 </script>
 </body>

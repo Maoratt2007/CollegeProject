@@ -2,7 +2,7 @@ const OrderItem= require('../modules/orderitem');
 const OrderItemService= require('../services/orderItemService');
 
 const createOrderItem=async(req,res)=>{
-    const new_orderItem= await OrderItemService.creatOrderItem(req.body.order,req.body.product,req.body.qunatity);
+    const new_orderItem= await OrderItemService.creatOrderItem(req.body.product,req.body.qunatity);
     res.json(new_orderItem);
 }
 
@@ -52,7 +52,7 @@ const updateOrderItem=async(req,res)=>{
         res.status(400).json({errors:['you dont have the qunatity of order']});
     }
 
-    const new_orderItem= await OrderItemService.updateOrderItem(req.body.order,req.body.product,req.body.qunatity);
+    const new_orderItem= await OrderItemService.updateOrderItem(req.body.product,req.body.qunatity);
     if(!new_orderItem)
     {
         return res.status(404).json({errors:['orderItem was not found']})

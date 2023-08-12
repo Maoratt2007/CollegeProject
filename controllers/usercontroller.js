@@ -24,7 +24,7 @@ const login = async(req,res)=>{
 
 
 const createUser=async(req,res)=>{
-    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager);
+    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager,req.body.order);
     res.json(new_user);
 }
 
@@ -79,7 +79,7 @@ const updateUser=async(req,res)=>{
     }
 
 
-    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password);
+    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password,req.body.manager,req.body.order);
     if(!user)
     {
         return res.status(404).json({errors:['user was not found']})

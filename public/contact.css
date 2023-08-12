@@ -124,3 +124,11 @@ footer {
 .footer-content a {
     color: #991f1f;
 }
+
+/* Style the custom reply icon */
+.custom-reply-icon {
+    font-size: 24px; /* Adjust the size as needed */
+    color: #c41717; /* Set the desired color */
+    float: left; /* Float the icon to the left */
+    margin-left: 0; /* Remove any left margin */
+}

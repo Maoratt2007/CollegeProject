@@ -7,11 +7,7 @@ const Schema=mongoose.Schema;
 // It is connected to a Order and a Product
 
 const OrderItem = new Schema({
-    order:{
-        type:Schema.Types.ObjectId,
-        ref: "Order",
-        required:true
-    },
+
     product:{ // this essentially bridges between the two collections OrderItem -> Product
         type:Schema.Types.ObjectId,
         ref: "Product",
