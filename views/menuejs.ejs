@@ -71,18 +71,18 @@
       const productElement = `
         <div class="product">
           <h2>${product.name}</h2>
-          Price: ${product.price}
+          Price: ${product.price}$
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
          
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}")'>Order Now</button>
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${product}")'>Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
     });
   }
  //function to order-btn
- function addOrderProduct(name, price)
+ function addOrderProduct(name, price, product)
  {
    const orderListContainer = $('#orderList');
 
@@ -90,12 +90,16 @@
    const OrderProductElement = `
         <div class="productOrder">
           <h2>name: "${name}"</h2>
-          Price:"${price}"
+          Price:"${price}"$
+          <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${product}")'></a></button>
         </div>
       `;
       orderListContainer.append(OrderProductElement );
 
-
+ }
+ function removeOrderProduct(product){
+  const productOrderElement = "${product}";
+  productOrderElement.remove();
  }
 
     // Fetch the product data when the page loads
