@@ -25,10 +25,14 @@
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
 </div>
+<div id="orderList">
+
+</div>
 
 <div id="productList">
   <!-- Product list will be rendered here -->
 </div>
+
 
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
@@ -59,18 +63,37 @@
 
     // Loop through each product and create an HTML element to display it
     products.forEach(function (product) {
+      const name=product.name;
+      const price=product.price;
       const productElement = `
         <div class="product">
           <h2>${product.name}</h2>
-          Price: $${product.price}
+          Price: ${product.price}
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
-          <button class="order-btn">Order Now</button>
+         
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}")'>Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
     });
   }
+ //function to order-btn
+ function addOrderProduct(name, price)
+ {
+   const orderListContainer = $('#orderList');
+
+
+   const OrderProductElement = `
+        <div class="productOrder">
+          <h2>name: "${name}"</h2>
+          Price:"${price}"
+        </div>
+      `;
+      orderListContainer.append(OrderProductElement );
+
+
+ }
 
     // Fetch the product data when the page loads
     $(document).ready(function () {
@@ -82,6 +105,7 @@
     $('.filter-btn').click(function () {
       $('.category-buttons').toggle();
     });
+    
   
 </script>
 </body>
