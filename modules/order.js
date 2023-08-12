@@ -17,7 +17,7 @@ const Order = new Schema({
         type:String,
     },
     items: [
-            { type:Schema.Types.ObjectId, ref :"OrderItem"}
+            { type:Schema.Types.ObjectId, ref :"Product"}
         ]}); // A Order a has an array of OrderItem
 
 module.exports=mongoose.model('Order', Order)
