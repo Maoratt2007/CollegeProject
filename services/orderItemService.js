@@ -1,6 +1,6 @@
 const orderItem=require('../modules/orderitem');
 //add category for method post
-const creatOrderItem=async (order,product,quantity)=>{
+const creatOrderItem=async (product,quantity)=>{
     const order_item =new orderItem({
         order:order,
         product:product,   
@@ -18,7 +18,7 @@ const getOrderItems= async()=>{
     return await orderItem.find({});
 }
 //update
-const updateOrderItem=async(_id,order,product,quantity)=>{
+const updateOrderItem=async(_id,product,quantity)=>{
     const order_item=await findOrderItemById(_id);
     if(!order_item)
     {

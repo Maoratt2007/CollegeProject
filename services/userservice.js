@@ -89,12 +89,13 @@ const login = async (user) => {
 }
 
 //add category for method post
-const creatUser=async (name,email, password,manager)=>{
+const creatUser=async (name,email, password,manager,order)=>{
     const user =new User({
         name:name,
         email:email,
         password:password,
-        manager:manager
+        manager:manager,
+        order:order
     });
     return await user.save();
 
@@ -108,7 +109,7 @@ const getUsers= async()=>{
     return await User.find({});
 }
 //update
-const updateUser=async(_id,name,email, password,manager)=>{
+const updateUser=async(_id,name,email, password,manager,order)=>{
     const user=await findUserById(_id);
     if(!user)
     {
@@ -118,6 +119,7 @@ const updateUser=async(_id,name,email, password,manager)=>{
     user.email=email;
     user.password=password;
     user.manager= manager;
+    user.order=order;
 
     return await user.save();
 }
