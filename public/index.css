@@ -29,17 +29,19 @@ header {
     z-index: 99;
 }
 
+/* 10free design */
 .logo {
     font-size: 3em;
     color: #fff;
     user-select: none;
+    margin-left: 50px;
 }
 
 .logo-pic {
     position:fixed;
     width: 95px;
     height: auto;
-    margin-left: -130px;
+    margin-left: -80px;
 }
 
 .navigation {
