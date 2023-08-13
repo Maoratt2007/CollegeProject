@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="menu.css">
   <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product List</title>
+  <title>Menu</title>
   <!-- Include jQuery library -->
   <script src="jquery.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
@@ -41,9 +41,6 @@
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
 
-
-
-
   // Function to fetch and render product data
   function fetchProducts() {
     $.ajax({
@@ -74,6 +71,10 @@
       const name=product.name;
       const price=product.price;
       const id=product._id;
+      const category=product.category;
+      const description=product.description;
+      const image=product.image;
+
       
       const productElement = `
         <div class="product">
@@ -82,28 +83,70 @@
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
          
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}")' method="post" action="http://localhost:3000/api/orderItem">Order Now</button>
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")' method="post" action="http://localhost:3000/api/orderItem">Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
     });
   }
  //function to order-btn
- function addOrderProduct(name, price, id)
- {
-   const orderListContainer = $('#orderList');
+//  function addOrderProduct(name, price, id)
+//  {
+//    const orderListContainer = $('#orderList');
 
 
-   const OrderProductElement = `
+//    const OrderProductElement = `
+//         <div class="productOrder">
+//           <h2>name: "${name}"</h2>
+//           Price:"${price}"$
+//           <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${id}")'></a></button>
+//         </div>
+//       `;
+//       orderListContainer.append(OrderProductElement );
+
+//  }
+const items=[];
+function addOrderProduct(name, price, id, category,description, image) {
+  const orderListContainer = $('#orderList');
+  const orderData = JSON.parse(localStorage.getItem('orderData'));
+
+
+  // Prepare the data for the order
+  const productData = {
+    name: name,
+    price: price,
+    category:category,
+    description:description, 
+    image:image
+    // Add other data fields as needed
+  };
+  orderData.items.push(productData);
+  orderData.price += parseFloat(price); // Make sure to convert price to a number
+
+  // Send a POST request to the server's API endpoint for order creation
+  $.ajax({
+    url: 'http://localhost:3000/api/products', // Update the URL to your API endpoint
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(productData),
+    success: function (response) {
+      // Handle success response
+      const OrderProductElement = `
         <div class="productOrder">
-          <h2>name: "${name}"</h2>
-          Price:"${price}"$
-          <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${id}")'></a></button>
+          <h2>Name: "${response.name}"</h2>
+          Price: "${response.price}"$
+          <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${response._id}")'></a></button>
         </div>
       `;
-      orderListContainer.append(OrderProductElement );
+      orderListContainer.append(OrderProductElement);
+    },
+    error: function (error) {
+      console.error('Error creating order:', error);
+    },
+  });
+}
 
- }
+
  function removeOrderProduct(productId) {
   $.ajax({
     url: `/api/order/${productId}`,

@@ -52,6 +52,7 @@ iconClose.addEventListener('click', () => {
     wrapper.classList.remove('active-popup');
 });
 
+
 // // Additional code for handling user authentication and showing/hiding content
 // window.addEventListener('DOMContentLoaded', () => {
 //     const isLoggedIn = checkUserLoggedIn(); // Replace this with actual logic
