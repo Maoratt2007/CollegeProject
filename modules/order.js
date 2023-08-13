@@ -11,7 +11,6 @@ const Order = new Schema({
 
     address: {
         type: String,
-        required:true
     },
     credit_card : {
         type:String,

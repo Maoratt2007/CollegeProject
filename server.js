@@ -11,6 +11,7 @@ const MenuRoute=require('./routes/menuroute');
 const BranchesRoute=require('./routes/branchesroute');
 const AboutRoute=require('./routes/aboutroute');
 const ContactRoute=require('./routes/contactroute');
+const orderMenuRoute=require('./routes/ordermenuroute')
 
 
 
@@ -48,10 +49,11 @@ app.use('/api/user', UserRoute);
 app.use('/api/branch', BranchRoute);
 app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
-app.use('/order', MenuRoute);
+app.use('/menu', MenuRoute);
 app.use('/branch', BranchesRoute);
 app.use('/about', AboutRoute);
 app.use('/contact', ContactRoute);
+app.use('/order',orderMenuRoute);
 
 
 

@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="menu.css">
   <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product List</title>
+  <title>Menu</title>
   <!-- Include jQuery library -->
   <script src="jquery.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
@@ -40,9 +40,6 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
-
-
-
 
   // Function to fetch and render product data
   function fetchProducts() {
@@ -108,19 +105,23 @@
 //       orderListContainer.append(OrderProductElement );
 
 //  }
+const items=[];
 function addOrderProduct(name, price, id, category,description, image) {
   const orderListContainer = $('#orderList');
+  const orderData = JSON.parse(localStorage.getItem('orderData'));
+
 
   // Prepare the data for the order
   const productData = {
     name: name,
     price: price,
-    id:id,
     category:category,
     description:description, 
     image:image
     // Add other data fields as needed
   };
+  orderData.items.push(productData);
+  orderData.price += parseFloat(price); // Make sure to convert price to a number
 
   // Send a POST request to the server's API endpoint for order creation
   $.ajax({
