@@ -16,7 +16,7 @@
 <h1>Order Form</h1>
   
 <form id="orderForm">
-    <a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
+    <a href="/menu" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" required><br>
   
@@ -26,9 +26,12 @@
   <label for="creditCard">Credit Card:</label>
   <input type="text" id="creditCard" name="creditCard" required><br>
   
-  <button type="submit" onclick="AddOrder()">Submit</button>
+  <a type="Submit"  onclick="AddOrder()">Submit</a>
 </form>
 <div id="orderList">
+
+</div>
+<div id="recipet">
 
 </div>
 
@@ -50,15 +53,24 @@
   console.log(storedItems)
   const total_price = JSON.parse(localStorage.getItem('total_price'));
   console.log(total_price)
-
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  console.log(userData);
 
     const orderData = {
     name: name,
+    price:total_price,
     price:total_price,
     address: address,
     credit_card:credit_card,
     items:storedItems
   };
+  const userDataUpdate={
+    name:name,
+    email:email,
+    password:password,
+    manager:false,
+    order:orderes
+  }
   orderes.push(orderData);
 
     $.ajax({
@@ -67,14 +79,39 @@
     contentType: 'application/json',
     data: JSON.stringify(orderData),
     success: function (response) {
-      alert("your order is acceception")
       localStorage.setItem('orderes', JSON.stringify(orderes));
     },
     error: function (error) {
       console.error('Error creating order:', error);
     },
   });
+
+  const recipetContainer = $('#recipet');
+  recipetContainer.empty(); // Clear existing products
+
+  const recipetElement=` <div class="recipetOrder">
+    your order is acceception
+      <h2>NameOrder: "${orderData.name}"</h2>
+      Paid: "${orderData.price}"$
+      <a href="/" class="backToHomePage"> Submit</a>
+    </div>`;
+    recipetContainer.append(recipetElement);
+
   }
+  //update in user
+  
+  $.ajax({
+    url: 'http:localhost:3000/api/user/${userData._id}', // Update the URL to your API endpoint
+    method: 'PUT',
+    contentType: 'application/json',
+    data: JSON.stringify(userDataUpdate),
+    success: function (response) {
+    },
+    error: function (error) {
+      console.error('Error creating order:', error);
+    },
+  });
+
 
   
 </script>
