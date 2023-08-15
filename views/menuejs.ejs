@@ -27,6 +27,8 @@
 </div>
 <div id="order-class">
   <div id="orderList">
+<div id="order-class">
+  <div id="orderList">
 
   </div>
   <button onclick="itmesIsExist()">Submit And Continue</button>
@@ -92,6 +94,7 @@
           ${product.description}
          
           <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
@@ -100,10 +103,12 @@
 
 const items=[];
 var total_price=0;
+var total_price=0;
 function addOrderProduct(name, price, id, category,description, image) {
   const orderListContainer = $('#orderList');
   // Prepare the data for the order
   const productData = {
+    _id:id,
     _id:id,
     name: name,
     price: price,
