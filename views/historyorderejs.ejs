@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="menu.css">
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderList</title>
+  <!-- Include jQuery library -->
+  <script src="jquery.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+</head>
+<body>
+
+<h1>Order List</h1>
+  
+<form id="orderHistoryForm">
+    <a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
+</form>
+<div id="orderListHistory">
+
+</div>
+<div id="itemsListHistoryContainer">
+
+</div>
+
+<!-- Filter button and category buttons -->
+
+
+<script>
+  // Replace this URL with your actual API endpoint to fetch product data
+  const apiEndpoint = 'http://localhost:3000/api/order';
+  const orderes=[];
+
+  // Function to render the product data on the screen
+  function renderOrder(orderes) {
+    const orderListHistoryContainer = $('#orderListHistory');
+    orderListHistoryContainer.empty(); // Clear existing products
+
+    // Loop through each product and create an HTML element to display it
+    orderes.forEach(function (order) {
+      const name=order.name;
+      const price=order.price;
+      const id=order._id;
+      const  address=order.address;
+      const credit_card=order.credit_card;
+      const  items=order.items;
+
+      const orderElement = `
+      <div class="order">
+          <h2>${order.name}</h2>
+          Price: ${order.price}$ 
+          <button class="fas fa-three-dot" id="detail-items" onclick='renderItems(${JSON.stringify(items)})'>Details</button>
+        </div>
+      `;
+      orderListHistory.append(orderElement);
+    });
+  }
+  function renderItems(items)
+  {
+    const itemsListHistoryContainer = $('#itemsListHistory');
+    itemsListHistoryContainer.empty(); // Clear existing products
+
+    // Loop through each product and create an HTML element to display it
+    products.forEach(function (item) {
+      const name=item.name;
+      const price=item.price;
+      const id=item._id;
+      const category=item.category;
+      const description=item.description;
+      const image=item.image;
+
+      
+      const itemElement = `
+        <div class="product">
+        <h2>${item.name}</h2>
+        Price: ${item.price}$
+        <p> <img src="${item.image}" alt="${item.name}" width="100"></p>
+      </div>
+      `;
+      itemsListHistoryContainer.append(itemElement);
+
+    })
+  }
+
+  $(document).ready(function () {
+    const orderesItems = JSON.parse(localStorage.getItem('orderes'));
+    console.log('insert to function');
+    renderOrder(orderesItems);
+
+    });
+  
+</script>
+</body>
+</html>

@@ -12,6 +12,7 @@ const BranchesRoute=require('./routes/branchesroute');
 const AboutRoute=require('./routes/aboutroute');
 const ContactRoute=require('./routes/contactroute');
 const orderMenuRoute=require('./routes/ordermenuroute')
+const HistoryOrderRoute=require('./routes/historyorderroute')
 
 
 
@@ -54,6 +55,7 @@ app.use('/branch', BranchesRoute);
 app.use('/about', AboutRoute);
 app.use('/contact', ContactRoute);
 app.use('/order',orderMenuRoute);
+app.use('/historyorder',HistoryOrderRoute)
 
 
 
