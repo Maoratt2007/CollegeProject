@@ -26,7 +26,7 @@
   <label for="creditCard">Credit Card:</label>
   <input type="text" id="creditCard" name="creditCard" required><br>
   
-  <a type="submit" href="/menu" onclick="fetchOrder()">Submit</a>
+  <button type="submit" onclick="AddOrder()">Submit</button>
 </form>
 <div id="orderList">
 
@@ -38,37 +38,40 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/order';
+  const orderes=[];
 
   // Function to fetch and render product data
-  function fetchOrder() {
+  function AddOrder() {
     const name = $('#name').val();
   const address = $('#address').val();
   const credit_card = $('#creditCard').val();
 
+  const storedItems = JSON.parse(localStorage.getItem('items'));
+  console.log(storedItems)
+  const total_price = JSON.parse(localStorage.getItem('total_price'));
+  console.log(total_price)
     const orderData = {
     name: name,
-    price:"0",
+    price:total_price,
     address: address,
     credit_card:credit_card,
-    items:null
-    // Add other data fields as needed
+    items:storedItems
   };
+  orderes.push(orderData);
+
     $.ajax({
     url: apiEndpoint, // Update the URL to your API endpoint
     method: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(orderData),
     success: function (response) {
-      // Handle success response
-      alert("start your order")
+      alert("your order is acceception")
+      localStorage.setItem('orderes', JSON.stringify(orderes));
     },
     error: function (error) {
       console.error('Error creating order:', error);
     },
   });
-  localStorage.setItem('orderData', JSON.stringify(orderData));
-//   window.location.href = '/menu';
-
   }
 
   

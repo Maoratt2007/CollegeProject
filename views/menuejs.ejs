@@ -25,9 +25,14 @@
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
 </div>
-<div id="orderList">
+<div id="order-class">
+  <div id="orderList">
+
+  </div>
+  <button onclick="itmesIsExist()">Submit And Continue</button>
 
 </div>
+
 
 <!-- Filter button and category buttons -->
 <a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
@@ -40,7 +45,10 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
+  const orderListContainer=document.getElementById('orderList');
 
+
+  
   // Function to fetch and render product data
   function fetchProducts() {
     $.ajax({
@@ -83,36 +91,20 @@
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
          
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")' method="post" action="http://localhost:3000/api/orderItem">Order Now</button>
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
         </div>
       `;
       productListContainer.append(productElement);
     });
   }
- //function to order-btn
-//  function addOrderProduct(name, price, id)
-//  {
-//    const orderListContainer = $('#orderList');
 
-
-//    const OrderProductElement = `
-//         <div class="productOrder">
-//           <h2>name: "${name}"</h2>
-//           Price:"${price}"$
-//           <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${id}")'></a></button>
-//         </div>
-//       `;
-//       orderListContainer.append(OrderProductElement );
-
-//  }
 const items=[];
+var total_price=0;
 function addOrderProduct(name, price, id, category,description, image) {
   const orderListContainer = $('#orderList');
-  const orderData = JSON.parse(localStorage.getItem('orderData'));
-
-
   // Prepare the data for the order
   const productData = {
+    _id:id,
     name: name,
     price: price,
     category:category,
@@ -120,50 +112,60 @@ function addOrderProduct(name, price, id, category,description, image) {
     image:image
     // Add other data fields as needed
   };
-  orderData.items.push(productData);
-  orderData.price += parseFloat(price); // Make sure to convert price to a number
 
   // Send a POST request to the server's API endpoint for order creation
-  $.ajax({
-    url: 'http://localhost:3000/api/products', // Update the URL to your API endpoint
-    method: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(productData),
-    success: function (response) {
-      // Handle success response
-      const OrderProductElement = `
-        <div class="productOrder">
-          <h2>Name: "${response.name}"</h2>
-          Price: "${response.price}"$
-          <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${response._id}")'></a></button>
-        </div>
-      `;
-      orderListContainer.append(OrderProductElement);
-    },
-    error: function (error) {
-      console.error('Error creating order:', error);
-    },
-  });
+
+  const OrderProductElement = `
+    <div class="productOrder">
+      <h2>Name: "${productData.name}"</h2>
+      Price: "${productData.price}"$
+      <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
+    </div>
+  `;
+  items.push(productData._id);
+  console.log(productData._id)
+  orderListContainer.append(OrderProductElement);
+  total_price+=parseInt(productData.price);
+  localStorage.setItem('items', JSON.stringify(items));
+  localStorage.setItem('total_price', JSON.stringify(total_price));
 }
 
 
  function removeOrderProduct(productId) {
-  $.ajax({
-    url: `/api/order/${productId}`,
-    method: 'DELETE',
-    success: function (data) {
-      console.log(data.message); // Product deleted successfully message
-    },
-    error: function (error) {
-      console.error('Error deleting product:', error);
-    },
-  });}
+  const index = findIndexById(items,productId);
+
+   if (index !== -1) {
+     items.splice(index, 1); // Remove object from array and mongoose
+     localStorage.setItem('items', JSON.stringify(items));// update the items in localStorage
+     orderListContainer.removeChild(orderListContainer.children[index]); // Remove HTML element from div
+    }
+}
+//find index by id for delete
+function findIndexById(array, targetId) {
+  return array.findIndex(item => item === targetId);
+}
+
+// to check if you have products in your items if not its not make sence that you have the power to do order
+
+function itmesIsExist(){
+  if(items.length==0)
+  {
+    alert("you have to choose products for do a order");
+    window.location.href = "menu";
+  }
+  else{
+    window.location.href="order"
+  }
+}
+
+
 
 
     // Fetch the product data when the page loads
     $(document).ready(function () {
     console.log('insert to function');
     fetchProducts();
+
     });
 
     // Toggle visibility of category buttons
