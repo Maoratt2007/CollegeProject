@@ -42,14 +42,10 @@
         <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span><!--icon for close button-->
         <div class="form-box login">
             <h2>Login</h2>
-            <form action="#"> <!--form for login-->
-                <div class="input-box">
-                    <input type="name"  id="name" required><!-- password input with required attribute-->
-                    <label>name</label>
-                </div>
+            <form id="login-form"> <!--form for login-->
                 <div class="input-box">
                     <span class="icon"><ion-icon name="mail-outline"></ion-icon></span><!--icon for email input-->
-                    <input type="email" id="email" required> <!-- email input with required attribute-->
+                    <input type="email" required> <!-- email input with required attribute-->
                     <label>Email</label>
                 </div>
                 <div class="input-box">
@@ -61,7 +57,7 @@
                     <label><input type="checkbox">Remember me</label><!--checkbox for remembering login-->
                     <a href="#" class="forgot-password">Forgot Password?</a>
                 </div>
-                <button type="submit" class="btn" onclick="saveUser(user)">Login</button><!--login button-->
+                <button type="submit" class="btn">Login</button><!--login button-->
                 <div class="login-register">
                     <p>Don't have an account? <a href="#"
                     class="register-link">Register</a></p>
@@ -104,6 +100,8 @@
     <div class="about"></div>
 
     <div class="contact-us"></div>
+
+    <div class="services"></div>
     
     <script src="index.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

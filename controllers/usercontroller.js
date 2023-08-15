@@ -17,7 +17,7 @@ const login = async(req,res)=>{
         const token = await userService.login(req.body)
         return res.status(200).json({token})
     } catch(e) {
-        return res.status(400).json({errors:[e]})
+        return res.status(400).json({errors:[e.message]})
     }
 }
 
