@@ -25,8 +25,7 @@
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
 </div>
-<div id="order-class">
-  <div id="orderList">
+
 <div id="order-class">
   <div id="orderList">
 
@@ -92,8 +91,6 @@
           Price: ${product.price}$
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
-         
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
           <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
         </div>
       `;
@@ -103,12 +100,10 @@
 
 const items=[];
 var total_price=0;
-var total_price=0;
 function addOrderProduct(name, price, id, category,description, image) {
   const orderListContainer = $('#orderList');
   // Prepare the data for the order
   const productData = {
-    _id:id,
     _id:id,
     name: name,
     price: price,
