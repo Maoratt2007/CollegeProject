@@ -60,10 +60,22 @@ const updateProduct=async(req,res)=>{
 
 }
 
+
+
+const getProductsbyncp = async (req, res) => {
+  const { name, category, price } = req.query; // Extract query parameters for parliamentary question
+  const arr_pro = await productService.getProductsbyncp(name, category, price);
+  res.json(arr_pro);
+};
+
+
+
 module.exports={
     creatProduct,
     getProducts,
     getProductById,
     removeProduct,
-    updateProduct
+    updateProduct,
+    getProductsbyncp
+    
 }

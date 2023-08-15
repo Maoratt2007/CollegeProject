@@ -42,10 +42,31 @@ const deleteProduct=async(_id)=>{
     return await product.deleteOne();
 }
 
+//שאילתה
+  const getProductsbyncp = async (name, category, price) => {
+    const queryCode = {};   // Build the object based on provided parameters
+
+    if (name) { queryCode.name = name; }
+    if (!name)  { return null }
+
+
+    if (category) { queryCode.category = category; }
+    if (!category) { return null; }
+    
+
+    if (price) { queryCode.price = price; }
+    if (!price)  { return null; }
+  
+    return Product.find(queryCode);  // Fetch products based on the filter
+  };
+  
+  
+  
 module.exports={
     creatProduct,
     findProductById,
     getProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsbyncp
 }
