@@ -53,6 +53,9 @@
   console.log(storedItems)
   const total_price = JSON.parse(localStorage.getItem('total_price'));
   console.log(total_price)
+  const userData = JSON.parse(localStorage.getItem('userData'));
+  console.log(userData);
+
     const orderData = {
     name: name,
     price:total_price,
@@ -60,6 +63,13 @@
     credit_card:credit_card,
     items:storedItems
   };
+  const userDataUpdate={
+    name:name,
+    email:email,
+    password:password,
+    manager:false,
+    order:orderes
+  }
   orderes.push(orderData);
 
     $.ajax({
@@ -74,6 +84,7 @@
       console.error('Error creating order:', error);
     },
   });
+
   const recipetContainer = $('#recipet');
   recipetContainer.empty(); // Clear existing products
 
@@ -86,6 +97,20 @@
     recipetContainer.append(recipetElement);
 
   }
+  //update in user
+  
+  $.ajax({
+    url: 'http:localhost:3000/api/user/${userData._id}', // Update the URL to your API endpoint
+    method: 'PUT',
+    contentType: 'application/json',
+    data: JSON.stringify(userDataUpdate),
+    success: function (response) {
+    },
+    error: function (error) {
+      console.error('Error creating order:', error);
+    },
+  });
+
 
   
 </script>

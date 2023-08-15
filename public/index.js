@@ -4,6 +4,15 @@ const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
 const btn_login= document.querySelector('.btn');
+const email = $('#email').val();
+const password = $('#password').val();
+const name = $('#name').val();
+const userData={
+    name:name,
+    email:email,
+    password:password
+}
+
 
 const registerForm = document.querySelector("#register-form")
 
@@ -53,7 +62,7 @@ iconClose.addEventListener('click', () => {
 });
 
 
-// // Additional code for handling user authentication and showing/hiding content
+// Additional code for handling user authentication and showing/hiding content
 // window.addEventListener('DOMContentLoaded', () => {
 //     const isLoggedIn = checkUserLoggedIn(); // Replace this with actual logic
 
@@ -68,53 +77,8 @@ iconClose.addEventListener('click', () => {
 //         $contentContainer.style.display = 'none';
 //     }
 // });
+$('.btn').click(function () {
+    localStorage.setItem('userData', JSON.stringify(userData));
+});
 
-
-
-// // All the cities that the pizza place serve
-// const services = [
-//     { continent: "Sharon", cities : ["Tel Aviv", "Rannana", "Kfar Sabba", "Petach tikva"]  },
-//     { continent: "Shfela", cities : ["Tel Aviv", "Rannana", "Kfar Sabba", "Petach tikva"]  },
-//     { continent: "Gosh Dan", cities : ["Tel Aviv", "Rannana", "Kfar Sabba", "Petach tikva"]  },
-//     { continent: "Zafon", cities : ["Tel Aviv", "Rannana", "Kfar Sabba", "Petach tikva"]  },
-//     { continent: "Darom", cities : ["Tel Aviv", "Rannana", "Kfar Sabba", "Petach tikva"]  },
-
-// ]
-
-// const servicesArea = document.querySelector(".services")
-
-
-// window.onload = function() {
-
-
-//     const serviceWrapper = document.createElement('div')
-
-//     serviceWrapper.classList.add('serviceWrapper')
-
-//     // add the cities that services are given at dynammically
-//     for(let service  of services) {
-//         let serviceList = document.createElement('div')
-//         serviceList.classList.add("serviceList")
-//         const serviceContinentLabel = document.createElement('h4')
-//         serviceContinentLabel.innerText = service.continent
-//         serviceContinentLabel.classList.add('serviceContinentLabel')
-//         serviceList.appendChild(serviceContinentLabel)
-//         // create a city label for each city
-//         for (let city of service.cities) {
-//             let cityLabel = document.createElement('p')
-//             cityLabel.innerText = city
-//             cityLabel.classList.add("cityLabel")
-//             serviceList.appendChild(cityLabel) 
-            
-//             cityLabel.addEventListener('click', () =>  {
-//                 window.location.href = `/services/${city}`
-//             })
-//         }
-
-
-//         // add the list to the services area
-//         serviceWrapper.appendChild(serviceList)
-//     }
-//       servicesArea.appendChild(serviceWrapper)
-// }
 
