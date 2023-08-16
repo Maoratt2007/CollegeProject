@@ -89,7 +89,7 @@ const login = async (user) => {
 }
 
 //add category for method post
-const creatUser=async (name,email, password,manager,order)=>{
+const creatUser=async (name,email, password,manager)=>{
     const user =new User({
         name:name,
         email:email,
@@ -109,7 +109,7 @@ const getUsers= async()=>{
     return await User.find({});
 }
 //update
-const updateUser=async(_id,name,email, password,manager,order)=>{
+const updateUser=async(_id,name,email, password,manager)=>{
     const user=await findUserById(_id);
     if(!user)
     {

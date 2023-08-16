@@ -34,6 +34,21 @@
 
 </div>
 
+<div class="filter-options">
+  <div class="input-box">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+  <div class="input-box">
+    <label for="category">Category</label>
+    <input type="category" id="category" name="category" required>
+  </div>
+  <div class="input-box">
+    <label for="price">Price</label>
+    <input id="price" name="price" required>
+  </div>
+  <button type="submit" class="btn" onclick=fetchqueryProducts()>Send</button>
+</div>
 
 <!-- Filter button and category buttons -->
 <a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
@@ -47,6 +62,8 @@
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
   const orderListContainer=document.getElementById('orderList');
+  const productListContainer = $('#productList');
+
 
 
   
@@ -72,9 +89,6 @@
 
   // Function to render the product data on the screen
   function renderProducts(products) {
-    const productListContainer = $('#productList');
-    productListContainer.empty(); // Clear existing products
-
     // Loop through each product and create an HTML element to display it
     products.forEach(function (product) {
       const name=product.name;
@@ -91,7 +105,7 @@
           Price: ${product.price}$
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to order</button>
         </div>
       `;
       productListContainer.append(productElement);
@@ -159,7 +173,30 @@ function itmesIsExist(){
 }
 
 
-
+function fetchqueryProducts() {
+    const name = $('#name').val();
+    const category = $('#category').val();
+    const price = $('#price').val();
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        name:name,
+        category:category,
+        price:price
+      },
+      success: function (data) {
+        // Product data received successfully
+        renderProducts(data);
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data.');
+      }
+      });
+  }
 
     // Fetch the product data when the page loads
     $(document).ready(function () {
