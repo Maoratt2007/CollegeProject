@@ -6,8 +6,16 @@ const creatProduct=async(req,res)=>{
 }
 
 const getProducts=async(req,res)=> {
-    const arr_pro= await productService.getProducts();
+    let arr_pro;
+    if((req.query.category)&&(req.query.name)&&(req.query.price))
+    {
+      arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price)
+    }
+    else{
+       arr_pro= await productService.getProducts();
+    }
     res.json(arr_pro);   
+
 }
 
 const getProductById=async(req,res)=>{
@@ -59,6 +67,11 @@ const updateProduct=async(req,res)=>{
     res.json(pro);
 
 }
+
+
+
+
+
 
 module.exports={
     creatProduct,
