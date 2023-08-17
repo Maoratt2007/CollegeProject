@@ -57,11 +57,6 @@ app.use('/contact', ContactRoute);
 app.use('/order',orderMenuRoute);
 app.use('/historyorder',HistoryOrderRoute)
 
-
-
-
-
-
 mongodbConnect();
 
 // let index = 0

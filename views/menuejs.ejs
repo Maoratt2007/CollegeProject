@@ -149,6 +149,10 @@ function addOrderProduct(name, price, id, category,description, image) {
   const index = findIndexById(items,productId);
 
    if (index !== -1) {
+    //update the price
+    total_price-=items[index].price
+     localStorage.setItem('items', JSON.stringify(items));
+     //update the product
      items.splice(index, 1); // Remove object from array and mongoose
      localStorage.setItem('items', JSON.stringify(items));// update the items in localStorage
      orderListContainer.removeChild(orderListContainer.children[index]); // Remove HTML element from div

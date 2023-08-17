@@ -7,9 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrderList</title>
   <!-- Include jQuery library -->
-  <script src="jquery.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+  <script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+  integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
+  crossorigin="anonymous">
+</script>
 </head>
 <body>
 
@@ -30,8 +38,30 @@
 
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
-  const apiEndpoint = 'http://localhost:300/api/order';
-  const orderes=[];
+  const apiEndpoint = 'http://localhost:3000/api/order';
+  const userId = JSON.parse(localStorage.getItem('userId'));
+
+
+  
+  function GetOrderesUser() {
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        userId:userId 
+      },
+      success: function (data) {
+        // Product data received successfully
+        renderOrder(data);
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data.');
+      }
+      });
+  }
 
   // Function to render the product data on the screen
   function renderOrder(orderes) {
@@ -46,12 +76,13 @@
       const  address=order.address;
       const credit_card=order.credit_card;
       const  items=order.items;
+      const userId=order.userId;
 
       const orderElement = `
       <div class="order">
           <h2>${order.name}</h2>
           Price: ${order.price}$ 
-          <button class="fas fa-three-dot" id="detail-items" onclick='renderItems(${JSON.stringify(items)})'>Details</button>
+          <button class="fas fa-three-dot" onclick='renderItems(${items})'>Details</button>
         </div>
       `;
       orderListHistory.append(orderElement);
@@ -85,10 +116,8 @@
   }
 
   $(document).ready(function () {
-    const orderesItems = JSON.parse(localStorage.getItem('orderes'));
     console.log('insert to function');
-    renderOrder(orderesItems);
-
+    GetOrderesUser();
     });
   
 </script>

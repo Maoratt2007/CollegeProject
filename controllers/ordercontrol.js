@@ -1,18 +1,27 @@
 const OrderService = require('../services/orderservice');
 
 const createOrder = async(req,res)=>{
-    const new_order = await OrderService.createOrder(req.body.name, req.body.price, req.body.address, req.body.credit_card, req.body.items);
+    const new_order = await OrderService.createOrder(req.body.name, req.body.price, req.body.address, req.body.credit_card, req.body.items,req.body.userId);
     res.json(new_order);
 }
 
 const getOrder = async(req,res)=>{
-    const arr_Order= await OrderService.getOrder();
+    let arr_Order;
+    if((req.query.userId))
+    {
+      arr_Order=await OrderService.getProductuserID(req.query.userId)
+    }
+    else{
+        arr_Order= await OrderService.getOrder();
+    }
     if(!arr_Order)
     {
         res.status(404).json({errors:['Order was not found']})
 
     }
-    res.json(arr_Order);
+    res.json(arr_Order);   
+
+    
 }
 
 const getOrderById=async(req,res)=>{
@@ -62,7 +71,7 @@ const updateOrder=async(req,res)=>{
     }
 
 
-    const order2= await OrderService.updateOrder(req.params.id, req.body.name, req.body.price, req.body.address, req.body.credit_card, req.body.items);
+    const order2= await OrderService.updateOrder(req.params.id, req.body.name, req.body.price, req.body.address, req.body.credit_card, req.body.items,req.body.userId);
     if(!order2)
     {
         return res.status(404).json({errors:['order2 was not found']})

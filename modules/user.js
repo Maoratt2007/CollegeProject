@@ -20,3 +20,4 @@ const User = new Schema({
 }); // A Order a has an array of OrderItem
 
 module.exports = mongoose.model('User', User)
+
