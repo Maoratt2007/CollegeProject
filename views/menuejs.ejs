@@ -149,15 +149,35 @@ function addOrderProduct(name, price, id, category,description, image) {
   const index = findIndexById(items,productId);
 
    if (index !== -1) {
-    //update the price
-    total_price-=items[index].price
-     localStorage.setItem('items', JSON.stringify(items));
+    //update the price get the elemnt by id and take his price and minus it in total_price
+    const pro=items[index];
+    const price=0;
+    $.ajax({
+      url: `http://localhost:3000/api/products/${pro}`,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        console.log(data.price);
+        total_price=total_price-data.price;
+        console.log(total_price)
+         localStorage.setItem('total_price', JSON.stringify(total_price));
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch remove product data.');
+      }
+    });
+  }
+
      //update the product
      items.splice(index, 1); // Remove object from array and mongoose
      localStorage.setItem('items', JSON.stringify(items));// update the items in localStorage
      orderListContainer.removeChild(orderListContainer.children[index]); // Remove HTML element from div
-    }
 }
+
 //find index by id for delete
 function findIndexById(array, targetId) {
   return array.findIndex(item => item === targetId);

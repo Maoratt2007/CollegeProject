@@ -95,9 +95,8 @@ const creatUser=async (name,email, password,manager)=>{
         email:email,
         password:password,
         manager:manager,
-        order:order
     });
-    return await user.save();
+    return await user.save(); 
 
 }
 //find by id 
@@ -119,7 +118,6 @@ const updateUser=async(_id,name,email, password,manager)=>{
     user.email=email;
     user.password=password;
     user.manager= manager;
-    user.order=order;
 
     return await user.save();
 }
