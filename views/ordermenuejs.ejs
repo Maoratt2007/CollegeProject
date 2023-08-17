@@ -53,25 +53,20 @@
   console.log(storedItems)
   const total_price = JSON.parse(localStorage.getItem('total_price'));
   console.log(total_price)
-  const userData = JSON.parse(localStorage.getItem('userData'));
-  console.log(userData);
+  const userId = JSON.parse(localStorage.getItem('userId'));
+
+
 
     const orderData = {
     name: name,
     price:total_price,
     address: address,
     credit_card:credit_card,
-    items:storedItems
+    items:storedItems,
+    userId:userId
+
   };
   //אם אני רוצה הזמנות של אותו יוזר  אז לעשות API חדש  שיתן לי את כל ההזמנות לפי אורדר
-  const userDataUpdate={
-    name:name,
-    email:email,
-    password:password,
-    manager:false,
-    order:orderes
-  }
-  orderes.push(orderData);
 
     $.ajax({
     url: apiEndpoint, // Update the URL to your API endpoint
@@ -98,19 +93,6 @@
     recipetContainer.append(recipetElement);
 
   }
-  //update in user
-  
-  $.ajax({
-    url: 'http:localhost:3000/api/user/${userData._id}', // Update the URL to your API endpoint
-    method: 'PUT',
-    contentType: 'application/json',
-    data: JSON.stringify(userDataUpdate),
-    success: function (response) {
-    },
-    error: function (error) {
-      console.error('Error creating order:', error);
-    },
-  });
 
 
   
