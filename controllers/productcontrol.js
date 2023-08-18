@@ -24,6 +24,7 @@ const getProductById=async(req,res)=>{
     {
          res.status(404).json({errors:['pro was not found']})
     }
+
     res.json(pro);
 }
 

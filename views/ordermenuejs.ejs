@@ -14,9 +14,9 @@
 <body>
 
 <h1>Order Form</h1>
-  
+<a href="/menu" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
+
 <form id="orderForm">
-    <a href="/menu" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" required><br>
   
@@ -30,10 +30,12 @@
 </form>
 <div id="orderList">
 
+
 </div>
 <div id="recipet">
 
 </div>
+
 
 <!-- Filter button and category buttons -->
 
@@ -42,6 +44,9 @@
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/order';
   const orderes=[];
+  const orderForm = $('#orderForm');
+  orderForm.show();
+
 
   // Function to fetch and render product data
   function AddOrder() {
@@ -82,6 +87,8 @@
   });
 
   const recipetContainer = $('#recipet');
+  orderForm.hide();
+  
   recipetContainer.empty(); // Clear existing products
 
   const recipetElement=` <div class="recipetOrder">

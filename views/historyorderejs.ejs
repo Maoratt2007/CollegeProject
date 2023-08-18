@@ -28,10 +28,12 @@
 </form>
 <div id="orderListHistory">
 
+
 </div>
 <div id="itemsListHistory">
 
 </div>
+
 
 <!-- Filter button and category buttons -->
 
@@ -83,14 +85,24 @@
           <h2>${order.name}</h2>
           Price: ${order.price}$ 
           <button onclick='renderItems(${items})'>detail</button>
+          <button onclick="closeDetail()">close</button>
+
         </div>
       `;
       orderListHistoryContainer.append(orderElement);
     });
   }
-  function renderItems(items)
+  function closeDetail()
   {
     const itemsListHistoryContainer = $('#itemsListHistory');
+
+    itemsListHistoryContainer.hide();
+  }
+  function renderItems(items)
+  {
+
+    const itemsListHistoryContainer = $('#itemsListHistory');
+    itemsListHistoryContainer.show();
     itemsListHistoryContainer.empty(); // Clear existing products
 
     // Loop through each product and create an HTML element to display it

@@ -36,6 +36,20 @@ const getProductuserID= async( userId)=>{
     }
     return await Order.find({userId});
 }
+const groupByProducts = async (product) => {
+    const products = await product.aggregate([
+        { $match: { _id: product._id } },
+        { $unwind: '$products' },
+        {
+            $group: {
+                _id: '$products',
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    return products;
+}
 
 //update
 
@@ -70,5 +84,6 @@ module.exports={
     getOrder,
     updateOrder,
     deleteOrder,
-    getProductuserID
+    getProductuserID,
+    groupByProducts
 }

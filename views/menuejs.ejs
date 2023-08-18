@@ -18,9 +18,10 @@
 
 
 <div class="filter-buttons">
+  <button id="groupby" onclick="groupByProduct()">group</button>
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
-    <button class="category-btn" data-category="drinks">Drinks</button>
+    <button class="category-btn" data-category="drink">Drinks</button>
     <button class="category-btn" data-category="food">Food</button>
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
@@ -65,6 +66,27 @@
   const productListContainer = $('#productList');
 
 
+  function groupByProduct() {
+    $.ajax({
+                url:`http://localhost:3000/api/order`,
+                method: "GET",
+                dataType: "json",
+                contentType: 'application/json',
+                data: {
+                    group: true,
+                    meals: true
+                },
+                success: function(data) {
+                  renderProducts(data);
+
+                  
+                },
+                error: function(error) {
+                    console.error("Error saving data:", error);
+                }
+            });
+
+  }
 
   
   // Function to fetch and render product data
@@ -221,7 +243,16 @@ function fetchqueryProducts() {
       }
       });
   }
+  $('.filter-btn').click(function () {
+    $('.category-buttons').toggle();
+    $('.product').show();
+  });
 
+  $('.category-btn').click(function () {
+    const selectedCategory = $(this).data('category');
+    $('.product').hide();
+    $(`.product.${selectedCategory}`).show();
+  });
     // Fetch the product data when the page loads
     $(document).ready(function () {
     console.log('insert to function');
@@ -229,10 +260,6 @@ function fetchqueryProducts() {
 
     });
 
-    // Toggle visibility of category buttons
-    $('.filter-btn').click(function () {
-      $('.category-buttons').toggle();
-    });
     
   
 </script>
