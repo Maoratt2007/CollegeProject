@@ -18,9 +18,10 @@
 
 
 <div class="filter-buttons">
+  <button id="groupby" onclick="groupByProduct()">group</button>
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
-    <button class="category-btn" data-category="drinks">Drinks</button>
+    <button class="category-btn" data-category="drink">Drinks</button>
     <button class="category-btn" data-category="food">Food</button>
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
@@ -65,6 +66,27 @@
   const productListContainer = $('#productList');
 
 
+  function groupByProduct() {
+    $.ajax({
+                url:`http://localhost:3000/api/order`,
+                method: "GET",
+                dataType: "json",
+                contentType: 'application/json',
+                data: {
+                    group: true,
+                    meals: true
+                },
+                success: function(data) {
+                  renderProducts(data);
+
+                  
+                },
+                error: function(error) {
+                    console.error("Error saving data:", error);
+                }
+            });
+
+  }
 
   
   // Function to fetch and render product data
@@ -149,15 +171,35 @@ function addOrderProduct(name, price, id, category,description, image) {
   const index = findIndexById(items,productId);
 
    if (index !== -1) {
-    //update the price
-    total_price-=items[index].price
-     localStorage.setItem('items', JSON.stringify(items));
+    //update the price get the elemnt by id and take his price and minus it in total_price
+    const pro=items[index];
+    const price=0;
+    $.ajax({
+      url: `http://localhost:3000/api/products/${pro}`,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        console.log(data.price);
+        total_price=total_price-data.price;
+        console.log(total_price)
+         localStorage.setItem('total_price', JSON.stringify(total_price));
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch remove product data.');
+      }
+    });
+  }
+
      //update the product
      items.splice(index, 1); // Remove object from array and mongoose
      localStorage.setItem('items', JSON.stringify(items));// update the items in localStorage
      orderListContainer.removeChild(orderListContainer.children[index]); // Remove HTML element from div
-    }
 }
+
 //find index by id for delete
 function findIndexById(array, targetId) {
   return array.findIndex(item => item === targetId);
@@ -201,7 +243,16 @@ function fetchqueryProducts() {
       }
       });
   }
+  $('.filter-btn').click(function () {
+    $('.category-buttons').toggle();
+    $('.product').show();
+  });
 
+  $('.category-btn').click(function () {
+    const selectedCategory = $(this).data('category');
+    $('.product').hide();
+    $(`.product.${selectedCategory}`).show();
+  });
     // Fetch the product data when the page loads
     $(document).ready(function () {
     console.log('insert to function');
@@ -209,10 +260,6 @@ function fetchqueryProducts() {
 
     });
 
-    // Toggle visibility of category buttons
-    $('.filter-btn').click(function () {
-      $('.category-buttons').toggle();
-    });
     
   
 </script>
