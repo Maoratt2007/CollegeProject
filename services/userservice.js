@@ -37,8 +37,6 @@ class PasswordsDoNotMatchException extends Error {
 // Check that it doesnt exist already and create the user if not
 // userDetails is of the template of the User model
 const register = async (userDetails) => {
-
-
     const email = userDetails.email
 
     const userExists = await User.findOne({email})
@@ -51,12 +49,8 @@ const register = async (userDetails) => {
                    .update(userDetails.password)
                    .digest('hex');
     
-    const newUser = await User.create({...userDetails, password:hashedPassword });
-    
-    const token = sign({user_id:newUser._id},secret, {expiresIn:'3h'})
-
-    
-    return token
+    await User.create({...userDetails, password:hashedPassword });
+    //const token = sign({user_id:newUser._id},secret, {expiresIn:'3h'})
 }
 
 
@@ -75,17 +69,17 @@ const login = async (user) => {
 
     const secret = process.env.SECRET_KEY;
     const hashedPassword = crypto.createHmac('sha1', secret)
-                   .update(userExists.password)
+                   .update(password)
                    .digest('hex');
 
 
-    if(userExists.password !== password) { // if the password the user entered does not match the one in database
+    if(userExists.password !== hashedPassword) { // if the password the user entered does not match the one in database
         throw new PasswordsDoNotMatchException("Passwords do not match")
-    }        
-     
-     const token = sign(userExists._id,secret, {expiresIn:'3h'})
+    }
 
-     return token
+     //const token = sign(userExists.id,secret)
+
+     return {userId: userExists.id, manager: userExists.manager}
 }
 
 //add category for method post

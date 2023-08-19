@@ -23,16 +23,12 @@ registerForm.addEventListener('submit', async (e) => {
 
     try {
         // send the user details to the register route and get a response (May be error)
-        const response = await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        const { token } = await response.json()
-
-        if(token ){ 
-            localStorage.setItem("token", token)
-            console.log(token)
-            alert("Registered successfully")
-        }
-
-
+        await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+        // if(token ){
+        //     localStorage.setItem("token", token)
+        //     console.log(token)
+        //     alert("Registered successfully")
+        // }
     } catch(e) {
         alert(e.message)
         console.log(e)
@@ -50,11 +46,20 @@ loginForm.addEventListener('submit', async (e) => {
     try {
         // send the user details to the register route and get a response (May be error)
         const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        const { token } = await response.json()
+        const { userId, manager } = await response.json()
 
-        if( token ){ 
-            localStorage.setItem("token", token)
+        if( userId ){
+            localStorage.setItem("userId", userId)
             alert("Logged in successfully")
+        }
+        if(manager === false)
+        {
+            window.location.href= "homepage";
+        }
+        else
+        {
+            window.location.href="homepagemanager";
+
         }
 
     } catch(e) {
@@ -80,17 +85,17 @@ btnPopup.addEventListener('click', ()=> {
 iconClose.addEventListener('click', ()=> {
     wrapper.classList.remove('active-popup');
 });
-btn_login.addEventListener('click', ()=> {
-    if(manager==false)
-    {
-        window.location.href="homapage";
-    }
-    else
-    {
-        window.location.href="homepagemanager";
-
-    }
-});
+// btn_login.addEventListener('click', ()=> {
+//     if(manager==false)
+//     {
+//         window.location.href="homapage";
+//     }
+//     else
+//     {
+//         window.location.href="homepagemanager";
+//
+//     }
+// });
 
 
 

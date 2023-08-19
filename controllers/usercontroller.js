@@ -3,8 +3,8 @@ const userService = require('../services/userservice')
 
 const register = async(req,res)=>{
     try {
-        const token = await userService.register(req.body)
-        return res.status(200).json({token})
+        await userService.register(req.body)
+        return res.status(200).json()
     } catch(e) {
         console.log(e)
         return res.status(400).json({errors:[e.message]})
@@ -14,8 +14,8 @@ const register = async(req,res)=>{
 
 const login = async(req,res)=>{
     try {
-        const token = await userService.login(req.body)
-        return res.status(200).json({token})
+        const {userId, manager} = await userService.login(req.body)
+        return res.status(200).json({userId, manager})
     } catch(e) {
         return res.status(400).json({errors:[e.message]})
     }

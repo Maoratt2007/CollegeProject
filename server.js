@@ -22,18 +22,6 @@ const historyCustomer=require('./routes/historycustomerroute');
 const managerDetail=require('./routes/managerdetailroute');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const dotenv= require('dotenv');
 dotenv.config();
 
