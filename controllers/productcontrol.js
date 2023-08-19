@@ -67,12 +67,19 @@ const updateProduct=async(req,res)=>{
     }
 
 
-    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow);
-    if(!pro)
-    {
-        return res.status(404).json({errors:['pro was not found']})
+
+    try{
+        const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow);
+        if(!pro)
+        {
+            return res.status(404).json({errors:['pro was not found']})
+        }
+        res.json(pro);
     }
-    res.json(pro);
+    catch(e){
+        return res.status(400).json({errors:e.message})
+    }
+
 
 }
 

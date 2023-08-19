@@ -26,6 +26,10 @@ const updateProduct=async(_id,name,price,category,description,image,isShow)=>{
     {
         return null;
     }
+    if(product.isShow===isShow)
+    {
+        throw Error(`trying to set product: ${name} failed because is show is already: ${isShow}`);
+    }
     product.name=name;
     product.price=price;
     product.category=category;

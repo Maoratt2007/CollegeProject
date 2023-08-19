@@ -128,7 +128,7 @@
           Price: ${product.price}$
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
           ${product.description}
-          <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Add to menu</button>
+          <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to menu</button>
           <button class="order-btn" onclick='removeProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Remove from menu</button>
         </div>
       `;
@@ -137,11 +137,8 @@
     });
   }
 
-function addProductMenu(name, price, id, category,description, image,isShow) {
+function addProductMenu(name, price, id, category,description, image) {
   // Prepare the data for the order
-  console.log(isShow);
-  if(isShow=="false")
-  {
     const productData = {
     _id:id,
     name: name,
@@ -164,16 +161,9 @@ function addProductMenu(name, price, id, category,description, image,isShow) {
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch remove product data.');
+        alert(`Failed to put product data, because: ${err.responseJSON.errors}`);
       }
     });
-
-  }
-  else
-  {
-    alert("this product is already in the store")
-  }
 
 }
 function removeProductMenu(name, price, id, category,description, image,isShow) {
