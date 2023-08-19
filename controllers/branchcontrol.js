@@ -2,17 +2,25 @@ const branch = require('../modules/branch');
 const BranchService= require('../services/branchservice');
 
 const createBranch=async(req,res)=>{
-    const new_branch= await BranchService.creatBranch(req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager);
+    const new_branch= await BranchService.creatBranch(req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager,req.body.is_show_branch);
     console.log(new_branch);
     res.json(new_branch);
 }
 
 const getBranches=async(req,res)=>{
-    const branch= await BranchService.getBranches();
-    if(!branch)
+    let branch;
+    if(req.query.is_show_branch)
     {
-        res.status(404).json({errors:['branch was not found']})
+        branch=await BranchService.getBranchShow(req.query.is_show_branch);
+    }
 
+    else{
+       branch= await BranchService.getBranches();
+       if(!branch)
+       {
+           res.status(404).json({errors:['branch was not found']})
+   
+       }
     }
     res.json(branch);   
 }
@@ -64,7 +72,7 @@ const updateBranch=async(req,res)=>{
     }
 
 
-    const branch= await BranchService.updateBranch(req.params.id, req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager);
+    const branch= await BranchService.updateBranch(req.params.id, req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager,req.body.is_show_branch);
     if(!branch)
     {
         return res.status(404).json({errors:['branch was not found']})

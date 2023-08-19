@@ -10,6 +10,7 @@ const loginForm = document.querySelector("#login-form")
 
 let token;
 let currentUser;
+const manager= false;
 
 
 registerForm.addEventListener('submit', async (e) => {
@@ -17,7 +18,7 @@ registerForm.addEventListener('submit', async (e) => {
     const name = e.target[0].value
     const email = e.target[1].value
     const password = e.target[2].value
-    const user = {name,email,password}
+    const user = {name,email,password,manager}
 
 
     try {
@@ -78,6 +79,17 @@ btnPopup.addEventListener('click', ()=> {
 
 iconClose.addEventListener('click', ()=> {
     wrapper.classList.remove('active-popup');
+});
+btn_login.addEventListener('click', ()=> {
+    if(manager==false)
+    {
+        window.location.href="homapage";
+    }
+    else
+    {
+        window.location.href="homepagemanager";
+
+    }
 });
 
 
@@ -140,7 +152,6 @@ const getUser = () => {
         .then(res => { 
             return res.json()
         }).then(theUser => {
-            btnPopup.remove()
             const nameTag = document.createElement('p')
             nameTag.classList.add("nameTag")
             nameTag.innerText = theUser.name
@@ -153,4 +164,5 @@ const getUser = () => {
     }
 }
 
-window.onload = getUser
+
+window.onload = getUser();
