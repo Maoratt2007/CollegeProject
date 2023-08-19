@@ -24,15 +24,20 @@
 <h1>Order List</h1>
   
 <form id="orderHistoryForm">
-    <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
+    <a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
 </form>
+<div id="usersListHistory">
+
+</div>
 <div id="orderListHistory">
-
-
+    
 </div>
 <div id="itemsListHistory">
 
 </div>
+
+
+
 
 
 <!-- Filter button and category buttons -->
@@ -41,28 +46,61 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/order';
-  const userId = JSON.parse(localStorage.getItem('userId'));
 
-
-  
-  function GetOrderesUser() {
+  function GetUseres(){
     $.ajax({
+      url: 'http://localhost:3000/api/user',
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        GetOrderesUser(data);
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch user history data.');
+      }
+      });
+
+  }
+  function GetOrderesUser(users) {
+    const usersListHistoryContainer = $('#usersListHistory');
+    usersListHistoryContainer.empty(); // Clear existing products
+
+    users.forEach(function (user) {
+   const orders= $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
       data:{
-        userId:userId 
+        userId:user._id
       },
-      success: function (data) {
+      success: function (orders) {
         // Product data received successfully
-        renderOrder(data);
-      },
+        console.log(orders)
+     const userElement = `
+      <div class="user">
+          <h2>${user.name}</h2>
+          <button onclick='renderOrder(${JSON.stringify(orders)})'>detail about orders</button>
+          <button onclick="closeDetailOrders()">close</button>
+
+        </div>
+      `;
+      usersListHistoryContainer.append(userElement);
+          },
       error: function (err) {
         // Error handling in case API call fails
         console.log(err)
         alert('Failed to fetch product data.');
       }
       });
+   
+
+
+    });
+     
+
   }
 
   // Function to render the product data on the screen
@@ -72,6 +110,7 @@
 
     // Loop through each product and create an HTML element to display it
     orderes.forEach(function (order) {
+
       const name=order.name;
       const price=order.price;
       const id=order._id;
@@ -97,6 +136,11 @@
     const itemsListHistoryContainer = $('#itemsListHistory');
 
     itemsListHistoryContainer.hide();
+  }
+  function closeOrderDetail()
+  {
+    const usersListHistoryContainer = $('#usersListHistory');
+    usersListHistoryContainer.hide();
   }
   function renderItems(items)
   {
@@ -138,7 +182,7 @@
 
   $(document).ready(function () {
     console.log('insert to function');
-    GetOrderesUser();
+    GetUseres();
     });
   
 </script>

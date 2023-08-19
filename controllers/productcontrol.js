@@ -1,16 +1,23 @@
 const productService= require('../services/productservice');
 
 const creatProduct=async(req,res)=>{
-    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image);
+    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow);
     res.json(new_pro);
 }
 
 const getProducts=async(req,res)=> {
     let arr_pro;
-    if((req.query.category)&&(req.query.name)&&(req.query.price))
+    if(req.query.isShow)
     {
-      arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price)
+        arr_pro=await productService.getProductShow(req.query.isShow);
+        //filter
+        
+        if((req.query.category)&&(req.query.name)&&(req.query.price))
+        {
+          arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price,req.query.isShow)
+        }
     }
+
     else{
        arr_pro= await productService.getProducts();
     }
@@ -60,7 +67,7 @@ const updateProduct=async(req,res)=>{
     }
 
 
-    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image);
+    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow);
     if(!pro)
     {
         return res.status(404).json({errors:['pro was not found']})

@@ -1,12 +1,13 @@
 const Product=require('../modules/product');
 
-const creatProduct=async (name,price,category,description,image)=>{
+const creatProduct=async (name,price,category,description,image,isShow)=>{
     const product=new Product({
         name:name,
         price:price,
         category:category,
         description:description,
-        image:image
+        image:image,
+        isShow:isShow
     });
     return await product.save();
 }
@@ -19,7 +20,7 @@ const getProducts= async()=>{
     return Product.find({});
 }
 
-const updateProduct=async(_id,name,price,category,description,image)=>{
+const updateProduct=async(_id,name,price,category,description,image,isShow)=>{
     const product=await findProductById(_id);
     if(!product)
     {
@@ -30,6 +31,7 @@ const updateProduct=async(_id,name,price,category,description,image)=>{
     product.category=category;
     product.description=description;
     product.image=image;
+    product.isShow=isShow;
     return await product.save();
 }
 
@@ -42,7 +44,7 @@ const deleteProduct=async(_id)=>{
     return await product.deleteOne();
 }
 
-const getProductncp= async(name, category, price)=>{
+const getProductncp= async(name, category, price,isShow)=>{
     if(!name)
     {
         return null;
@@ -55,8 +57,14 @@ const getProductncp= async(name, category, price)=>{
     {
         return null;
     }
-    return await Product.find({name, category, price});
+    
+
+    return await Product.find({name, category, price,isShow});
 }
+const getProductShow= async(isShow)=>{
+    return await Product.find({isShow});
+}
+
 module.exports={
     creatProduct,
     findProductById,
@@ -64,4 +72,5 @@ module.exports={
     updateProduct,
     deleteProduct,
     getProductncp,
+    getProductShow
 }
