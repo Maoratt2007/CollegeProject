@@ -20,19 +20,13 @@ registerForm.addEventListener('submit', async (e) => {
     const password = e.target[2].value
     const user = {name,email,password,manager}
 
-
-    try {
-        // send the user details to the register route and get a response (May be error)
-        await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        // if(token ){
-        //     localStorage.setItem("token", token)
-        //     console.log(token)
-        //     alert("Registered successfully")
-        // }
-    } catch(e) {
-        alert(e.message)
-        console.log(e)
+    // send the user details to the register route and get a response (May be error)
+    const response = await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+    const data = await response.json()
+    if (!response.ok) {
+        alert(data.errors)
     }
+
 
 
 })
@@ -43,10 +37,11 @@ loginForm.addEventListener('submit', async (e) => {
     const password = e.target[1].value
     const user = {email,password}
 
-    try {
-        // send the user details to the register route and get a response (May be error)
-        const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        const { userId, manager } = await response.json()
+    // send the user details to the register route and get a response (May be error)
+    const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+    const data = await response.json()
+    if (response.ok) {
+        const { userId, manager } = data
 
         if( userId ){
             localStorage.setItem("userId", userId)
@@ -61,10 +56,8 @@ loginForm.addEventListener('submit', async (e) => {
             window.location.href="homepagemanager";
 
         }
-
-    } catch(e) {
-        alert(e.message)
-        console.log(e)
+    } else {
+        alert(data.errors)
     }
 })
 

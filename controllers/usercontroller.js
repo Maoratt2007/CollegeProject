@@ -7,7 +7,7 @@ const register = async(req,res)=>{
         return res.status(200).json()
     } catch(e) {
         console.log(e)
-        return res.status(400).json({errors:[e.message]})
+        return res.status(400).json({errors: e.message})
     }
 }
 
@@ -17,7 +17,7 @@ const login = async(req,res)=>{
         const {userId, manager} = await userService.login(req.body)
         return res.status(200).json({userId, manager})
     } catch(e) {
-        return res.status(400).json({errors:[e.message]})
+        return res.status(400).json({errors: e.message})
     }
 }
 
