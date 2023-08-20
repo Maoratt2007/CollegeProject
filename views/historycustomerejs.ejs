@@ -26,6 +26,23 @@
 <form id="orderHistoryForm">
     <a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
 </form>
+
+<div class="filter-options">
+  <div class="input-box">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+  <div class="input-box">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+  </div>
+  <div class="input-box">
+    <label for="manager">Manager</label>
+    <input id="manager" name="manager" required>
+  </div>
+  <button type="submit" class="btn" onclick=fetchqueryUsers()>Send</button>
+</div>
+
 <div id="usersListHistory">
 
 </div>
@@ -46,6 +63,75 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/order';
+  function fetchqueryUsers() {
+    const usersListHistoryContainer = $('#usersListHistory');
+
+    const name = $('#name').val();
+    const email = $('#email').val();
+    const manager = $('#manager').val();
+    if(!name||!email||!manager)
+    {
+      alert("fill all the data of your user");
+    }
+    else
+    {
+      $.ajax({
+      url: `http://localhost:3000/api/user` ,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        name:name,
+        email:email,
+        manager:manager
+      },
+      success: function (data) {
+        // User data received successfully
+        console.log(data);
+
+        // Clear existing users
+        usersListHistoryContainer.empty();
+
+        // Loop through each user and create an HTML element to display their name
+        data.forEach(function (user) {
+          const orderListHistoryContainer = $('#orderListHistory');
+    orderListHistoryContainer.show();
+    orderListHistoryContainer.empty(); // Clear existing products
+    const orders= $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        userId:user._id
+      },
+      success: function (orders) {
+        // Product data received successfully
+     const userElement = `
+      <div class="user">
+          <h2>${user.name}</h2>
+          <button onclick='renderOrder(${JSON.stringify(orders)})'>detail about orders</button>
+          <button onclick="closeOrderDetail()">close</button>
+
+        </div>
+      `;
+      usersListHistoryContainer.append(userElement);
+          },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data.');
+      }
+      });
+
+
+    // Loop through each product and create an HTML element to display it
+   
+        });
+      }
+      });
+
+    }
+
+  }
 
   function GetUseres(){
     $.ajax({
@@ -78,12 +164,11 @@
       },
       success: function (orders) {
         // Product data received successfully
-        console.log(orders)
      const userElement = `
       <div class="user">
           <h2>${user.name}</h2>
           <button onclick='renderOrder(${JSON.stringify(orders)})'>detail about orders</button>
-          <button onclick="closeDetailOrders()">close</button>
+          <button onclick="closeOrderDetail()">close</button>
 
         </div>
       `;
@@ -106,6 +191,7 @@
   // Function to render the product data on the screen
   function renderOrder(orderes) {
     const orderListHistoryContainer = $('#orderListHistory');
+    orderListHistoryContainer.show();
     orderListHistoryContainer.empty(); // Clear existing products
 
     // Loop through each product and create an HTML element to display it
@@ -139,8 +225,9 @@
   }
   function closeOrderDetail()
   {
-    const usersListHistoryContainer = $('#usersListHistory');
-    usersListHistoryContainer.hide();
+    closeDetail()
+    const orderListHistoryContainer = $('#orderListHistory');
+    orderListHistoryContainer.hide();
   }
   function renderItems(items)
   {

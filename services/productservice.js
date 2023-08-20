@@ -39,6 +39,7 @@ const updateProduct=async(_id,name,price,category,description,image,isShow)=>{
     return await product.save();
 }
 
+
 const deleteProduct=async(_id)=>{
     const product=await findProductById(_id);
     if(!product)
@@ -63,7 +64,9 @@ const getProductncp= async(name, category, price,isShow)=>{
     }
     
 
-    return await Product.find({name, category, price,isShow});
+    const pro=await Product.find({name, category, price,isShow});
+    return pro;
+    
 }
 const getProductShow= async(isShow)=>{
     return await Product.find({isShow});

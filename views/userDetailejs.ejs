@@ -37,11 +37,11 @@
 
 
   function GetUserDetail() {
-    const userId = JSON.parse(localStorage.getItem('userId'));
+    const userId = localStorage.getItem('userId');
     const user=userId;
     console.log(userId);
     $.ajax({
-      url: `http://localhost:3000/api/user/${user._id}`,
+      url: `http://localhost:3000/api/user/${userId}`,
       method: 'GET',
       dataType: 'json',
       success: function (data) {

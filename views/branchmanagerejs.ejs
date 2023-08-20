@@ -98,8 +98,7 @@
   function addBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
   // Prepare the data for the order
   console.log(is_show_branch);
-  if(is_show_branch=="false")
-  {
+
     const BranchData = {
     _id:id,
     name: name,
@@ -123,23 +122,20 @@
       error: function (err) {
         // Error handling in case API call fails
         console.log(err)
-        alert('Failed to fetch add branch data.');
+        alert(`Failed to get branch data show, because: ${err.responseJSON.errors}`);
+
       }
     });
 
-  }
-  else
-  {
-    alert("this branch is already is exist")
-  }
+  
+
 
 }
 
 function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
   // Prepare the data for the order
   console.log(is_show_branch);
-  if(is_show_branch=="true")
-  {
+ 
     const BranchData = {
     _id:id,
     name: name,
@@ -163,15 +159,12 @@ function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_b
       error: function (err) {
         // Error handling in case API call fails
         console.log(err)
-        alert('Failed to fetch remove branch data.');
+        alert(`Failed to get branch data unshow, because: ${err.responseJSON.errors}`);
       }
     });
 
-  }
-  else
-  {
-    alert("this branch is already removed")
-  }
+  
+
 
 }
 

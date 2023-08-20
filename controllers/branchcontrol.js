@@ -72,12 +72,19 @@ const updateBranch=async(req,res)=>{
     }
 
 
-    const branch= await BranchService.updateBranch(req.params.id, req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager,req.body.is_show_branch);
-    if(!branch)
-    {
-        return res.status(404).json({errors:['branch was not found']})
+    try{
+        const branch= await BranchService.updateBranch(req.params.id, req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager,req.body.is_show_branch);
+        if(!branch)
+        {
+            return res.status(404).json({errors:['branch was not found']})
+        }
+        res.json(branch);
+
     }
-    res.json(branch);
+    catch(e){
+        return res.status(400).json({errors:e.message})
+    }
+
 
 }
 

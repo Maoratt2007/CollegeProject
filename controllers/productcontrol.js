@@ -15,11 +15,20 @@ const getProducts=async(req,res)=> {
         if((req.query.category)&&(req.query.name)&&(req.query.price))
         {
           arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price,req.query.isShow)
+          if(arr_pro.length==0)
+          {
+            return res.status(404).json({errors:['pro was not found']})
+          }
         }
     }
 
     else{
        arr_pro= await productService.getProducts();
+       if(arr_pro.length==0)
+       {
+         return res.status(404).json({errors:['you dont have products']})
+       }
+
     }
     res.json(arr_pro);   
 
@@ -79,6 +88,7 @@ const updateProduct=async(req,res)=>{
     catch(e){
         return res.status(400).json({errors:e.message})
     }
+
 
 
 }

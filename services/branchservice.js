@@ -27,6 +27,10 @@ const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager,is_s
     {
         return null;
     }
+    if(branch.is_show_branch===is_show_branch)
+    {
+        throw Error(`trying to set branch: ${name} failed because is show is already: ${is_show_branch}`);
+    }
     branch.name=name;
     branch.address=address;
     branch.phoneNumber=phoneNumber;

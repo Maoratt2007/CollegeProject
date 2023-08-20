@@ -124,6 +124,21 @@ const deleteUser=async(_id)=>{
     }
     return await user.deleteOne();
 }
+const getUsernem= async(name, email, manager)=>{
+    if(!name)
+    {
+        return null;
+    }
+    if(!email)
+    {
+        return null;
+    }
+
+
+    const user=await User.find({name, email, manager});
+    return user;
+    
+}
 
 module.exports={
     creatUser,
@@ -132,6 +147,7 @@ module.exports={
     updateUser,
     deleteUser,
     register, 
-    login
+    login,
+    getUsernem
 }
 

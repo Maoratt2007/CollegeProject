@@ -169,8 +169,7 @@ function addProductMenu(name, price, id, category,description, image) {
 function removeProductMenu(name, price, id, category,description, image,isShow) {
   // Prepare the data for the order
   console.log(isShow);
-  if(isShow=="true")
-  {
+ 
     const productData = {
     _id:id,
     name: name,
@@ -193,17 +192,11 @@ function removeProductMenu(name, price, id, category,description, image,isShow) 
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch remove product data.');
+        alert(`Failed to put product data unshow, because: ${err.responseJSON.errors}`);
       }
     });
 
-  }
-  else
-  {
-    alert("this product is already in the store")
-  }
-
+  
 }
 
 
@@ -225,7 +218,12 @@ function fetchqueryProducts() {
     const name = $('#name').val();
     const category = $('#category').val();
     const price = $('#price').val();
-    $.ajax({
+    if(!name||!category||!price)
+    {
+      alert("fill all the data")
+    }
+    else{
+      $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
@@ -236,16 +234,17 @@ function fetchqueryProducts() {
         isShow:false
       },
       success: function (data) {
-        console.log(data.isShow);
         // Product data received successfully
           renderProducts(data);
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch product data.');
+        alert(`Failed to get product data show, because: ${err.responseJSON.errors}`);
       }
       });
+
+    }
+
   }
   $('.filter-btn').click(function () {
     $('.category-buttons').toggle();
