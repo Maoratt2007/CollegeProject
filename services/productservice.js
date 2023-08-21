@@ -42,10 +42,14 @@ const deleteProduct=async(_id)=>{
     return await product.deleteOne();
 }
 
+const getProductncp= async(name, category, price)=>{
+    return Product.find({name, category, price});
+}
 module.exports={
     creatProduct,
     findProductById,
     getProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductncp
 }

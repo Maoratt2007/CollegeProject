@@ -3,55 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="menu.css">
-  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu</title>
-  <!-- Include jQuery library -->
   <script src="jquery.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
   
 <h1>Product List</h1>
-
 
 <div class="filter-buttons">
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
-    <button class="category-btn" data-category="drinks">Drinks</button>
+    <button class="category-btn" data-category="drink">Drinks</button>
     <button class="category-btn" data-category="food">Food</button>
     <button class="category-btn" data-category="dessert">Dessert</button>
   </div>
 </div>
+
 <div id="order-class">
-  <div id="orderList">
-
-  </div>
+  <div id="orderList"></div>
   <a href="/order">Order Now</a>
-
 </div>
 
+<div class="filter-options">
+  <div class="input-box">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+  <div class="input-box">
+    <label for="category">Category</label>
+    <input type="category" id="category" name="category" required>
+  </div>
+  <div class="input-box">
+    <label for="price">Price</label>
+    <input id="price" name="price" required>
+  </div>
+  <button type="submit" class="btn" onclick=fetchqueryProducts()>Send</button>
+</div>
 
-<!-- Filter button and category buttons -->
-<a href="/" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
+<a href="/" class="fas fa-reply custom-reply-icon"></a>
+
 
 <div id="productList">
   <!-- Product list will be rendered here -->
 </div>
 
-
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
   
-  // Function to fetch and render product data
   function fetchProducts() {
     $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
+      success: function (data) {
+        renderProducts(data);
+      },
+      error: function (err) {
+        console.log(err);
+        alert('Failed to fetch product data.');
+      }
+    });
+  }
+
+  function renderProducts(products) {
+    const productListContainer = $('#productList');
+    productListContainer.empty();
+
+    products.forEach(function (product) {
+      const name = product.name;
+      const price = product.price;
+      const id = product._id;
+      const category = product.category;
+      const description = product.description;
+      const image = product.image;
+
+      const productElement = `
+        <div class="product ${category}">
+          <h2>${product.name}</h2>
+          Price: ${product.price}$
+          <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
+          ${product.description}
+          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
+        </div>
+      `;
+      productListContainer.append(productElement);
+    });
+  }
+
+  const items = [];
+  var total_price = 0;
+  function addOrderProduct(name, price, id, category, description, image) {
+    const orderListContainer = $('#orderList');
+    const productData = {
+      _id: id,
+      name: name,
+      price: price,
+      category: category,
+      description: description,
+      image: image
+    };
+
+    const OrderProductElement = `
+      <div class="productOrder">
+        <h2>Name: "${productData.name}"</h2>
+        Price: "${productData.price}"$
+        <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
+      </div>
+    `;
+    items.push(productData._id);
+    orderListContainer.append(OrderProductElement);
+    total_price += parseInt(productData.price);
+    localStorage.setItem('items', JSON.stringify(items));
+    localStorage.setItem('total_price', JSON.stringify(total_price));
+  }
+
+  function removeOrderProduct(productId) {
+    $.ajax({
+      url: `/api/order/${productId}`,
+      method: 'DELETE',
+      success: function (data) {
+        console.log(data.message);
+      },
+      error: function (error) {
+        console.error('Error deleting product:', error);
+      },
+    });
+  }
+
+  $('.filter-btn').click(function () {
+    $('.category-buttons').toggle();
+    $('.product').show();
+  });
+
+  $('.category-btn').click(function () {
+    const selectedCategory = $(this).data('category');
+    $('.product').hide();
+    $(`.product.${selectedCategory}`).show();
+  });
+
+
+  function fetchqueryProducts() {
+    const name = $('#name').val();
+    const category = $('#category').val();
+    const price = $('#price').val();
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        name:name,
+        category:category,
+        price:price
+      },
       success: function (data) {
         // Product data received successfully
         renderProducts(data);
@@ -61,99 +169,14 @@
         console.log(err)
         alert('Failed to fetch product data.');
       }
-    });
+      });
   }
 
-
-
-  // Function to render the product data on the screen
-  function renderProducts(products) {
-    const productListContainer = $('#productList');
-    productListContainer.empty(); // Clear existing products
-
-    // Loop through each product and create an HTML element to display it
-    products.forEach(function (product) {
-      const name=product.name;
-      const price=product.price;
-      const id=product._id;
-      const category=product.category;
-      const description=product.description;
-      const image=product.image;
-
-      
-      const productElement = `
-        <div class="product">
-          <h2>${product.name}</h2>
-          Price: ${product.price}$
-          <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
-          ${product.description}
-         
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}")'">Order Now</button>
-        </div>
-      `;
-      productListContainer.append(productElement);
-    });
-  }
-
-const items=[];
-var total_price=0;
-function addOrderProduct(name, price, id, category,description, image) {
-  const orderListContainer = $('#orderList');
-  // Prepare the data for the order
-  const productData = {
-    _id:id,
-    name: name,
-    price: price,
-    category:category,
-    description:description, 
-    image:image
-    // Add other data fields as needed
-  };
-
-  // Send a POST request to the server's API endpoint for order creation
-
-  const OrderProductElement = `
-    <div class="productOrder">
-      <h2>Name: "${productData.name}"</h2>
-      Price: "${productData.price}"$
-      <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
-    </div>
-  `;
-  items.push(productData._id);
-  console.log(productData._id)
-  orderListContainer.append(OrderProductElement);
-  total_price+=parseInt(productData.price);
-  localStorage.setItem('items', JSON.stringify(items));
-  localStorage.setItem('total_price', JSON.stringify(total_price));
-}
-
-
- function removeOrderProduct(productId) {
-  $.ajax({
-    url: `/api/order/${productId}`,
-    method: 'DELETE',
-    success: function (data) {
-      console.log(data.message); // Product deleted successfully message
-    },
-    error: function (error) {
-      console.error('Error deleting product:', error);
-    },
-  });}
-
-
-    // Fetch the product data when the page loads
-    $(document).ready(function () {
-    console.log('insert to function');
+  $(document).ready(function () {
     fetchProducts();
+  });
 
-    });
 
-    // Toggle visibility of category buttons
-    $('.filter-btn').click(function () {
-      $('.category-buttons').toggle();
-    });
-    
-  
 </script>
 </body>
 </html>
