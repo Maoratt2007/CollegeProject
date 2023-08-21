@@ -1,0 +1,171 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+/* Set a background color for the body */
+body {
+    background-color: #f0f0f0;
+    color: #333;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+/* Style the main heading */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: black;
+  }
+  
+
+/* Style the form container */
+#orderHistoryForm {
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Style the custom reply icon */
+.custom-reply-icon {
+    font-size: 1.5em;
+    color: #c41717;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* Style the filter options container */
+.filter-options {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+/* Style the input boxes and labels */
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-box label {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Style the submit button */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #c41717;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #a01515;
+}
+
+/* Style the user and order elements */
+.user {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.user button {
+    background-color: #c41717;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.user button:hover {
+    background-color: #a01515;
+}
+
+/* Style the order elements */
+.order {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.order button {
+    background-color: #c41717;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.order button:last-child {
+    margin-right: 0;
+}
+
+.order button:hover {
+    background-color: #a01515;
+}
+
+/* Style the history product elements */
+.historyProduct {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.historyProduct h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.historyProduct img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}

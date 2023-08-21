@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="menu.css">
+  <!-- <link rel="stylesheet" href="menu.css"> -->
+  <link rel="stylesheet" href="managerdetails.css">
   <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>userDetail</title>
@@ -65,9 +66,9 @@
     userDetailContainer.empty(); // Clear existing products
     const userDetailElement = `
       <div class="userdetail">
-          <h2>Name: ${name}</h2>
-          Email: ${email}
-         <div>  role:Manager </div>
+        <h3> Name: ${name} </h3> 
+         <h3> Email: ${email} </h3> 
+         <div>  <h3> role:Manager </h3> </div>
         </div>
       `;
       userDetailContainer.append(userDetailElement);

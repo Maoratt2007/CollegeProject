@@ -1,0 +1,97 @@
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+/* Set a background color for the body */
+body {
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+/* Style the main heading */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: black;
+  }
+  
+
+/* Style the form container */
+#orderHistoryForm {
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Style the custom reply icon */
+.custom-reply-icon {
+    font-size: 1.5em;
+    color: #c41717;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* Style the order elements */
+.order {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.order h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.order button {
+    color: #c41717;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.order button:last-child {
+    margin-right: 0;
+}
+
+.order button:hover {
+    background-color: black;
+}
+
+/* Style the history product elements */
+.historyProduct {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.historyProduct h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.historyProduct img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}

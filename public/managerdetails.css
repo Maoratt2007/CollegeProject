@@ -1,0 +1,54 @@
+/* Reset some default margin and padding */
+body, h1, h2, h3, p, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+/* Set a background color for the body */
+body {
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  
+
+/* Style the reply icon */
+.custom-reply-icon {
+    font-size: 24px;
+    color: #c41717;
+    text-decoration: none;
+    margin: 20px;
+    display: inline-block;
+}
+
+/* Style the user detail container */
+#userDetails {
+    max-width: 400px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the user detail text */
+.userdetail h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+/* Add some spacing between the user detail fields */
+.userdetail h3 + h3 {
+    margin-top: 10px;
+}
+
+/* Add some padding to the user detail container */
+.userdetail {
+    padding: 10px;
+}

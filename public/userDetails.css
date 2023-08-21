@@ -14,19 +14,16 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-height: 100vh;
   }
   
   /* Style the custom reply icon */
   .custom-reply-icon {
     font-size: 24px;
     color: #c41717;
-    float: left;
-    margin-left: 0;
-    margin-top: 20px;
     text-decoration: none;
-  }
-  
+    margin: 20px;
+    display: inline-block;
+}
   /* Style the user details container */
   #userDetails {
     background-color: white;
@@ -36,6 +33,7 @@
     margin-top: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    
   }
   
   .userdetail h2 {
