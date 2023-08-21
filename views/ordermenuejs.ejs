@@ -80,6 +80,9 @@
     data: JSON.stringify(orderData),
     success: function (response) {
       localStorage.setItem('orderes', JSON.stringify(orderes));
+      console.log(response._id);
+      localStorage.setItem('orderId', JSON.stringify(response._id));
+
     },
     error: function (error) {
       console.error('Error creating order:', error);

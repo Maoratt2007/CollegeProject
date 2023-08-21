@@ -18,6 +18,7 @@
 
 
 <div class="filter-buttons">
+  <button id="groupby" onclick="groupByProduct()">group</button>
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
     <button class="category-btn" data-category="drink">Drinks</button>
@@ -61,8 +62,31 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
-  const orderListContainer = $('#orderList');
+  const orderListContainer=document.getElementById('orderList');
   const productListContainer = $('#productList');
+
+
+  function groupByProduct() {
+    $.ajax({
+                url:`http://localhost:3000/api/order`,
+                method: "GET",
+                dataType: "json",
+                contentType: 'application/json',
+                data: {
+                    group: true,
+                    meals: true
+                },
+                success: function(data) {
+                  renderProducts(data);
+
+                  
+                },
+                error: function(error) {
+                    console.error("Error saving data:", error);
+                }
+            });
+
+  }
 
   
   // Function to fetch and render product data
@@ -128,10 +152,10 @@
       productListContainer.append(productElement);
     });
   }
-
 const items=[];
 var total_price=0;
 function addOrderProduct(name, price, id, category,description, image,isShow) {
+    const orderListContainer = $('#orderList');
   // Prepare the data for the order
   const productData = {
     _id:id,
@@ -146,15 +170,13 @@ function addOrderProduct(name, price, id, category,description, image,isShow) {
 
   // Send a POST request to the server's API endpoint for order creation
 
-  var OrderProductElement = `
+  const OrderProductElement = `
     <div class="productOrder">
-      
       <h2>Name: "${productData.name}"</h2>
       Price: "${productData.price}"$
       <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
     </div>
   `;
-
   items.push(productData._id);
   console.log(productData._id)
   orderListContainer.append(OrderProductElement);
