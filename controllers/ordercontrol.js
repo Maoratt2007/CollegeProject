@@ -19,18 +19,6 @@ const getOrder = async(req,res)=>{
         res.status(404).json({errors:['Order was not found']})
 
     }
-    if (req.query.group) {
-        if(req.query.items) {
-            const products = await OrderService.groupByMeals(items);
-
-            if (!products) {
-                return res.status(404).json({errors:["product's Order meals not found"]});
-            }
-
-            res.json(products);
-            return;
-        }
-    }
     res.json(arr_Order);   
 
     
@@ -41,6 +29,18 @@ const getOrderById=async(req,res)=>{
     if(!order)
     {
         res.status(404).json({errors:['order(2) was not found']})
+    }
+    if (req.query.group) {
+        if(req.query.items) {
+            const products = await OrderService.groupByProducts(items);
+
+            if (!products) {
+                return res.status(404).json({errors:["product's Order is not found"]});
+            }
+
+            res.json(products);
+            return;
+        }
     }
     res.json(order);
 }

@@ -36,9 +36,9 @@ const getProductuserID= async( userId)=>{
     }
     return await Order.find({userId});
 }
-const groupByProducts = async (product) => {
-    const products = await product.aggregate([
-        { $match: { _id: product._id } },
+const groupByProducts = async (order) => {
+    const products = await order.aggregate([
+        { $match: { _id: order._id } },
         { $unwind: '$products' },
         {
             $group: {

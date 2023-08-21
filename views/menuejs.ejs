@@ -18,7 +18,6 @@
 
 
 <div class="filter-buttons">
-  <button id="groupby" onclick="groupByProduct()">group</button>
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
     <button class="category-btn" data-category="drink">Drinks</button>
@@ -62,31 +61,8 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
-  const orderListContainer=document.getElementById('orderList');
+  const orderListContainer = $('#orderList');
   const productListContainer = $('#productList');
-
-
-  function groupByProduct() {
-    $.ajax({
-                url:`http://localhost:3000/api/order`,
-                method: "GET",
-                dataType: "json",
-                contentType: 'application/json',
-                data: {
-                    group: true,
-                    meals: true
-                },
-                success: function(data) {
-                  renderProducts(data);
-
-                  
-                },
-                error: function(error) {
-                    console.error("Error saving data:", error);
-                }
-            });
-
-  }
 
   
   // Function to fetch and render product data
@@ -123,18 +99,32 @@
       const description=product.description;
       const image=product.image;
       const isShow=product.isShow;
+      const webServiceId=product.webServiceId;
 
 
       
-      const productElement = `
-        <div class="product">
-          <h2>${product.name}</h2>
-          Price: ${product.price}$
-          <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
-          ${product.description}
-          <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Add to order</button>
-        </div>
-      `;
+      const productElement = $(`
+            <div class="product">
+                <h2>${product.name}</h2>
+                Price: ${product.price}$
+                <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
+                ${product.description}
+                <div class="calories"></div>
+                <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Add to order</button>
+            </div>
+        `);
+      if (webServiceId) {
+            $.ajax({
+                url: `https://world.openfoodfacts.org/api/v0/product/${webServiceId}`,
+                method: "GET",
+                success: function(response) {
+                  productElement.find('.calories').append(`<p> nutritional value: ${response.product.nutriments.energy_value} calories</p>`);
+                },
+                error: function(error) {
+                    console.error("Error finding data", error);
+                }
+            });
+        }
       productListContainer.append(productElement);
     });
   }
@@ -142,7 +132,6 @@
 const items=[];
 var total_price=0;
 function addOrderProduct(name, price, id, category,description, image,isShow) {
-    const orderListContainer = $('#orderList');
   // Prepare the data for the order
   const productData = {
     _id:id,
@@ -157,13 +146,15 @@ function addOrderProduct(name, price, id, category,description, image,isShow) {
 
   // Send a POST request to the server's API endpoint for order creation
 
-  const OrderProductElement = `
+  var OrderProductElement = `
     <div class="productOrder">
+      
       <h2>Name: "${productData.name}"</h2>
       Price: "${productData.price}"$
       <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
     </div>
   `;
+
   items.push(productData._id);
   console.log(productData._id)
   orderListContainer.append(OrderProductElement);

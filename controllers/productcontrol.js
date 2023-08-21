@@ -1,7 +1,8 @@
 const productService= require('../services/productservice');
 
 const creatProduct=async(req,res)=>{
-    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow);
+
+    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow,req.body.webServiceId);
     res.json(new_pro);
 }
 
@@ -78,7 +79,7 @@ const updateProduct=async(req,res)=>{
 
 
     try{
-        const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow);
+        const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow,req.body.webServiceId);
         if(!pro)
         {
             return res.status(404).json({errors:['pro was not found']})

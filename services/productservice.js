@@ -1,14 +1,17 @@
 const Product=require('../modules/product');
 
-const creatProduct=async (name,price,category,description,image,isShow)=>{
+const creatProduct=async (name,price,category,description,image,isShow,webServiceId)=>{
     const product=new Product({
         name:name,
         price:price,
         category:category,
         description:description,
         image:image,
-        isShow:isShow
+        isShow:isShow,
     });
+    if (product.webServiceId) {
+        product.webServiceId = webServiceId;
+    }
     return await product.save();
 }
 
@@ -20,7 +23,7 @@ const getProducts= async()=>{
     return Product.find({});
 }
 
-const updateProduct=async(_id,name,price,category,description,image,isShow)=>{
+const updateProduct=async(_id,name,price,category,description,image,isShow,webServiceId)=>{
     const product=await findProductById(_id);
     if(!product)
     {
@@ -36,6 +39,9 @@ const updateProduct=async(_id,name,price,category,description,image,isShow)=>{
     product.description=description;
     product.image=image;
     product.isShow=isShow;
+    if (product.webServiceId) {
+        product.webServiceId = webServiceId;
+    }
     return await product.save();
 }
 

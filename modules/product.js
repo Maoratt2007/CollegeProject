@@ -20,6 +20,9 @@ const Product= new Schema({
     },
     isShow:{
         type:Boolean
+    },
+    webServiceId: {
+        type: String
     }
 
 });
