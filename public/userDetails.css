@@ -1,0 +1,58 @@
+/* Reset some default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+  }
+  
+  /* Style the body */
+  body {
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Style the custom reply icon */
+  .custom-reply-icon {
+    font-size: 24px;
+    color: #c41717;
+    float: left;
+    margin-left: 0;
+    margin-top: 20px;
+    text-decoration: none;
+  }
+  
+  /* Style the user details container */
+  #userDetails {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .userdetail h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .userdetail p {
+    font-size: 1.2em;
+    color: #666;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    #userDetails {
+      width: 100%;
+    }
+  }
+  
