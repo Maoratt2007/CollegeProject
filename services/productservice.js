@@ -1,13 +1,17 @@
 const Product=require('../modules/product');
 
-const creatProduct=async (name,price,category,description,image)=>{
+const creatProduct=async (name,price,category,description,image,isShow,webServiceId)=>{
     const product=new Product({
         name:name,
         price:price,
         category:category,
         description:description,
-        image:image
+        image:image,
+        isShow:isShow,
     });
+    if (product.webServiceId) {
+        product.webServiceId = webServiceId;
+    }
     return await product.save();
 }
 
@@ -19,19 +23,28 @@ const getProducts= async()=>{
     return Product.find({});
 }
 
-const updateProduct=async(_id,name,price,category,description,image)=>{
+const updateProduct=async(_id,name,price,category,description,image,isShow,webServiceId)=>{
     const product=await findProductById(_id);
     if(!product)
     {
         return null;
+    }
+    if(product.isShow===isShow)
+    {
+        throw Error(`trying to set product: ${name} failed because is show is already: ${isShow}`);
     }
     product.name=name;
     product.price=price;
     product.category=category;
     product.description=description;
     product.image=image;
+    product.isShow=isShow;
+    if (product.webServiceId) {
+        product.webServiceId = webServiceId;
+    }
     return await product.save();
 }
+
 
 const deleteProduct=async(_id)=>{
     const product=await findProductById(_id);
@@ -42,14 +55,35 @@ const deleteProduct=async(_id)=>{
     return await product.deleteOne();
 }
 
-const getProductncp= async(name, category, price)=>{
-    return Product.find({name, category, price});
+const getProductncp= async(name, category, price,isShow)=>{
+    if(!name)
+    {
+        return null;
+    }
+    if(!category)
+    {
+        return null;
+    }
+    if(!price)
+    {
+        return null;
+    }
+    
+
+    const pro=await Product.find({name, category, price,isShow});
+    return pro;
+    
 }
+const getProductShow= async(isShow)=>{
+    return await Product.find({isShow});
+}
+
 module.exports={
     creatProduct,
     findProductById,
     getProducts,
     updateProduct,
     deleteProduct,
-    getProductncp
+    getProductncp,
+    getProductShow
 }

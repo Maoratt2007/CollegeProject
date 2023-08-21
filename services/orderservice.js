@@ -3,13 +3,14 @@ const Order = require('../modules/order')
 
 
 // Add ORder for method post
-const createOrder = async (name, price, address, credit_card, items) => {
+const createOrder = async (name, price, address, credit_card, items,userId) => {
     const order =new Order({
         name:name,
         price:price,
         address:address,
         credit_card:credit_card,
-        items:items
+        items:items,
+        userId:userId
     });
     return await order.save();
 }
@@ -23,12 +24,36 @@ const findOrderById=async(_id) =>{
 //get all
 
 const getOrder= async()=>{
+
     return await Order.find({});
+}
+//get by userID
+
+const getProductuserID= async( userId)=>{
+    if(! userId)
+    {
+        return null;
+    }
+    return await Order.find({userId});
+}
+const groupByProducts = async (order) => {
+    const products = await order.aggregate([
+        { $match: { _id: order._id } },
+        { $unwind: '$products' },
+        {
+            $group: {
+                _id: '$products',
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    return products;
 }
 
 //update
 
-const updateOrder=async(_id, name, price, address, credit_card, items)=>{
+const updateOrder=async(_id, name, price, address, credit_card, items,userId)=>{
     const order = await findOrderById(_id);
     if(!order){
         return null;
@@ -38,6 +63,7 @@ const updateOrder=async(_id, name, price, address, credit_card, items)=>{
     order.address=address;
     order.credit_card=credit_card;
     order.items=items;
+    order.userId=userId;
 
     return await order.save();
 }
@@ -57,5 +83,7 @@ module.exports={
     findOrderById,
     getOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getProductuserID,
+    groupByProducts
 }

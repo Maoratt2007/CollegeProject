@@ -18,6 +18,7 @@
 
 
 <div class="filter-buttons">
+  <button id="groupby" onclick="groupByProduct()">group</button>
   <button class="filter-btn">Filter</button>
   <div class="category-buttons">
     <button class="category-btn" data-category="drink">Drinks</button>
@@ -30,7 +31,6 @@
   <div id="orderList">
 
   </div>
-  <button onclick="itmesIsExist()">Submit And Continue</button>
 
 </div>
 
@@ -51,7 +51,7 @@
 </div>
 
 <!-- Filter button and category buttons -->
-<a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
+<a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
 
 <div id="productList">
   <!-- Product list will be rendered here -->
@@ -61,8 +61,32 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/products';
-  const orderListContainer = $('#orderList');
+  const orderListContainer=document.getElementById('orderList');
   const productListContainer = $('#productList');
+  var already_in_menu=0;
+
+
+  function groupByProduct() {
+    $.ajax({
+                url:`http://localhost:3000/api/order`,
+                method: "GET",
+                dataType: "json",
+                contentType: 'application/json',
+                data: {
+                    group: true,
+                    meals: true
+                },
+                success: function(data) {
+                  renderProducts(data);
+
+                  
+                },
+                error: function(error) {
+                    console.error("Error saving data:", error);
+                }
+            });
+
+  }
 
   
   // Function to fetch and render product data
@@ -71,9 +95,6 @@
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
-      data:{
-        isShow:true
-      },
       success: function (data) {
         // Product data received successfully
         renderProducts(data);
@@ -99,109 +120,85 @@
       const description=product.description;
       const image=product.image;
       const isShow=product.isShow;
-      const webServiceId=product.webServiceId;
-
 
       
-      const productElement = $(`
-            <div class="product">
-                <h2>${product.name}</h2>
-                Price: ${product.price}$
-                <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
-                ${product.description}
-                <div class="calories"></div>
-                <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Add to order</button>
-            </div>
-        `);
-      if (webServiceId) {
-            $.ajax({
-                url: `https://world.openfoodfacts.org/api/v0/product/${webServiceId}`,
-                method: "GET",
-                success: function(response) {
-                  productElement.find('.calories').append(`<p> nutritional value: ${response.product.nutriments.energy_value} calories</p>`);
-                },
-                error: function(error) {
-                    console.error("Error finding data", error);
-                }
-            });
-        }
+      const productElement = `
+        <div class="product">
+          <h2>${product.name}</h2>
+          Price: ${product.price}$
+          <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
+          ${product.description}
+          <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to menu</button>
+          <button class="order-btn" onclick='removeProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Remove from menu</button>
+        </div>
+      `;
+
       productListContainer.append(productElement);
     });
   }
 
-const items=[];
-var total_price=0;
-function addOrderProduct(name, price, id, category,description, image,isShow) {
+function addProductMenu(name, price, id, category,description, image) {
   // Prepare the data for the order
-  const productData = {
+    const productData = {
     _id:id,
     name: name,
     price: price,
     category:category,
     description:description, 
     image:image,
-    isShow:isShow
+    isShow:true
     // Add other data fields as needed
   };
-
-  // Send a POST request to the server's API endpoint for order creation
-
-  var OrderProductElement = `
-    <div class="productOrder">
-      
-      <h2>Name: "${productData.name}"</h2>
-      Price: "${productData.price}"$
-      <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
-    </div>
-  `;
-
-  items.push(productData._id);
-  console.log(productData._id)
-  orderListContainer.append(OrderProductElement);
-  total_price+=parseInt(productData.price);
-  localStorage.setItem('items', JSON.stringify(items));
-  localStorage.setItem('total_price', JSON.stringify(total_price));
-
-}
-
-
- function removeOrderProduct(productId) {
-  const index = findIndexById(items,productId);
-
-   if (index !== -1) {
-    //update the price get the elemnt by id and take his price and minus it in total_price
-    const pro=items[index];
-    const price=0;
-    $.ajax({
-      url: `http://localhost:3000/api/products/${pro}`,
-      method: 'GET',
+  $.ajax({
+      url: `http://localhost:3000/api/products/${id}`,
+      method: 'PUT',
       dataType: 'json',
+      contentType: 'application/json', // Set the content type to JSON
+      data: JSON.stringify(productData), // Convert the data to JSON format
       success: function (data) {
-        // Product data received successfully
-        console.log(data.price);
-        total_price=total_price-data.price;
-        console.log(total_price)
-         localStorage.setItem('total_price', JSON.stringify(total_price));
+        alert("you add to menu your product")
 
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch remove product data.');
+        alert(`Failed to put product data, because: ${err.responseJSON.errors}`);
       }
     });
-  }
 
-     //update the product
-     items.splice(index, 1); // Remove object from array and mongoose
-     localStorage.setItem('items', JSON.stringify(items));// update the items in localStorage
-     orderListContainer.removeChild(orderListContainer.children[index]); // Remove HTML element from div
+}
+function removeProductMenu(name, price, id, category,description, image,isShow) {
+  // Prepare the data for the order
+  console.log(isShow);
+ 
+    const productData = {
+    _id:id,
+    name: name,
+    price: price,
+    category:category,
+    description:description, 
+    image:image,
+    isShow:false
+    // Add other data fields as needed
+  };
+  $.ajax({
+      url: `http://localhost:3000/api/products/${id}`,
+      method: 'PUT',
+      dataType: 'json',
+      contentType: 'application/json', // Set the content type to JSON
+      data: JSON.stringify(productData), // Convert the data to JSON format
+      success: function (data) {
+        alert("you remove to menu your product")
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        alert(`Failed to put product data unshow, because: ${err.responseJSON.errors}`);
+      }
+    });
+
+  
 }
 
-//find index by id for delete
-function findIndexById(array, targetId) {
-  return array.findIndex(item => item === targetId);
-}
 
 // to check if you have products in your items if not its not make sence that you have the power to do order
 
@@ -223,10 +220,9 @@ function fetchqueryProducts() {
     const price = $('#price').val();
     if(!name||!category||!price)
     {
-      alert("fill all the data");
+      alert("fill all the data")
     }
-    else
-    {
+    else{
       $.ajax({
       url: apiEndpoint,
       method: 'GET',
@@ -235,16 +231,14 @@ function fetchqueryProducts() {
         name:name,
         category:category,
         price:price,
-        isShow:true
+        isShow:false
       },
       success: function (data) {
-        console.log(data.isShow);
         // Product data received successfully
           renderProducts(data);
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
         alert(`Failed to get product data show, because: ${err.responseJSON.errors}`);
       }
       });

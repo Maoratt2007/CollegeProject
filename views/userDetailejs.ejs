@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="menu.css">
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>userDetail</title>
+  <!-- Include jQuery library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+  <script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+  integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
+  crossorigin="anonymous">
+</script>
+</head>
+<body>
+  
+<form id="UserdetailForm">
+    <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
+</form>
+
+<div id="userDetails">
+
+</div>
+
+<!-- Filter button and category buttons -->
+
+
+<script>
+  // Replace this URL with your actual API endpoint to fetch product data
+
+
+  function GetUserDetail() {
+    const userId = localStorage.getItem('userId');
+    const user=userId;
+    console.log(userId);
+    $.ajax({
+      url: `http://localhost:3000/api/user/${userId}`,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        console.log(data.name)
+        renderUserDetail(data.name,data.email);
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch user data.');
+      }
+      });
+  }
+
+  // Function to render the product data on the screen
+  function renderUserDetail(name,email) {
+    const userDetailContainer = $('#userDetails');
+    userDetailContainer.empty(); // Clear existing products
+    const userDetailElement = `
+      <div class="userdetail">
+          <h2>Name: ${name}</h2>
+          Email: ${email}
+        </div>
+      `;
+      userDetailContainer.append(userDetailElement);
+
+
+  }
+
+
+
+
+  $(document).ready(function () {
+    console.log('insert to function');
+    GetUserDetail();
+    });
+  
+</script>
+</body>
+</html>

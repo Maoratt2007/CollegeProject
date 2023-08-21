@@ -27,6 +27,9 @@ const Branch= new Schema({
         ref: "User",
         required:true
 
+    },
+    is_show_branch:{
+        type:Boolean
     }
 
 });

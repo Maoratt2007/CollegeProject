@@ -17,6 +17,12 @@ const Product= new Schema({
     },
     image:{
         type:String
+    },
+    isShow:{
+        type:Boolean
+    },
+    webServiceId: {
+        type: String
     }
 
 });

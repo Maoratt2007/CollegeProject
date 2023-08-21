@@ -12,10 +12,14 @@ const BranchesRoute=require('./routes/branchesroute');
 const AboutRoute=require('./routes/aboutroute');
 const ContactRoute=require('./routes/contactroute');
 const orderMenuRoute=require('./routes/ordermenuroute')
-
-
-
-
+const HistoryOrderRoute=require('./routes/historyorderroute');
+const userDetailRoute=require('./routes/userDetailRoute');
+const homePageRoute=require('./routes/homepageroute');
+const homePageManagaerRoute=require('./routes/homepagemanagerroute');
+const menuManagaerRoute=require('./routes/menumanagerroute');
+const branchManagaerRoute=require('./routes/branchmanagerroute');
+const historyCustomer=require('./routes/historycustomerroute');
+const managerDetail=require('./routes/managerdetailroute');
 
 
 const dotenv= require('dotenv');
@@ -54,6 +58,16 @@ app.use('/branch', BranchesRoute);
 app.use('/about', AboutRoute);
 app.use('/contact', ContactRoute);
 app.use('/order',orderMenuRoute);
+app.use('/historyorder',HistoryOrderRoute)
+app.use('/userdetail',userDetailRoute)
+app.use('/homepage',homePageRoute)
+app.use('/homepagemanager',homePageManagaerRoute)
+app.use('/menumanager',menuManagaerRoute)
+app.use('/branchmanager',branchManagaerRoute)
+app.use('/historycustomer',historyCustomer)
+app.use('/managerdetail',managerDetail)
+
+
 
 
 

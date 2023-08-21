@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="menu.css">
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OrderHistoryList</title>
+  <!-- Include jQuery library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+  <script
+  src="https://code.jquery.com/jquery-3.7.0.js"
+  integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+  crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+  integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
+  crossorigin="anonymous">
+</script>
+</head>
+<body>
+
+<h1>Order List</h1>
+  
+<form id="orderHistoryForm">
+    <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
+</form>
+<div id="orderListHistory">
+
+
+</div>
+<div id="itemsListHistory">
+
+</div>
+
+
+<!-- Filter button and category buttons -->
+
+
+<script>
+  // Replace this URL with your actual API endpoint to fetch product data
+  const apiEndpoint = 'http://localhost:3000/api/order';
+  const userId = localStorage.getItem('userId');
+
+
+  
+  function GetOrderesUser() {
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        userId:userId 
+      },
+      success: function (data) {
+        // Product data received successfully
+        renderOrder(data);
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data.');
+      }
+      });
+  }
+
+  // Function to render the product data on the screen
+  function renderOrder(orderes) {
+    const orderListHistoryContainer = $('#orderListHistory');
+    orderListHistoryContainer.empty(); // Clear existing products
+
+    // Loop through each product and create an HTML element to display it
+    orderes.forEach(function (order) {
+      const name=order.name;
+      const price=order.price;
+      const id=order._id;
+      const  address=order.address;
+      const credit_card=order.credit_card;
+      const  items=JSON.stringify(order.items);
+      const userId=order.userId;
+
+      const orderElement = `
+      <div class="order">
+          <h2>${order.name}</h2>
+          Price: ${order.price}$ 
+          <button onclick='renderItems(${items})'>detail</button>
+          <button onclick="closeDetail()">close</button>
+
+        </div>
+      `;
+      orderListHistoryContainer.append(orderElement);
+    });
+  }
+  function closeDetail()
+  {
+    const itemsListHistoryContainer = $('#itemsListHistory');
+
+    itemsListHistoryContainer.hide();
+  }
+  function renderItems(items)
+  {
+
+    const itemsListHistoryContainer = $('#itemsListHistory');
+    itemsListHistoryContainer.show();
+    itemsListHistoryContainer.empty(); // Clear existing products
+
+    // Loop through each product and create an HTML element to display it
+    items.forEach(function (item) {
+      
+    $.ajax({
+      url: `http://localhost:3000/api/products/${item}`,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        console.log(data.name);
+        console.log(data.price);
+        console.log(data.image);
+
+        const itemElement = `
+        <div class="historyProduct">
+        <h2>${data.name}</h2>
+        Price: ${data.price}$
+        <p> <img src="${data.image}" alt="${data.name}" width="100"></p>
+      </div>
+      `;
+      itemsListHistoryContainer.append(itemElement);  
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch render items.');
+      }
+    }); 
+    })
+  }
+
+  $(document).ready(function () {
+    console.log('insert to function');
+    GetOrderesUser();
+    });
+  
+</script>
+</body>
+</html>

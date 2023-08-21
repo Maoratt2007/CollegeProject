@@ -1,18 +1,38 @@
 const productService= require('../services/productservice');
 
 const creatProduct=async(req,res)=>{
-    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image);
+
+    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow,req.body.webServiceId);
     res.json(new_pro);
 }
 
 const getProducts=async(req,res)=> {
-    const arr_pro= await productService.getProducts();
-    if(!req.query.image&&!req.query.description)
-    {const arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price)}
+    let arr_pro;
+    if(req.query.isShow)
+    {
+        arr_pro=await productService.getProductShow(req.query.isShow);
+        //filter
+        
+        if((req.query.category)&&(req.query.name)&&(req.query.price))
+        {
+          arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price,req.query.isShow)
+          if(arr_pro.length==0)
+          {
+            return res.status(404).json({errors:['pro was not found']})
+          }
+        }
+    }
+
     else{
-        arr_pro= await productService.getProducts();
+       arr_pro= await productService.getProducts();
+       if(arr_pro.length==0)
+       {
+         return res.status(404).json({errors:['you dont have products']})
+       }
+
     }
     res.json(arr_pro);   
+
 }
 
 const getProductById=async(req,res)=>{
@@ -21,6 +41,7 @@ const getProductById=async(req,res)=>{
     {
          res.status(404).json({errors:['pro was not found']})
     }
+
     res.json(pro);
 }
 
@@ -56,12 +77,20 @@ const updateProduct=async(req,res)=>{
     }
 
 
-    const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image);
-    if(!pro)
-    {
-        return res.status(404).json({errors:['pro was not found']})
+
+    try{
+        const pro= await productService.updateProduct(req.params.id, req.body.name, req.body.price, req.body.category, req.body.description, req.body.image,req.body.isShow,req.body.webServiceId);
+        if(!pro)
+        {
+            return res.status(404).json({errors:['pro was not found']})
+        }
+        res.json(pro);
     }
-    res.json(pro);
+    catch(e){
+        return res.status(400).json({errors:e.message})
+    }
+
+
 
 }
 

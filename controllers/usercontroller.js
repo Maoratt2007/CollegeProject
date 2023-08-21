@@ -3,38 +3,53 @@ const userService = require('../services/userservice')
 
 const register = async(req,res)=>{
     try {
-        const token = await userService.register(req.body)
-        return res.status(200).json({token})
+        await userService.register(req.body)
+        return res.status(200).json()
     } catch(e) {
         console.log(e)
-        return res.status(400).json({errors:[e.message]})
+        return res.status(400).json({errors: e.message})
     }
 }
 
 
 const login = async(req,res)=>{
     try {
-        const token = await userService.login(req.body)
-        return res.status(200).json({token})
+        const {userId, manager} = await userService.login(req.body)
+        return res.status(200).json({userId, manager})
     } catch(e) {
-        return res.status(400).json({errors:[e]})
+        return res.status(400).json({errors: e.message})
     }
 }
 
 
 
 const createUser=async(req,res)=>{
-    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager,req.body.order);
+    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager);
     res.json(new_user);
 }
 
 const getUsers=async(req,res)=>{
-    const user= await userService.getUsers();
-    if(!user)
+    let user;
+    if((req.query.email)&&(req.query.name))
     {
-        res.status(404).json({errors:['user was not found']})
+      user=await userService.getUsernem(req.query.name, req.query.email, req.query.manager)
+      if(user.length==0)
+      {
+        return res.status(404).json({errorsuser:['user query was not found']})
+      }
+    }
+    else
+    {
+        user= await userService.getUsers();
+        if(!user)
+        {
+            res.status(404).json({errors:['user was not found']})
+    
+        }
 
     }
+
+
     res.json(user);   
 }
 
@@ -79,7 +94,7 @@ const updateUser=async(req,res)=>{
     }
 
 
-    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password,req.body.manager,req.body.order);
+    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password,req.body.manager);
     if(!user)
     {
         return res.status(404).json({errors:['user was not found']})
@@ -98,4 +113,5 @@ module.exports={
     login
 
 }
+
 

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product List</title>
+  <!-- Include jQuery library -->
+  <script src="jquery.js"></script>
+</head>
+<body>
+<h1>Branches List</h1>
+<div id="branchesList">
+  <!-- Product list will be rendered here -->
+</div>
+<a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> 
+
+
+<script>
+  // Replace this URL with your actual API endpoint to fetch product data
+  const apiEndpoint = 'http://localhost:3000/api/branch';
+  const orderListContainer=document.getElementById('orderList');
+  const productListContainer = $('#productList');
+  
+  // Function to fetch and render product data
+  function fetchProducts() {
+    $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Product data received successfully
+        renderBranches(data)
+
+    },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data.');
+      }
+    });
+  }
+
+
+
+  // Function to render the product data on the screen
+  function renderBranches(branches) {
+    const branchListContainer = $('#branchesList');
+
+    // Loop through each product and create an HTML element to display it
+    branches.forEach(function (branch) {
+        const name=branch.name;
+      const address=branch.address;
+      const id=branch._id;
+      const phoneNumber=branch.phoneNumber;
+      const activityTime=branch.activityTime;
+      const manager=branch.manager;
+      const  is_show_branch=branch.is_show_branch;
+
+      const branchElement = `
+                    <div class="branch">
+                        
+                      <div class ="branch-header">
+                        <span class="material-symbols-outlined">
+                          location_on
+                        </span>
+                        <h2>${branch.name}</h2>
+                        <button class="branch-btn" onclick='addBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}")'">Add to Branches </button>
+                        <button class="branch-btn" onclick='removeBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}")'">Remove from Branches </button>
+                        <div class="more" onclick="open_branch('${branch._id}',this)">
+                          <span class="material-symbols-outlined">
+                            expand_more
+                          </span>
+                        </div>
+                        </div>
+
+
+                        <div class ="branch-slide">
+
+                        <div class ="branch-details closed_branch" id="${branch._id}">
+                          <div>
+                            <p>Address: ${branch.address}</p>
+                            <p>Phone Number:${branch.phoneNumber}</p>
+                            <p>Activity Hours:${branch.activityTime}</p>
+                          <div>
+                            <div id="map">
+                              
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                `;
+      branchListContainer.append(branchElement);
+    });
+  }
+  function addBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
+  // Prepare the data for the order
+  console.log(is_show_branch);
+
+    const BranchData = {
+    _id:id,
+    name: name,
+    address: address,
+    phoneNumber:phoneNumber,
+    activityTime:activityTime, 
+    manager:manager,
+    is_show_branch:true
+    // Add other data fields as needed
+  };
+  $.ajax({
+      url: `http://localhost:3000/api/branch/${id}`,
+      method: 'PUT',
+      dataType: 'json',
+      contentType: 'application/json', // Set the content type to JSON
+      data: JSON.stringify(BranchData), // Convert the data to JSON format
+      success: function (data) {
+        alert("you add to branches your branch")
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert(`Failed to get branch data show, because: ${err.responseJSON.errors}`);
+
+      }
+    });
+
+  
+
+
+}
+
+function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
+  // Prepare the data for the order
+  console.log(is_show_branch);
+ 
+    const BranchData = {
+    _id:id,
+    name: name,
+    address: address,
+    phoneNumber:phoneNumber,
+    activityTime:activityTime, 
+    manager:manager,
+    is_show_branch:false
+    // Add other data fields as needed
+  };
+  $.ajax({
+      url: `http://localhost:3000/api/branch/${id}`,
+      method: 'PUT',
+      dataType: 'json',
+      contentType: 'application/json', // Set the content type to JSON
+      data: JSON.stringify(BranchData), // Convert the data to JSON format
+      success: function (data) {
+        alert("you remove to branches your branch")
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert(`Failed to get branch data unshow, because: ${err.responseJSON.errors}`);
+      }
+    });
+
+  
+
+
+}
+
+
+
+
+function open_branch(id,element) {
+    const branch_element = document.getElementById(id)
+
+    if(branch_element.classList.contains("closed_branch")) {
+      branch_element.classList.add('opened_branch')
+      branch_element.classList.remove('closed_branch')
+      element.classList.add('rotate180')
+    } else {
+      branch_element.classList.remove('opened_branch')
+      branch_element.classList.add('closed_branch')
+      element.classList.remove('rotate180')
+    }
+  }
+    // Fetch the product data when the page loads
+    $(document).ready(function () {
+    console.log('insert to function');
+    fetchProducts();
+
+    });
+
+    
+  
+</script>
+<style>
+
+    .branch-slide {
+      overflow: hidden;
+      max-height: 400px;
+    }
+  
+    .more {
+      margin-left: auto;
+      cursor: pointer;
+      transition: .2s linear;
+    }
+    .branch {
+      padding:8px;
+      display:flex;
+      flex-direction: column;
+      row-gap: 8px;
+      max-width:1000px;
+    }
+    .closed_branch {
+      transition: .3s ease-in-out;
+      transform:translateY(-500px);
+      opacity:0;
+    }
+    .opened_branch {
+      transition: .3s ease-in-out;
+      transform:translateY(0px);
+      opacity: 1;
+    }
+    .rotate180 {
+      transform: rotateZ(180deg) translateY(4px);
+    }
+  
+    .branch-details {
+      border:1px solid lightgray;
+      margin-block:8px;
+      display:grid;
+      padding:8px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+  
+    .branch-details div:first-child {
+      flex-direction: column;
+      display: flex;
+    }
+    /* .branch-details p {
+      
+    } */
+    
+    .branch-header {
+      background:#bd3333;
+      color:white;
+      padding:12px;
+      display:flex;
+      flex-direction: row;
+      border:1px solid gray;
+      align-items: center;
+      column-gap: 12px;
+    }
+    /* .map {
+        
+    } */
+    
+  </style>
+</body>
+</html>
