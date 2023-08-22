@@ -5,8 +5,7 @@ dotenv.config();
 const isAuthenticated = async (req, res, next) => {
 
     try {
-        const tokenHeader = req.headers['authorization'] //  'Bearer n23io1;r5huidsbgiudshguidshgu'
-
+        const tokenHeader = req.headers['authorization'] ?? req.headers['Authorization'] //  'Bearer n23io1;r5huidsbgiudshguidshgu'
         if(!tokenHeader) {
             return next("Unauthorized request")
         }
@@ -16,8 +15,8 @@ const isAuthenticated = async (req, res, next) => {
 
 
         const { user_id } = decode(token) // {user_id :"lk21n4lk12nl4k1n", iat:12341232134}
-
         req.user_id = user_id // save the user id in the request object for later use
+        next()
     } catch(e) { // if any errors occured, redirect the request to error route
         next(e.message)
     }

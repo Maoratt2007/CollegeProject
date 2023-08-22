@@ -1,11 +1,13 @@
 const Branch=require('../modules/branch');
 //add category for method post
-const creatBranch=async (name,address,phoneNumber,activityTime, manager)=>{
+const creatBranch=async (name,address,phoneNumber,activityTime,lng,lat,manager)=>{
     const branch =await Branch.create({
         name:name,
         address:address,
         phoneNumber:phoneNumber,
         activityTime:activityTime,
+        lng:lng,
+        lat:lat,
         manager
     });
     return branch
@@ -20,7 +22,7 @@ const getBranches= async()=>{
     return await Branch.find({});
 }
 //update
-const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager)=>{
+const updateBranch=async(_id,name,address,phoneNumber,activityTime,lng,lat, manager)=>{
     const branch=await findCategoryById(_id);
     if(!branch)
     {
@@ -30,6 +32,8 @@ const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager)=>{
     branch.address=address;
     branch.phoneNumber=phoneNumber;
     branch.activityTime=activityTime;
+    branch.lng=lng;
+    branch.lat=lat;
     branch.manager= manager;
     return await branch.save();
 }
@@ -50,4 +54,3 @@ module.exports={
     updateBranch,
     deleteBranch
 }
-

@@ -3,21 +3,31 @@ const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
-const btn_login= document.querySelector('.btn');
+const btn_login = document.querySelector('.btn');
 
 const registerForm = document.querySelector("#register-form")
+const loginForm = document.querySelector("#login-form")
+
+let token;
+let currentUser;
+const manager= false;
+
 
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const name = e.target[0].value
     const email = e.target[1].value
     const password = e.target[2].value
-    const user = {name,email,password}
+    const user = {name,email,password,manager}
 
 
     try {
         // send the user details to the register route and get a response (May be error)
         const response = await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+        const data = await response.json()
+        if (!response.ok) {
+           alert(data.errors)
+        }
         const { token } = await response.json()
 
         if(token ){ 
@@ -31,9 +41,56 @@ registerForm.addEventListener('submit', async (e) => {
         alert(e.message)
         console.log(e)
     }
-    
+
 
 })
+
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    const email = e.target[0].value
+    const password = e.target[1].value
+    const user = {email,password}
+
+    const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+    const data = await response.json()
+
+    if (response.ok) {
+        const { manager } = data
+
+        // if( userId ){
+        //     localStorage.setItem("userId", userId)
+        //     alert("Logged in successfully")
+        // }
+        if(manager === false)
+        {
+            window.location.href= "homepage";
+        }
+        else
+        {
+            window.location.href="homepagemanager";
+
+        }
+    } else {
+        alert(data.errors)
+    }
+
+    try {
+        // send the user details to the register route and get a response (May be error)
+        const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+        const { token } = await response.json()
+
+        if( token ){ 
+            localStorage.setItem("token", token)
+            alert("Logged in successfully")
+        }
+
+    } catch(e) {
+        alert(e.message)
+        console.log(e)
+    }
+})
+
+
 
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');//change to register-page
@@ -102,3 +159,25 @@ iconClose.addEventListener('click', ()=> {
 //       servicesArea.appendChild(serviceWrapper)
 // }
 
+
+
+const getUser = () => {
+    if((token = localStorage.getItem('token')) != null) {
+        const parent = btnPopup.parentNode
+        fetch("/api/user/", {method:"GET", headers: { "Content-Type" : "application/json", "Authorization": `Bearer ${token}` }} )
+        .then(res => { 
+            return res.json()
+        }).then(theUser => {
+            const nameTag = document.createElement('p')
+            nameTag.classList.add("nameTag")
+            nameTag.innerText = theUser.name
+            parent.appendChild(nameTag)
+            currentUser = theUser;
+        }).catch(e => {
+            currentUser = null
+            localStorage.removeItem('token')
+        })
+    }
+}
+
+window.onload = getUser

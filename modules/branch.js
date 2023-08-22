@@ -22,6 +22,16 @@ const Branch= new Schema({
         required: true
     }, 
 
+    lng: { // x Coordinates
+        type: Number,
+        required: true
+    },
+
+    lat: { // y Coordinates
+        type: Number,
+        required: true
+    },
+
     manager: {
         type:Schema.Types.ObjectId,
         ref: "User",

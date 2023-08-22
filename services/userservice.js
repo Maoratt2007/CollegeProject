@@ -75,37 +75,27 @@ const login = async (user) => {
 
     const secret = process.env.SECRET_KEY;
     const hashedPassword = crypto.createHmac('sha1', secret)
-                   .update(userExists.password)
+                   .update(password)
                    .digest('hex');
 
 
-    if(userExists.password !== password) { // if the password the user entered does not match the one in database
+    if(userExists.password !== hashedPassword) { // if the password the user entered does not match the one in database
         throw new PasswordsDoNotMatchException("Passwords do not match")
     }        
      
-     const token = sign(userExists._id,secret, {expiresIn:'3h'})
+     const token = sign({user_id:userExists._id}, secret, {expiresIn:'3h'})
 
      return token
 }
 
-//add category for method post
-const creatUser=async (name,email, password,manager)=>{
-    const user =new User({
-        name:name,
-        email:email,
-        password:password,
-        manager:manager
-    });
-    return await user.save();
 
-}
 //find by id 
 const findUserById= async(_id)=>{
     return await User.findById(_id);
 }
 //get all
-const getUsers= async()=>{
-    return await User.find({});
+const getUser= async (id)=>{
+    return await User.findById(id);
 }
 //update
 const updateUser=async(_id,name,email, password,manager)=>{
@@ -132,9 +122,8 @@ const deleteUser=async(_id)=>{
 }
 
 module.exports={
-    creatUser,
     findUserById,
-    getUsers,
+    getUser,
     updateUser,
     deleteUser,
     register, 

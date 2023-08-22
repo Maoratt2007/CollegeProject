@@ -17,7 +17,7 @@ const login = async(req,res)=>{
         const token = await userService.login(req.body)
         return res.status(200).json({token})
     } catch(e) {
-        return res.status(400).json({errors:[e]})
+        return res.status(400).json({errors:[e.message]})
     }
 }
 
@@ -28,13 +28,10 @@ const createUser=async(req,res)=>{
     res.json(new_user);
 }
 
-const getUsers=async(req,res)=>{
-    const user= await userService.getUsers();
+const getUser = async(req,res)=>{
+    const user= await userService.getUser(req.user_id);
     if(!user)
-    {
         res.status(404).json({errors:['user was not found']})
-
-    }
     res.json(user);   
 }
 
@@ -90,7 +87,7 @@ const updateUser=async(req,res)=>{
 
 module.exports={
     createUser,
-    getUsers,
+    getUser,
     findUserById,
     deleteUser,
     updateUser,

@@ -15,6 +15,10 @@ const User = new Schema({
     },
     manager:{
         type:Boolean
+    },
+    passwordResetFlag: {
+        type:Boolean,
+        default:false
     }
 }); // A Order a has an array of OrderItem
 

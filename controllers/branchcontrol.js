@@ -2,7 +2,7 @@ const branch = require('../modules/branch');
 const BranchService= require('../services/branchservice');
 
 const createBranch=async(req,res)=>{
-    const new_branch= await BranchService.creatBranch(req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager);
+    const new_branch= await BranchService.creatBranch(req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.lng,req.body.lat,req.body.manager);
     console.log(new_branch);
     res.json(new_branch);
 }
@@ -58,13 +58,23 @@ const updateBranch=async(req,res)=>{
         res.status(400).json({errors:['you dont have the actuivityTime of branch']});
     }
 
+    if(!req.body.lng)
+    {
+        res.status(400).json({errors:['you dont X coordinates to your branch']});
+    }
+
+    if(!req.body.lat)
+    {
+        res.status(400).json({errors:['you dont Y coordinates to your branch']});
+    }
+
     if(!req.body.manager)
     {
         res.status(400).json({errors:['you dont have the manager of branch']});
     }
 
 
-    const branch= await BranchService.updateBranch(req.params.id, req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.manager);
+    const branch= await BranchService.updateBranch(req.params.id,req.body.name,req.body.address,req.body.phoneNumber,req.body.activityTime,req.body.lng,req.body.lat,req.body.manager);
     if(!branch)
     {
         return res.status(404).json({errors:['branch was not found']})

@@ -287,7 +287,11 @@ header {
 }
 
 
-
+.nameTag {
+    padding:8px;
+    color:white;
+    font-weight: bold;
+}
 
 
 
