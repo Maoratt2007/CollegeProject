@@ -55,7 +55,8 @@ header {
     color: #fff;
     text-decoration: none;
     font-weight: 750;
-    margin-left: 20px;
+    margin-left: 40px; /* Adjusted margin */
+    margin-right: 20px; /* Adjusted margin */
 }
 
 .navigation a::after {
