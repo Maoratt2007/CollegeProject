@@ -144,10 +144,20 @@
       
       const productElement = `
         <div class="product">
-          <h2>${product.name}</h2>
-          Price: ${product.price}$
+          <h2 class="product-name">${product.name}</h2>
+          <input type="text" class="edit-product-name" value="${product.name}" style="display: none;">
+
+          <div class="product-price"> price: ${product.price}$</div>
+          <input type="text" class="edit-product-price" value="${product.price}" style="display: none;">
+
+          <div class="product-description"> ${product.description}</div>
+          <input type="text" class="edit-product-description" value="${product.description}" style="display: none; width: 100%; height: 100px;">
           <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
-          ${product.description}
+
+          <button class="order-btn" data-product-id="${id}" onclick='editProductName(this, "${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'><i class="fas fa-edit"></i></button>
+          <button class="order-btn" data-product-id="${id}" onclick='editProductPrice(this, "${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'><i class="fas fa-edit"></i></button>
+          <button class="order-btn" data-product-id="${id}" onclick='editProductDescription(this,"${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'><i class="fas fa-edit"></i></button>
+
           <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to menu</button>
           <button class="order-btn" onclick='removeProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Remove from menu</button>
           <button class="order-btn" onclick='removefromdatabase("${id}")'">Remove from database</button>
@@ -157,6 +167,114 @@
       productListContainer.append(productElement);
     });
   }
+
+
+
+  function editProductDescription(button, name, price, id, category, description, image, isShow) 
+{
+  const productDiv = button.closest('.product');
+  const productDescription = productDiv.querySelector('.product-description');
+  const editInput = productDiv.querySelector('.edit-product-price');
+  
+  if (editInput.style.display === 'none') {
+    productDescription.style.display = 'none';
+    editInput.style.display = 'block';
+    editInput.value =description;
+    console.log(description);
+    button.textContent = 'Save Description';
+  } else {
+    const newDescription = editInput.value;
+    productDescription.textContent = newDescription;
+    productDescription.style.display = 'block';
+    editInput.style.display = 'none';
+    button.textContent = 'Edit Description';
+    
+    const productId = button.getAttribute('data-product-id'); // Get the productId from the button's data attribute
+    UpdateInDataBase(productId, name, price, id, category, newDescription, image, isShow);
+
+}
+}
+
+
+  function editProductPrice(button, name, price, id, category, description, image, isShow) 
+{
+  const productDiv = button.closest('.product');
+  const productPrice = productDiv.querySelector('.product-price');
+  const editInput = productDiv.querySelector('.edit-product-price');
+  
+  if (editInput.style.display === 'none') {
+    productPrice.style.display = 'none';
+    editInput.style.display = 'block';
+    editInput.value =price;
+    console.log(price);
+    button.textContent = 'Save Price';
+  } else {
+    const newPrice = editInput.value;
+    productPrice.textContent = "price: "+newPrice+"$";
+    productPrice.style.display = 'block';
+    editInput.style.display = 'none';
+    button.textContent = 'Edit Price';
+    
+    const productId = button.getAttribute('data-product-id'); // Get the productId from the button's data attribute
+    UpdateInDataBase(productId, name, newPrice, id, category, description, image, isShow);
+
+}
+}
+
+
+
+
+
+
+  function editProductName(button, name, price, id, category, description, image, isShow)
+{
+  const productDiv = button.closest('.product');
+  const productName = productDiv.querySelector('.product-name');
+  const editInput = productDiv.querySelector('.edit-product-name');
+  
+  if (editInput.style.display === 'none') {
+    productName.style.display = 'none';
+    editInput.style.display = 'block';
+    editInput.value =name;
+    console.log(name);
+    button.textContent = 'Save Name';
+  } else {
+    const newName = editInput.value;
+    productName.textContent = newName;
+    productName.style.display = 'block';
+    editInput.style.display = 'none';
+    button.textContent = 'Edit Name';
+    
+    const productId = button.getAttribute('data-product-id'); // Get the productId from the button's data attribute
+    UpdateInDataBase(productId,newName, price, id, category, description, image, isShow);
+  }
+}
+
+
+function UpdateInDataBase(productId, name, price, id, category, description, image, isShow)
+{
+
+  const updateData={
+    _id:id,
+    name:name,
+    price:price,
+    category:category,
+    description:description,
+    image:image,
+    isShow:isShow,
+  };
+
+  $.ajax({
+    url: `http://localhost:3000/api/products/${productId}`,
+    method: 'PUT',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(updateData)
+
+  });
+}
+
+
 
 function removefromdatabase(id)
 {
@@ -177,7 +295,8 @@ function removefromdatabase(id)
 
 
 
-function addProductMenu(name, price, id, category,description, image) {
+function addProductMenu(name, price, id, category,description, image) 
+{
   // Prepare the data for the order
     const productData = {
     _id:id,
@@ -208,7 +327,10 @@ function addProductMenu(name, price, id, category,description, image) {
     facebookfuncadd(productData.name)
 
 }
-function removeProductMenu(name, price, id, category,description, image,isShow) {
+
+
+function removeProductMenu(name, price, id, category,description, image,isShow) 
+{
   // Prepare the data for the order
   console.log(isShow);
  
@@ -244,7 +366,8 @@ function removeProductMenu(name, price, id, category,description, image,isShow) 
 
 // to check if you have products in your items if not its not make sence that you have the power to do order
 
-function itmesIsExist(){
+function itmesIsExist()
+{
   if(items.length==0)
   {
     alert("you have to choose products for do a order");
@@ -256,7 +379,8 @@ function itmesIsExist(){
 }
 
 
-function fetchqueryProducts() {
+function fetchqueryProducts() 
+{
     const name = $('#name').val();
     const category = $('#category').val();
     const price = $('#price').val();
@@ -288,22 +412,27 @@ function fetchqueryProducts() {
     }
 
   }
-  $('.filter-btn').click(function () {
+
+
+  $('.filter-btn').click(function () 
+  {
     $('.category-buttons').toggle();
     $('.product').show();
   });
 
-  $('.category-btn').click(function () {
+  $('.category-btn').click(function ()
+  {
     const selectedCategory = $(this).data('category');
     $('.product').hide();
     $(`.product.${selectedCategory}`).show();
   });
     // Fetch the product data when the page loads
-    $(document).ready(function () {
+  $(document).ready(function () 
+  {
     console.log('insert to function');
     fetchProducts();
 
-    });
+  });
 
     
   

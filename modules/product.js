@@ -23,6 +23,10 @@ const Product= new Schema({
     },
     webServiceId: {
         type: String
+    },
+    fat:{
+        type:Number,
+        default:0
     }
 
 });

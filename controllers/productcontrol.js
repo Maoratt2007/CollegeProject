@@ -1,21 +1,23 @@
+const { rawListeners } = require('../modules/product');
 const productService= require('../services/productservice');
 
 const creatProduct=async(req,res)=>{
 
-    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow,req.body.webServiceId);
+    const new_pro= await productService.creatProduct(req.body.name, req.body.price, req.body.category, req.body.description ,req.body.image,req.body.isShow,req.body.webServiceId,req.body.fat);
     res.json(new_pro);
 }
 
 const getProducts=async(req,res)=> {
     let arr_pro;
+    
     if(req.query.isShow)
     {
         arr_pro=await productService.getProductShow(req.query.isShow);
         //filter
         
-        if((req.query.category)&&(req.query.name)&&(req.query.price))
+        if((req.query.category)||(req.query.name)||(req.query.price))
         {
-          arr_pro=await productService.getProductncp(req.query.name, req.query.category, req.query.price,req.query.isShow)
+          arr_pro=await productService.getFilterOrder(req.query.category, req.query.price, req.query.fat,req.query.isShow)
           if(arr_pro.length==0)
           {
             return res.status(404).json({errors:['pro was not found']})

@@ -1,6 +1,6 @@
 const Product=require('../modules/product');
 
-const creatProduct=async (name,price,category,description,image,isShow,webServiceId)=>{
+const creatProduct=async (name,price,category,description,image,isShow,webServiceId,fat)=>{
     const product=new Product({
         name:name,
         price:price,
@@ -8,6 +8,7 @@ const creatProduct=async (name,price,category,description,image,isShow,webServic
         description:description,
         image:image,
         isShow:isShow,
+        fat:fat
     });
     if (product.webServiceId) {
         product.webServiceId = webServiceId;
@@ -23,7 +24,7 @@ const getProducts= async()=>{
     return Product.find({});
 }
 
-const updateProduct=async(_id,name,price,category,description,image,isShow,webServiceId)=>{
+const updateProduct=async(_id,name,price,category,description,image,isShow,webServiceId,fat)=>{
     const product=await findProductById(_id);
     if(!product)
     {
@@ -42,6 +43,7 @@ const updateProduct=async(_id,name,price,category,description,image,isShow,webSe
     if (product.webServiceId) {
         product.webServiceId = webServiceId;
     }
+    product.fat=fat;
     return await product.save();
 }
 
@@ -55,28 +57,32 @@ const deleteProduct=async(_id)=>{
     return await product.deleteOne();
 }
 
-const getProductncp= async(name, category, price,isShow)=>{
-    if(!name)
-    {
-        return null;
+const getFilterOrder = async (category, price,fat,isShow ) => {
+    const filters = {};
+  filters.isShow=isShow;
+    if (category) {
+        filters.category =category;
     }
-    if(!category)
-    {
-        return null;
-    }
-    if(!price)
-    {
-        return null;
-    }
-    
+    if (price) {
+      filters.price = { $lte: price };
 
-    const pro=await Product.find({name, category, price,isShow});
-    return pro;
-    
-}
+    }
+    if (fat) {
+        filters.fat =fat;
+    }
+  
+    try {
+      const orders = await Product.find(filters);
+      return orders;
+    } catch (error) {
+      throw Error(`No Product match the criteria`);
+    }
+  };
+
 const getProductShow= async(isShow)=>{
     return await Product.find({isShow});
 }
+
 
 module.exports={
     creatProduct,
@@ -84,6 +90,6 @@ module.exports={
     getProducts,
     updateProduct,
     deleteProduct,
-    getProductncp,
-    getProductShow
+    getProductShow,
+    getFilterOrder
 }
