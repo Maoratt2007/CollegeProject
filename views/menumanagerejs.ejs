@@ -65,28 +65,48 @@
   const productListContainer = $('#productList');
   var already_in_menu=0;
 
-
-  function groupByProduct() {
+  function facebookfuncadd(name)
+{
+    const whatToPost = `We added ${name} to the menu`;
+    const pageId = "113483408515771";
+    const faceBookToken = "EAALthlaxhSoBOxjSgaek7gzY3CghpCTDLgaZAPhRQUzbyy2u7PoA4Ytj8FBG4tGmRfmqALLomw5ZBOAWgsZBzsZA6IdKNWArgIYAy0p6dh2VQv6ZCPYxBMzR8qlLwHfk8PZCOED1SXsy9xu0nhDXCOOl2krGgfEbTINVZCQsNDMabLSObohtbgCWVqxXMMNcwKlr28l6ewZD";
     $.ajax({
-                url:`http://localhost:3000/api/order`,
-                method: "GET",
-                dataType: "json",
-                contentType: 'application/json',
-                data: {
-                    group: true,
-                    meals: true
-                },
-                success: function(data) {
-                  renderProducts(data);
+        url: `https://graph.facebook.com/${pageId}/feed`,
+        method: "POST",
+        data: {
+          message: whatToPost,
+          access_token: faceBookToken
+        },
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
+    
+  function facebookfuncremove(name)
+{
+    const whatToPost = `We removed ${name} from the menu`;
+    const pageId = "113483408515771";
+    const faceBookToken = "EAALthlaxhSoBOxjSgaek7gzY3CghpCTDLgaZAPhRQUzbyy2u7PoA4Ytj8FBG4tGmRfmqALLomw5ZBOAWgsZBzsZA6IdKNWArgIYAy0p6dh2VQv6ZCPYxBMzR8qlLwHfk8PZCOED1SXsy9xu0nhDXCOOl2krGgfEbTINVZCQsNDMabLSObohtbgCWVqxXMMNcwKlr28l6ewZD";
+    $.ajax({
+        url: `https://graph.facebook.com/${pageId}/feed`,
+        method: "POST",
+        data: {
+          message: whatToPost,
+          access_token: faceBookToken
+        },
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
 
-                  
-                },
-                error: function(error) {
-                    console.error("Error saving data:", error);
-                }
-            });
-
-  }
 
   
   // Function to fetch and render product data
@@ -130,12 +150,32 @@
           ${product.description}
           <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to menu</button>
           <button class="order-btn" onclick='removeProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Remove from menu</button>
+          <button class="order-btn" onclick='removefromdatabase("${id}")'">Remove from database</button>
         </div>
       `;
 
       productListContainer.append(productElement);
     });
   }
+
+function removefromdatabase(id)
+{
+  $.ajax({
+      url: `http://localhost:3000/api/products/${id}`,
+      method: 'DELETE',
+      dataType: 'json',
+      success: function(response) {
+            console.log("Product removed from database successfully", response);
+        },
+        error: function(error) {
+            console.error("Error removing product from database ", error);
+        }
+
+  });
+
+}
+
+
 
 function addProductMenu(name, price, id, category,description, image) {
   // Prepare the data for the order
@@ -164,6 +204,8 @@ function addProductMenu(name, price, id, category,description, image) {
         alert(`Failed to put product data, because: ${err.responseJSON.errors}`);
       }
     });
+
+    facebookfuncadd(productData.name)
 
 }
 function removeProductMenu(name, price, id, category,description, image,isShow) {
@@ -196,7 +238,7 @@ function removeProductMenu(name, price, id, category,description, image,isShow) 
       }
     });
 
-  
+    facebookfuncremove(productData.name)
 }
 
 
