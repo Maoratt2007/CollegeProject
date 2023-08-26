@@ -100,7 +100,6 @@ function closeOrderDetail() {
 }
 
   
-
 function renderOrder(user, orders) {
   const userElement = $('#usersListHistory').find(`[data-user-id="${user._id}"]`);
   const orderListHistoryContainer = userElement.find('.orderList');
@@ -118,13 +117,19 @@ function renderOrder(user, orders) {
       <div class="order">
         <h2>${order.name}</h2>
         Price: ${order.price}$
-        <button onclick='renderItems(${JSON.stringify(order.items)})'>details about order</button>
-        <button onclick="closeDetail()">close the details</button>
+        <button class="details-button" data-order='${JSON.stringify(order)}'>details about order</button>
+        <div class="order-details" style="display: none;"></div>
       </div>
     `;
     orderListHistoryContainer.append(orderElement);
   });
   orderListHistoryContainer.show();
+
+  // Event listener for the "details about order" button
+  orderListHistoryContainer.find('.details-button').click(function() {
+    const order = JSON.parse($(this).attr('data-order'));
+    renderItems(order.items, $(this).next('.order-details'));
+  });
 }
 
 
@@ -135,15 +140,12 @@ function renderOrder(user, orders) {
   }
 
   
-  function renderItems(items)
-  {
-    const itemsListHistoryContainer = $('#itemsListHistory');
-    itemsListHistoryContainer.show();
-    itemsListHistoryContainer.empty(); // Clear existing products
+  function renderItems(items, container) {
+  container.show();
+  container.empty(); // Clear existing products
 
-    // Loop through each product and create an HTML element to display it
-    items.forEach(function (item) {
-      
+  // Loop through each product and create an HTML element to display it
+  items.forEach(function (item) {
     $.ajax({
       url: `http://localhost:3000/api/products/${item}`,
       method: 'GET',
@@ -155,22 +157,23 @@ function renderOrder(user, orders) {
         console.log(data.image);
 
         const itemElement = `
-        <div class="historyProduct">
-        <h2>${data.name}</h2>
-        Price: ${data.price}$
-        <p> <img src="${data.image}" alt="${data.name}" width="100"></p>
-      </div>
-      `;
-      itemsListHistoryContainer.append(itemElement);  
+          <div class="historyProduct">
+            <h2>${data.name}</h2>
+            Price: ${data.price}$
+            <p> <img src="${data.image}" alt="${data.name}" width="100"></p>
+          </div>
+        `;
+        container.append(itemElement);
       },
       error: function (err) {
         // Error handling in case API call fails
-        console.log(err)
+        console.log(err);
         alert('Failed to fetch render items.');
       }
-    }); 
-    })
-  }
+    });
+  });
+}
+
 
   $(document).ready(function () {
     console.log('insert to function');
