@@ -1,5 +1,3 @@
-
-
 const User = require('../modules/user')
 const crypto = require('crypto')
 const dotenv= require('dotenv');
@@ -88,7 +86,7 @@ const creatUser=async (name,email, password,manager)=>{
         name:name,
         email:email,
         password:password,
-        manager:manager,
+        manager:manager
     });
     return await user.save(); 
 
@@ -124,21 +122,7 @@ const deleteUser=async(_id)=>{
     }
     return await user.deleteOne();
 }
-const getUsernem= async(name, email, manager)=>{
-    if(!name)
-    {
-        return null;
-    }
-    if(!email)
-    {
-        return null;
-    }
 
-
-    const user=await User.find({name, email, manager});
-    return user;
-    
-}
 
 module.exports={
     creatUser,
@@ -148,6 +132,4 @@ module.exports={
     deleteUser,
     register, 
     login,
-    getUsernem
 }
-

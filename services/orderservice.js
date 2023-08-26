@@ -1,4 +1,4 @@
-const { name } = require('ejs')
+const { default: mongoose } = require('mongoose');
 const Order = require('../modules/order')
 
 
@@ -10,7 +10,7 @@ const createOrder = async (name, price, address, credit_card, items,userId) => {
         address:address,
         credit_card:credit_card,
         items:items,
-        userId:userId
+        userId:userId,
     });
     return await order.save();
 }
@@ -20,7 +20,6 @@ const createOrder = async (name, price, address, credit_card, items,userId) => {
 const findOrderById=async(_id) =>{
     return await Order.findById(_id);
 }
-
 //get all
 
 const getOrder= async()=>{
@@ -36,20 +35,25 @@ const getProductuserID= async( userId)=>{
     }
     return await Order.find({userId});
 }
-const groupByProducts = async (order) => {
-    const products = await order.aggregate([
-        { $match: { _id: order._id } },
-        { $unwind: '$products' },
-        {
-            $group: {
-                _id: '$products',
-                count: { $sum: 1 }
-            }
-        }
-    ]);
 
-    return products;
-}
+const groupOrdersByItems = async (usersgroupby) => {
+        const  ordersByItems  = [await Order.aggregate([
+        
+            { $match: { userId: {$in: usersgroupby.map(id=>mongoose.Types.ObjectId(id))}} },
+            { $group: { _id: '$userId', orderCount: { $sum: 1 } } }
+        ])]
+        const reasults=await Order.aggregate(ordersByItems);
+        
+
+        if (ordersByItems.length > 0) {
+            ordersByItems.push(ordersByItems[0]);
+        } else {
+            ordersByItems.push({ _id: userId, orderCount: 0 });
+        }
+    
+
+    return ordersByItems;
+};
 
 //update
 
@@ -78,6 +82,28 @@ const deleteOrder= async(_id)=>{
     return await order.deleteOne();
 }
 
+const getFilterOrder = async (name, price, address) => {
+    const filters = {};
+  
+    if (name) {
+        filters.name =name;
+    }
+    if (price) {
+      filters.price = { $lte: price };
+
+    }
+    if (address) {
+        filters.address =address;
+    }
+  
+    try {
+      const orders = await Order.find(filters);
+      return orders;
+    } catch (error) {
+      throw Error(`No order match the criteria`);
+    }
+  };
+
 module.exports={
     createOrder,
     findOrderById,
@@ -85,5 +111,6 @@ module.exports={
     updateOrder,
     deleteOrder,
     getProductuserID,
-    groupByProducts
+    groupOrdersByItems,
+    getFilterOrder
 }

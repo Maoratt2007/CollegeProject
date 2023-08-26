@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="historyforcostumerpage.css">
+  <link rel="stylesheet" href="menu.css">
   <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrderHistoryList</title>
@@ -21,8 +21,25 @@
 </head>
 <body>
 
-<header></header>
 <h1>Order List</h1>
+<div class="filter-buttons">
+  <label for="name-query">Name:</label>
+  <select id="name-query" name="name-query">
+    <option value="">All</option>
+  </select>
+
+  <label for="price">Price:</label>
+  <select id="price" name="price">
+    <option value="">All</option>
+    <option value="5">until $5</option>
+    <option value="25">until $25</option>
+    <option value="50">until $50</option>
+  </select>
+  <label for="address-query">Address:</label>
+  <select id="address-query" name="address-query">
+    <option value="">All</option>
+  </select>
+</div>
   
 <form id="orderHistoryForm">
     <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
@@ -43,7 +60,69 @@
   // Replace this URL with your actual API endpoint to fetch product data
   const apiEndpoint = 'http://localhost:3000/api/order';
   const userId = localStorage.getItem('userId');
+  const nameListContainer=document.getElementById('name-query');
+  const addressListContainer=document.getElementById('address-query');
+     $('#name-query').on('change', fetchqueryOrders);
+     $('#price').on('change', fetchqueryOrders);
+    $('#address-query').on('change', fetchqueryOrders);
+    function fetchqueryOrders() {
 
+        const name = $('#name-query').val();
+        const price = $('#price').val();
+        const address = $('#address-query').val();
+        
+        
+        $.ajax({
+          url: apiEndpoint,
+          method: 'GET',
+          dataType: 'json',
+          data: {
+            name:name|| undefined,
+            price: price || undefined,
+            address: address|| undefined
+              //|| help us make value with no value as undefined string like this "" consider to false
+          },
+          success: function (data) {
+            renderOrder(data);
+          },
+          error: function (err) {
+            alert(`Failed to get product data: ${err.responseJSON.errors}`);
+          }
+        });
+}
+
+  $.ajax({
+      url: apiEndpoint,
+      method: 'GET',
+      dataType: 'json',
+      data:{
+        userId:userId 
+      },
+      success: function (data) {
+        // Product data received successfully
+        data.forEach(element => {
+          //name
+          const option = document.createElement('option');
+          option.value = element.name; // Set the value attribute of the option
+          option.textContent = element.name; // Set the text content of the option
+          nameListContainer.appendChild(option); // Append the option to the select  
+         //address
+         const option2 = document.createElement('option');
+          option2.value = element.address; // Set the value attribute of the option
+          option2.textContent = element.address; // Set the text content of the option
+          addressListContainer.appendChild(option2); // Append the option to the select  
+
+
+        });
+        
+
+      },
+      error: function (err) {
+        // Error handling in case API call fails
+        console.log(err)
+        alert('Failed to fetch product data to query');
+      }
+      });
 
   
   function GetOrderesUser() {
@@ -96,12 +175,10 @@
   function closeDetail()
   {
     const itemsListHistoryContainer = $('#itemsListHistory');
-
     itemsListHistoryContainer.hide();
   }
   function renderItems(items)
   {
-
     const itemsListHistoryContainer = $('#itemsListHistory');
     itemsListHistoryContainer.show();
     itemsListHistoryContainer.empty(); // Clear existing products
@@ -136,6 +213,9 @@
     }); 
     })
   }
+
+
+  
 
   $(document).ready(function () {
     console.log('insert to function');

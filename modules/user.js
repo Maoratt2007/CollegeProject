@@ -16,7 +16,6 @@ const User = new Schema({
     manager:{
         type:Boolean
     }
-
 }); // A Order a has an array of OrderItem
 
 module.exports = mongoose.model('User', User)

@@ -1,4 +1,3 @@
-
 const userService = require('../services/userservice')
 
 const register = async(req,res)=>{
@@ -30,25 +29,13 @@ const createUser=async(req,res)=>{
 
 const getUsers=async(req,res)=>{
     let user;
-    if((req.query.email)&&(req.query.name))
-    {
-      user=await userService.getUsernem(req.query.name, req.query.email, req.query.manager)
-      if(user.length==0)
-      {
-        return res.status(404).json({errorsuser:['user query was not found']})
-      }
-    }
-    else
-    {
-        user= await userService.getUsers();
-        if(!user)
-        {
-            res.status(404).json({errors:['user was not found']})
     
-        }
+    user= await userService.getUsers();
+    if(!user)
+    {
+        res.status(404).json({errors:['user was not found']})
 
     }
-
 
     res.json(user);   
 }
@@ -113,5 +100,3 @@ module.exports={
     login
 
 }
-
-

@@ -5,7 +5,6 @@ const mongoose=require('mongoose');//sets off the mongoose
 const ProductRoute= require('./routes/productroute');//let you the actions: put delete post get
 const UserRoute= require('./routes/userroute');
 const BranchRoute= require('./routes/branchroute');
-const OrderItemRoute= require('./routes/orderItemroute');
 const OrderRoute= require('./routes/orderroute');
 const MenuRoute=require('./routes/menuroute');
 const BranchesRoute=require('./routes/branchesroute');
@@ -20,6 +19,8 @@ const menuManagaerRoute=require('./routes/menumanagerroute');
 const branchManagaerRoute=require('./routes/branchmanagerroute');
 const historyCustomer=require('./routes/historycustomerroute');
 const managerDetail=require('./routes/managerdetailroute');
+const managerGraph=require('./routes/graph');
+
 
 
 const dotenv= require('dotenv');
@@ -51,7 +52,6 @@ app.use(bodyParser.text());
 app.use('/api/products', ProductRoute);
 app.use('/api/user', UserRoute);
 app.use('/api/branch', BranchRoute);
-app.use('/api/orderitem',OrderItemRoute );
 app.use('/api/order', OrderRoute);
 app.use('/menu', MenuRoute);
 app.use('/branch', BranchesRoute);
@@ -66,64 +66,7 @@ app.use('/menumanager',menuManagaerRoute)
 app.use('/branchmanager',branchManagaerRoute)
 app.use('/historycustomer',historyCustomer)
 app.use('/managerdetail',managerDetail)
-
-
-
-
-
-
-
+app.use('/graph',managerGraph)
 
 mongodbConnect();
-
-// let index = 0
-// const movies = [
- 
-// ]
-
-// // Create
-// app.post('/save' /* Path name (can be anything) */, (req /* req is where all of the data is stored */, res) => {
-//     let movie = req.body // the form sends us data and it goes in req.body so we put the data in movie
-//     movie.id = index++ // movie index, when you want to delete something you'll have to delete it from its index so it doesnt delete many movies with the same name/year/genre
-//     movies.push(movie) // add the data as a new movie
-//     res.render("list") // returns data through res.send and makes a back link that makes you return to the main menu
-// })
-
-
-
-// // Read
-// app.get('/movies',(req, res) => {
-//     res.send(movies) // displays the movies data
-// });
-
-
-// // Delete STILL IN PROGRESS
-// app.delete('/delete',(req, res) => {
-//     const id= req.params.id;
-//     const movieToDelete= movies.find(el=> el.id===id);
-//     const index=movies.indexOf(movieToDelete);
-//     movies.splice(index,1);
-//     res.send(movies)
-// });
-// app.put('/update', (req, res) => {
-//     myData[req.body.index] = { 
-//         fname: req.body.firstName,
-//         lname: req.body.lastName,
-//         selectOption: req.body.ddlRun
-//     }
-    
-//     res.end(req.body.index);
-// });
-
-// const server= http.createServer(app, (req,res)=>{ // Creates a server and connects the "app" to it
-//     res.writeHead(200,{"Content-Type":"text/plain"});
-//     res.write("Hello World");
-//     res.end();
-// })
-
 app.listen(port);
-
-//לבדוק איך לחבר בין שתי html בjs
-//comment to check
-//comment onto abulbul
-//comment to SHUTAF

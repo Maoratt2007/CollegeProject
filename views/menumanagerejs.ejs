@@ -16,15 +16,22 @@
   
 <h1>Product List</h1>
 
-
 <div class="filter-buttons">
-  <button id="groupby" onclick="groupByProduct()">group</button>
-  <button class="filter-btn">Filter</button>
-  <div class="category-buttons">
-    <button class="category-btn" data-category="drink">Drinks</button>
-    <button class="category-btn" data-category="food">Food</button>
-    <button class="category-btn" data-category="dessert">Dessert</button>
-  </div>
+  <label for="category">Category:</label>
+  <select id="category" name="category">
+    <option value="">All</option>
+    <option value="drink">Drinks</option>
+    <option value="food">Food</option>
+    <option value="dessert">Dessert</option>
+  </select>
+
+  <label for="price">Price:</label>
+  <select id="price" name="price">
+    <option value="">All</option>
+    <option value="5">until $5</option>
+    <option value="15">until $15</option>
+    <option value="25">until $25</option>
+  </select>
 </div>
 
 <div id="order-class">
@@ -32,22 +39,6 @@
 
   </div>
 
-</div>
-
-<div class="filter-options">
-  <div class="input-box">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" required>
-  </div>
-  <div class="input-box">
-    <label for="category">Category</label>
-    <input type="category" id="category" name="category" required>
-  </div>
-  <div class="input-box">
-    <label for="price">Price</label>
-    <input id="price" name="price" required>
-  </div>
-  <button type="submit" class="btn" onclick=fetchqueryProducts()>Send</button>
 </div>
 
 <!-- Filter button and category buttons -->
@@ -63,7 +54,6 @@
   const apiEndpoint = 'http://localhost:3000/api/products';
   const orderListContainer=document.getElementById('orderList');
   const productListContainer = $('#productList');
-  var already_in_menu=0;
 
   function facebookfuncadd(name)
 {
@@ -106,6 +96,35 @@
         }
       });
     }
+
+    //query
+$('#category').on('change', fetchqueryProducts);
+$('#price').on('change', fetchqueryProducts);
+
+function fetchqueryProducts() {
+  const category = $('#category').val();
+  const price = $('#price').val();
+
+  $.ajax({
+    url: apiEndpoint,
+    method: 'GET',
+    dataType: 'json',
+    data: {
+      category: category || undefined,
+      price: price || undefined,
+      isShow: true
+      //|| help us make value with no value as undefined string like this "" consider to false
+    },
+    success: function (data) {
+      renderProducts(data);
+    },
+    error: function (err) {
+      alert(`Failed to get product data: ${err.responseJSON.errors}`);
+    }
+  });
+}
+
+
 
 
   
@@ -322,57 +341,21 @@ function itmesIsExist()
 }
 
 
-function fetchqueryProducts() 
-{
-    const name = $('#name').val();
-    const category = $('#category').val();
-    const price = $('#price').val();
-    if(!name||!category||!price)
-    {
-      alert("fill all the data")
-    }
-    else{
-      $.ajax({
-      url: apiEndpoint,
-      method: 'GET',
-      dataType: 'json',
-      data:{
-        name:name,
-        category:category,
-        price:price,
-        isShow:false
-      },
-      success: function (data) {
-        // Product data received successfully
-          renderProducts(data);
-      },
-      error: function (err) {
-        // Error handling in case API call fails
-        alert(`Failed to get product data show, because: ${err.responseJSON.errors}`);
-      }
-      });
 
-    }
-
-  }
-
-
-  $('.filter-btn').click(function () 
-  {
+  $('.filter-btn').click(function () {
     $('.category-buttons').toggle();
     $('.product').show();
   });
 
-  $('.category-btn').click(function ()
-  {
+  $('.category-btn').click(function (){
     const selectedCategory = $(this).data('category');
     $('.product').hide();
     $(`.product.${selectedCategory}`).show();
   });
+  
     // Fetch the product data when the page loads
-  $(document).ready(function () 
-  {
-    console.log('insert to function');
+  $(document).ready(function () {
+  console.log('insert to function');
     fetchProducts();
 
   });

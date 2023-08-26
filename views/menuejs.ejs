@@ -3,38 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="menu.css">
-  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png">
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu</title>
   <!-- Include jQuery library -->
   <script src="jquery.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
 </head>
 <body>
-<header></header>
-<a href="/homepage" class="fas fa-reply custom-reply-icon"></a>
+
+  
 <h1>Product List</h1>
 
+
 <div class="filter-buttons">
-  <button class="filter-btn">Filter</button>
-  <div class="category-buttons">
-    <button class="category-btn" data-category="drink">Drinks</button>
-    <button class="category-btn" data-category="food">Food</button>
-    <button class="category-btn" data-category="dessert">Dessert</button>
-</div>
-</div>
+  <label for="category">Category:</label>
+  <select id="category" name="category">
+    <option value="">All</option>
+    <option value="drink">Drinks</option>
+    <option value="food">Food</option>
+    <option value="dessert">Dessert</option>
+  </select>
 
-
+  <label for="price">Price:</label>
+  <select id="price" name="price">
+    <option value="">All</option>
+    <option value="5">until $5</option>
+    <option value="15">until $15</option>
+    <option value="25">until $25</option>
+  </select>
+  <label for="fat">Fat:</label>
+  <select id="fat" name="fat">
+    <option value="">All</option>
+    <option value="5">5 kcal</option>
+    <option value="15">10</option>
+    <option value="25">15 </option>
+  </select>
+</div>
 
 <div id="order-class">
+  <div id="orderList">
+
+  </div>
   <button onclick="itmesIsExist()">Submit And Continue</button>
-  <aside>
-    <div id="orderList"></div>
-  </aside>
+
 </div>
 
-
+<!-- Filter button and category buttons -->
+<a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
 
 <div id="productList">
   <!-- Product list will be rendered here -->
@@ -46,29 +63,41 @@
   const apiEndpoint = 'http://localhost:3000/api/products';
   const orderListContainer=document.getElementById('orderList');
   const productListContainer = $('#productList');
+  const userId = localStorage.getItem('userId');
+  const items=[];
+var total_price=0;
+//query
+// Add event listeners for category and price selection
+$('#category').on('change', fetchqueryProducts);
+$('#price').on('change', fetchqueryProducts);
+$('#fat').on('change', fetchqueryProducts);
 
 
-  function groupByProduct() {
-    $.ajax({
-                url:`http://localhost:3000/api/order`,
-                method: "GET",
-                dataType: "json",
-                contentType: 'application/json',
-                data: {
-                    group: true,
-                    meals: true
-                },
-                success: function(data) {
-                  renderProducts(data);
+function fetchqueryProducts() {
+  const category = $('#category').val();
+  const price = $('#price').val();
+  const fat = $('#fat').val();
 
-                  
-                },
-                error: function(error) {
-                    console.error("Error saving data:", error);
-                }
-            });
 
-  }
+  $.ajax({
+    url: apiEndpoint,
+    method: 'GET',
+    dataType: 'json',
+    data: {
+      category: category || undefined,
+      price: price || undefined,
+      isShow: true,
+      fat:fat|| undefined
+      //|| help us make value with no value as undefined string like this "" consider to false
+    },
+    success: function (data) {
+      renderProducts(data);
+    },
+    error: function (err) {
+      alert(`Failed to get product data: ${err.responseJSON.errors}`);
+    }
+  });
+}
 
   
   // Function to fetch and render product data
@@ -78,8 +107,8 @@
       method: 'GET',
       dataType: 'json',
       data:{
-        isShow:true
-      },
+      isShow: true
+          },
       success: function (data) {
         // Product data received successfully
         renderProducts(data);
@@ -96,6 +125,8 @@
 
   // Function to render the product data on the screen
   function renderProducts(products) {
+    productListContainer.empty(); // Clear existing products
+
     // Loop through each product and create an HTML element to display it
     products.forEach(function (product) {
       const name=product.name;
@@ -134,8 +165,7 @@
       productListContainer.append(productElement);
     });
   }
-const items=[];
-var total_price=0;
+
 function addOrderProduct(name, price, id, category,description, image,isShow) {
     const orderListContainer = $('#orderList');
   // Prepare the data for the order
@@ -153,16 +183,12 @@ function addOrderProduct(name, price, id, category,description, image,isShow) {
   // Send a POST request to the server's API endpoint for order creation
 
   const OrderProductElement = `
-  <div class="productOrder">
-    <h2>${productData.name}</h2>
-    <h2>${productData.price}$</h2>
-    <br><img src="${productData.image}" alt="${productData.name}" width="100"></br>
-    <button class="removeProductOrder">
-      <a class="fas fa-trash custom-trash-icon" onclick='removeOrderProduct("${productData._id}")'></a>
-    </button>
-  </div>
-`;
-
+    <div class="productOrder">
+      <h2>Name: "${productData.name}"</h2>
+      Price: "${productData.price}"$
+      <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
+    </div>
+  `;
   items.push(productData._id);
   console.log(productData._id)
   orderListContainer.append(OrderProductElement);
@@ -224,42 +250,6 @@ function itmesIsExist(){
   }
 }
 
-
-function fetchqueryProducts() {
-    const name = $('#name').val();
-    const category = $('#category').val();
-    const price = $('#price').val();
-    if(!name||!category||!price)
-    {
-      alert("fill all the data");
-    }
-    else
-    {
-      $.ajax({
-      url: apiEndpoint,
-      method: 'GET',
-      dataType: 'json',
-      data:{
-        name:name,
-        category:category,
-        price:price,
-        isShow:true
-      },
-      success: function (data) {
-        console.log(data.isShow);
-        // Product data received successfully
-          renderProducts(data);
-      },
-      error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert(`Failed to get product data show, because: ${err.responseJSON.errors}`);
-      }
-      });
-
-    }
-
-  }
   $('.filter-btn').click(function () {
     $('.category-buttons').toggle();
     $('.product').show();
@@ -280,3 +270,5 @@ function fetchqueryProducts() {
     
   
 </script>
+</body>
+</html>
