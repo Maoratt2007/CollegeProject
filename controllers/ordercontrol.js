@@ -5,42 +5,32 @@ const createOrder = async(req,res)=>{
     res.json(new_order);
 }
 
-const getOrder = async(req,res)=>{
+const getOrder = async (req, res) => {
     let arr_Order;
-    if((req.query.userId))
-    {
-      arr_Order=await OrderService.getProductuserID(req.query.userId)
-    }
-    else{
-        arr_Order= await OrderService.getOrder();
-    }
-    if(!arr_Order)
-    {
-        res.status(404).json({errors:['Order was not found']})
 
+    if (req.query.group) {
+        arr_Order = await OrderService.groupOrdersByItems(req.query.usersgroupby);
+    } else if (req.query.userId) {
+        arr_Order = await OrderService.getProductuserID(req.query.userId);
+    } else if (req.query.price || req.query.address || req.query.name) {
+        arr_Order = await OrderService.getFilterOrder(req.query.name, req.query.price, req.query.address);
+    } else {
+        arr_Order = await OrderService.getOrder();
     }
-    res.json(arr_Order);   
 
-    
+    if (!arr_Order) {
+        res.status(404).json({ errors: ['Order was not found'] });
+    }
+
+    res.json(arr_Order);
 }
+
 
 const getOrderById=async(req,res)=>{
     const order= await OrderService.findOrderById(req.params.id);
     if(!order)
     {
         res.status(404).json({errors:['order(2) was not found']})
-    }
-    if (req.query.group) {
-        if(req.query.items) {
-            const products = await OrderService.groupByProducts(items);
-
-            if (!products) {
-                return res.status(404).json({errors:["product's Order is not found"]});
-            }
-
-            res.json(products);
-            return;
-        }
     }
     res.json(order);
 }

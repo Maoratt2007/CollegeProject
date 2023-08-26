@@ -66,7 +66,6 @@
 
   function GetOrderesUser(user) {
   const usersListHistoryContainer = $('#usersListHistory');
-  usersListHistoryContainer.empty(); // Clear existing users
 
   const orders = $.ajax({
     url: apiEndpoint,
@@ -76,28 +75,30 @@
       userId: user._id
     },
     success: function (orders) {
-      // Product data received successfully
-      const userElement = `
+      const userElement = $(`
         <div class="user" data-user-id="${user._id}">
           <h2>${user.name}</h2>
           <button onclick='renderOrder(${JSON.stringify(user)}, ${JSON.stringify(orders)})'>all the orders</button>
-          <button onclick="closeOrderDetail()">close all the orders</button>
+          <button onclick="closeOrderDetail($(this).parent())">close all the orders</button>
         </div>
-      `;
+      `);
       usersListHistoryContainer.append(userElement);
     },
     error: function (err) {
       // Error handling in case API call fails
-      console.log(err)
+      console.log(err);
       alert('Failed to fetch order history data.');
     }
   });
 }
-function closeOrderDetail() {
-  const orderListContainers = $('.orderList');
-  orderListContainers.hide();
+
+function closeOrderDetail(userElement) {
+  const orderListContainer = userElement.find('.orderList');
+  orderListContainer.hide();
+  // Additionally, you can hide the items detail container here if needed
   closeDetail();
 }
+
 
   
 function renderOrder(user, orders) {
