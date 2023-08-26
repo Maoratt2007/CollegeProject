@@ -27,17 +27,9 @@
 </form>
 
 
-</div>
-
-<div id="usersListHistory">
-
-</div>
-<div id="orderListHistory">
-    
-</div>
-<div id="itemsListHistory">
-
-</div>
+<div id="usersListHistory"></div>
+<div id="orderListHistory"></div>
+<div id="itemsListHistory"></div>
 
 
 
@@ -50,56 +42,18 @@
   // Replace this URL with your actual API endpoint to fetch product data
 
   const apiEndpoint = 'http://localhost:3000/api/order';
-  function fetchqueryUsers() {
-    const usersListHistoryContainer = $('#usersListHistory');
-
-
-     // User data received successfully
-     console.log(data)
-     // Clear existing users
-     usersListHistoryContainer.empty()
-     // Loop through each user and create an HTML element to display their name
-     data.forEach(function (user) {
-       const orderListHistoryContainer = $('#orderListHistory');
-  rderListHistoryContainer.show();
-  rderListHistoryContainer.empty(); // Clear existing products
-  const orders= $.ajax({
-   url: apiEndpoint,
-   method: 'GET',
-   dataType: 'json',
-   data:{
-     userId:user._id
-   },
-   success: function (orders) {
-     // Product data received successfully
-  const userElement = `
-   <div class="user">
-       <h2>${user.name}</h2>
-       <button onclick='renderOrder(${JSON.stringify(orders)})'>detail about orders</button>
-       <button onclick="closeOrderDetail()">close</button
-        <button onclick="closeOrderDetail()">close</button
-     </div>
-   `;
-   usersListHistoryContainer.append(userElement);
-       },
-   error: function (err) {
-     // Error handling in case API call fails
-     console.log(err)
-     alert('Failed to fetch product data.');
-   }
-   })
-
-     });
-   }
 
   function GetUseres(){
+
     $.ajax({
       url: 'http://localhost:3000/api/user',
       method: 'GET',
       dataType: 'json',
       success: function (data) {
         // Product data received successfully
-        GetOrderesUser(data);
+        data.forEach((user)=>{
+            GetOrderesUser(user);
+        })
       },
       error: function (err) {
         // Error handling in case API call fails
@@ -109,88 +63,80 @@
       });
 
   }
-  function GetOrderesUser(users) {
-    const usersListHistoryContainer = $('#usersListHistory');
-    usersListHistoryContainer.empty(); // Clear existing products
 
-    users.forEach(function (user) {
-   const orders= $.ajax({
-      url: apiEndpoint,
-      method: 'GET',
-      dataType: 'json',
-      data:{
-        userId:user._id
-      },
-      success: function (orders) {
-        // Product data received successfully
-     const userElement = `
-      <div class="user">
+  function GetOrderesUser(user) {
+  const usersListHistoryContainer = $('#usersListHistory');
+  usersListHistoryContainer.empty(); // Clear existing users
+
+  const orders = $.ajax({
+    url: apiEndpoint,
+    method: 'GET',
+    dataType: 'json',
+    data: {
+      userId: user._id
+    },
+    success: function (orders) {
+      // Product data received successfully
+      const userElement = `
+        <div class="user" data-user-id="${user._id}">
           <h2>${user.name}</h2>
-          <button onclick='renderOrder(${JSON.stringify(orders)})'>detail about orders</button>
-          <button onclick="closeOrderDetail()">close</button>
-
+          <button onclick='renderOrder(${JSON.stringify(user)}, ${JSON.stringify(orders)})'>all the orders</button>
+          <button onclick="closeOrderDetail()">close all the orders</button>
         </div>
       `;
       usersListHistoryContainer.append(userElement);
-          },
-      error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch product data.');
-      }
-      });
-   
+    },
+    error: function (err) {
+      // Error handling in case API call fails
+      console.log(err)
+      alert('Failed to fetch order history data.');
+    }
+  });
+}
+function closeOrderDetail() {
+  const orderListContainers = $('.orderList');
+  orderListContainers.hide();
+  closeDetail();
+}
 
+  
 
-    });
-     
+function renderOrder(user, orders) {
+  const userElement = $('#usersListHistory').find(`[data-user-id="${user._id}"]`);
+  const orderListHistoryContainer = userElement.find('.orderList');
 
+  if (orderListHistoryContainer.length === 0) {
+    userElement.append(`<div class="orderList"></div>`);
+    orderListHistoryContainer = userElement.find('.orderList');
   }
 
-  // Function to render the product data on the screen
-  function renderOrder(orderes) {
-    const orderListHistoryContainer = $('#orderListHistory');
-    orderListHistoryContainer.show();
-    orderListHistoryContainer.empty(); // Clear existing products
+  orderListHistoryContainer.empty(); // Clear existing orders
 
-    // Loop through each product and create an HTML element to display it
-    orderes.forEach(function (order) {
-
-      const name=order.name;
-      const price=order.price;
-      const id=order._id;
-      const  address=order.address;
-      const credit_card=order.credit_card;
-      const  items=JSON.stringify(order.items);
-      const userId=order.userId;
-
-      const orderElement = `
+  // Loop through each order and create an HTML element to display it
+  orders.forEach(function (order) {
+    const orderElement = `
       <div class="order">
-          <h2>${order.name}</h2>
-          Price: ${order.price}$ 
-          <button onclick='renderItems(${items})'>detail</button>
-          <button onclick="closeDetail()">close</button>
+        <h2>${order.name}</h2>
+        Price: ${order.price}$
+        <button onclick='renderItems(${JSON.stringify(order.items)})'>details about order</button>
+        <button onclick="closeDetail()">close the details</button>
+      </div>
+    `;
+    orderListHistoryContainer.append(orderElement);
+  });
+  orderListHistoryContainer.show();
+}
 
-        </div>
-      `;
-      orderListHistoryContainer.append(orderElement);
-    });
-  }
+
   function closeDetail()
   {
     const itemsListHistoryContainer = $('#itemsListHistory');
-
     itemsListHistoryContainer.hide();
   }
-  function closeOrderDetail()
-  {
-    closeDetail()
-    const orderListHistoryContainer = $('#orderListHistory');
-    orderListHistoryContainer.hide();
-  }
+
+  
   function renderItems(items)
   {
-
     const itemsListHistoryContainer = $('#itemsListHistory');
     itemsListHistoryContainer.show();
     itemsListHistoryContainer.empty(); // Clear existing products
