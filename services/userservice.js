@@ -20,6 +20,13 @@ class UserAlreadyExistsException extends Error {
         super(message)
     }
 }
+
+class PasswordResetUnAuthorizedException extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 class UserDoesNotExistsException extends Error {
     constructor(message) {
         super(message)
@@ -89,6 +96,28 @@ const login = async (user) => {
 }
 
 
+
+const setPasswordResetFlag = async (email) => {
+    const user = await User.findOne({email})
+    user.passwordResetFlag = true
+    await user.save()
+}
+
+const changePassword = async (email, newPassword) => {
+    const user = await User.findOne({email:email.trim()})
+    if(!user.passwordResetFlag) 
+        throw new PasswordResetUnAuthorizedException()
+    const secret = process.env.SECRET_KEY;
+    const hashedPassword = crypto.createHmac('sha1', secret)
+                   .update(newPassword)
+                   .digest('hex');
+
+    user.password = hashedPassword
+     return await user.save()
+
+
+}
+
 //find by id 
 const findUserById= async(_id)=>{
     return await User.findById(_id);
@@ -127,5 +156,7 @@ module.exports={
     updateUser,
     deleteUser,
     register, 
-    login
+    login,
+    setPasswordResetFlag,
+    changePassword
 }

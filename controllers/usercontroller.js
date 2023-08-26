@@ -6,7 +6,6 @@ const register = async(req,res)=>{
         const token = await userService.register(req.body)
         return res.status(200).json({token})
     } catch(e) {
-        console.log(e)
         return res.status(400).json({errors:[e.message]})
     }
 }
@@ -22,6 +21,27 @@ const login = async(req,res)=>{
 }
 
 
+const setPasswordResetFlag = async (req,res) => {
+    try {
+        await userService.setPasswordResetFlag(req.body.email);
+        return res.status(200).json({message:"Successfully set reset flag"})
+    } catch(e) {
+        return res.status(400).json({errors:[e.message]})
+    }
+
+}
+
+const changePassword = async (req,res) => {
+    try {
+        req.body = JSON.parse(req.body)
+        const updatedUser = await userService.changePassword(req.body.email, req.body.newPass);
+        return res.status(200).json(updatedUser)
+    } catch(e) {
+        console.log(e)
+        return res.status(400).json({errors:[e.message]})
+    }
+}
+
 
 const createUser=async(req,res)=>{
     const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager);
@@ -31,7 +51,7 @@ const createUser=async(req,res)=>{
 const getUser = async(req,res)=>{
     const user= await userService.getUser(req.user_id);
     if(!user)
-        res.status(404).json({errors:['user was not found']})
+        return res.status(404).json({errors:['user was not found']})
     res.json(user);   
 }
 
@@ -39,7 +59,7 @@ const findUserById=async(req,res)=>{
     const user= await userService.findUserById(req.params.id);
     if(!user)
     {
-         res.status(404).json({errors:['user was not found']})
+         return res.status(404).json({errors:['user was not found']})
     }
     res.json(user);
 }
@@ -58,21 +78,21 @@ const updateUser=async(req,res)=>{
 
     if(!req.body.name)
     {
-        res.status(400).json({errors:['you dont have name to your user']});
+        return res.status(400).json({errors:['you dont have name to your user']});
     }
 
     if(!req.body.email)
     {
-        res.status(400).json({errors:['you dont have email of user']});
+        return res.status(400).json({errors:['you dont have email of user']});
     }
 
     if(!req.body.password)
     {
-        res.status(400).json({errors:['you dont have your password of user']});
+        return res.status(400).json({errors:['you dont have your password of user']});
     }
     if(!req.body.manager)
     {
-        res.status(400).json({errors:['you dont have your manager of user']});
+        return res.status(400).json({errors:['you dont have your manager of user']});
     }
 
 
@@ -92,7 +112,9 @@ module.exports={
     deleteUser,
     updateUser,
     register,
-    login
+    login,
+    setPasswordResetFlag,
+    changePassword
 
 }
 

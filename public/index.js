@@ -7,87 +7,77 @@ const btn_login = document.querySelector('.btn');
 
 const registerForm = document.querySelector("#register-form")
 const loginForm = document.querySelector("#login-form")
+const logoutBtn = document.querySelector(".logout")
 
-let token;
 let currentUser;
-const manager= false;
+const forgotPasswordButton = document.querySelector(".forgot-password")
 
+
+const saveToken = (token) => {
+    localStorage.setItem("token", token)
+}
+
+const logout = (e) => {
+    if(confirm("Are you sure you would like to log out?")) {
+        localStorage.removeItem('token')
+        alert("Logged out successfully")
+        window.location.reload()
+    }
+}
+
+
+logoutBtn.addEventListener('click',logout)
 
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const name = e.target[0].value
     const email = e.target[1].value
     const password = e.target[2].value
-    const user = {name,email,password,manager}
-
+    const user = {name,email,password,manager:false}
 
     try {
         // send the user details to the register route and get a response (May be error)
-        const response = await fetch("/api/user/register", {method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        const data = await response.json()
+        const response = await fetch("/api/user/register", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+        const { token } = await response.json()
         if (!response.ok) {
            alert(data.errors)
         }
-        const { token } = await response.json()
 
         if(token ){ 
-            localStorage.setItem("token", token)
-            console.log(token)
-            alert("Registered successfully")
+            saveToken(token)
+            getUser()
         }
 
-
-    } catch(e) {
-        alert(e.message)
-        console.log(e)
+    } catch(error) {
+        alert(error.message)
+        console.log(error)
     }
 
 
 })
 
+
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const email = e.target[0].value
     const password = e.target[1].value
-    const user = {email,password}
-
-    const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-    const data = await response.json()
-
-    if (response.ok) {
-        const { manager } = data
-
-        // if( userId ){
-        //     localStorage.setItem("userId", userId)
-        //     alert("Logged in successfully")
-        // }
-        if(manager === false)
-        {
-            window.location.href= "homepage";
-        }
-        else
-        {
-            window.location.href="homepagemanager";
-
-        }
-    } else {
-        alert(data.errors)
-    }
-
+    let user = {email ,password}
     try {
-        // send the user details to the register route and get a response (May be error)
-        const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-        const { token } = await response.json()
-
-        if( token ){ 
-            localStorage.setItem("token", token)
-            alert("Logged in successfully")
+            const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
+            const { token } = await response.json()
+            console.log("Token", token)
+            saveToken(token)
+            user = await getUser()
+            const { manager } = user
+        if(manager === false)
+            window.location.href= "homepage";
+        else
+            window.location.href="homepagemanager";
+        } catch(e) {
+            alert("could not login with these credentials.")
+            console.log(e)
         }
-
-    } catch(e) {
-        alert(e.message)
-        console.log(e)
-    }
+   
 })
 
 
@@ -160,21 +150,72 @@ iconClose.addEventListener('click', ()=> {
 // }
 
 
+const onForgotPassword = async (e) => {
 
-const getUser = () => {
-    if((token = localStorage.getItem('token')) != null) {
-        const parent = btnPopup.parentNode
-        fetch("/api/user/", {method:"GET", headers: { "Content-Type" : "application/json", "Authorization": `Bearer ${token}` }} )
+    if(confirm("Are you certain you would like to change your password?")) {
+
+        const email = prompt("Enter email address")
+        try {
+
+            const response = await fetch("/api/user/reset-pass-request", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify({email})})
+            if(!response.ok) {
+                alert("This email address is not a registered address!")
+                return
+            }
+            await window.sendEmail(email) // reset password email
+            alert("Email address has been sent to your email for activation")
+
+        } catch(error) {
+            alert("This email address is not a registered address!")
+            console.error(error)
+        } 
+
+    }
+ }
+
+forgotPasswordButton.addEventListener('click', onForgotPassword)
+
+
+
+const greet = (theUser) => {
+    const parent = btnPopup.parentNode
+    const nameTag = document.createElement('p')
+    nameTag.classList.add("nameTag")
+    nameTag.innerText = theUser.name
+    parent.appendChild(nameTag)
+}
+
+
+const showLogout = () => {
+    logoutBtn.style.display = 'flex'
+    logoutBtn.style.alignItems = 'center'
+    logoutBtn.style.justifyContent = 'center'
+    btnPopup.style.display = 'none'
+}
+
+
+const showLogin = () => {
+    logoutBtn.style.display = 'none'
+    btnPopup.style.display = 'flex'
+    btnPopup.style.alignItems = 'center'
+    btnPopup.style.justifyContent = 'center'
+}
+
+const getUser = async () => {
+    let  token = localStorage.getItem('token')
+
+    if(token) {
+       return await fetch("/api/user/", {method:"GET", headers: { "Content-Type" : "application/json", "Authorization": `Bearer ${token}` }} )
         .then(res => { 
             return res.json()
         }).then(theUser => {
-            const nameTag = document.createElement('p')
-            nameTag.classList.add("nameTag")
-            nameTag.innerText = theUser.name
-            parent.appendChild(nameTag)
             currentUser = theUser;
+            greet(currentUser)
+            showLogout()
+            return currentUser
         }).catch(e => {
             currentUser = null
+            showLogin()
             localStorage.removeItem('token')
         })
     }

@@ -14,6 +14,21 @@ router.route('/login')
 router.route('/')
     .get(isAuthenticated, UserController.getUser)
 
+router.route('/reset-pass-request')
+    .post(UserController.setPasswordResetFlag)
+  
+    
+router.route('/reset-pass')
+    .post(UserController.changePassword)
+
+
+router.route('/reset-pass-form/:email')
+.get((req,res)=>
+{
+    const email = req.params.email
+    res.render('reset_pass',{email});
+})   
+
 router.route('/testEmail')
 .post(async (req,res) => {
     const { email } = req.body
