@@ -41,51 +41,109 @@
 <script>
   // Replace this URL with your actual API endpoint to fetch product data
 
-
   function GetUserDetail() {
-    const userId = localStorage.getItem('userId')
-    const user=userId;
-    console.log(userId);
+    const userId = localStorage.getItem('userId');
     $.ajax({
       url: `http://localhost:3000/api/user/${userId}`,
       method: 'GET',
       dataType: 'json',
       success: function (data) {
-        // Product data received successfully
-        console.log(data.name)
-        renderUserDetail(data.name,data.email);
+        renderUserDetail(data._id, data.name, data.email, data.password, data.manager);
       },
       error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
+        console.log(err);
         alert('Failed to fetch user data.');
       }
-      });
+    });
   }
 
-  // Function to render the product data on the screen
-  function renderUserDetail(name,email) {
+  function renderUserDetail(id, name, email, password, manager) {
     const userDetailContainer = $('#userDetails');
-    userDetailContainer.empty(); // Clear existing products
+    userDetailContainer.empty(); // Clear existing content
     const userDetailElement = `
       <div class="userdetail">
-        <h3> Name: ${name} </h3> 
-         <h3> Email: ${email} </h3> 
-         <div>  <h3> role:Manager </h3> </div>
-        </div>
-      `;
-      userDetailContainer.append(userDetailElement);
-
-
+        <div class="user-name"> name: ${name}</div>
+        <input type="text" class="edit-user-name" value="${name}" style="display: none;">
+        <div class="user-email"> email: ${email}</div>
+        <input type="text" class="edit-user-email" value="${email}" style="display: none;">
+        <button class="user-btn" data-user-id="${id}" onclick='editUserName(this, "${name}","${email}","${id}","${password}","${manager}")'><i class="fas fa-edit"></i></button>
+        <button class="user-btn" data-user-id="${id}" onclick='editUserEmail(this, "${name}","${email}","${id}","${password}","${manager}")'><i class="fas fa-edit"></i></button>
+      </div>
+    `;
+    userDetailContainer.append(userDetailElement);
   }
+
+
+  function editUserName(button, initialName, email, id, password, manager) {
+  const userDetailContainer = $('#userDetails');
+  const userNameElement = userDetailContainer.find('.user-name');
+  const editUserNameInput = userDetailContainer.find('.edit-user-name');
+
+  if (editUserNameInput.css('display') === 'none') {
+    userNameElement.hide();
+    editUserNameInput.show();
+    editUserNameInput.val(initialName);
+    button.textContent = 'Save Name';
+  } else {
+    const newUserName = editUserNameInput.val();
+    userNameElement.text(`name: ${newUserName}`);
+    userNameElement.show();
+    editUserNameInput.hide();
+    button.innerHTML = '<i class="fas fa-edit"></i>';
+
+    // Call a function to update the user name in your database/API
+    UpdateInDataBase(id, newUserName, email, password, manager);
+  }
+}
+
+function editUserEmail(button, name, initialEmail, id, password, manager) {
+  const userDetailContainer = $('#userDetails');
+  const userEmailElement = userDetailContainer.find('.user-email');
+  const editUserEmailInput = userDetailContainer.find('.edit-user-email');
+
+  if (editUserEmailInput.css('display') === 'none') {
+    userEmailElement.hide();
+    editUserEmailInput.show();
+    editUserEmailInput.val(initialEmail);
+    button.textContent = 'Save Email';
+  } else {
+    const newUserEmail = editUserEmailInput.val();
+    userEmailElement.text(`email: ${newUserEmail}`);
+    userEmailElement.show();
+    editUserEmailInput.hide();
+    button.innerHTML = '<i class="fas fa-edit"></i>'; // Change back to the icon
+
+    // Call a function to update the user email in your database/API
+    UpdateInDataBase(id, name, newUserEmail, password, manager);
+  }
+}
+
+function UpdateInDataBase(id, name, email, password, manager) {
+    const updateData = {
+      _id: id,
+      name: name,
+      email: email,
+      password: password,
+      manager: manager
+    };
+
+    $.ajax({
+      url: `http://localhost:3000/api/user/${id}`,
+      method: 'PUT',
+      dataType: 'json',
+      contentType: 'application/json',
+      data: JSON.stringify(updateData)
+    });
+  }
+
+
 
 
 
 
   $(document).ready(function () {
-    console.log('insert to function');
     GetUserDetail();
-    });
+  });
   
 </script>
 </body>
