@@ -2,226 +2,216 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="menu.css">
-  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!-- Icon for the web page -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OrderHistoryList</title>
   <!-- Include jQuery library -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!-- Link to include Font Awesome icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!-- Bootstrap JavaScript -->
   <script
   src="https://code.jquery.com/jquery-3.7.0.js"
   integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-  crossorigin="anonymous"></script>
-
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+  crossorigin="anonymous"></script><!-- Include jQuery -->
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
   integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
   crossorigin="anonymous">
 </script>
 </head>
 <body>
 
-<h1>Order List</h1>
+<h1>Order History</h1> <!-- Heading for the page -->
 <div class="filter-buttons">
-  <label for="name-query">Name:</label>
-  <select id="name-query" name="name-query">
-    <option value="">All</option>
+  <label for="name-query">Name:</label> <!-- Label for the name filter -->
+  <select id="name-query" name="name-query"> <!-- Dropdown to filter by name -->
+    <option value="">All</option> <!-- Default option for all names -->
   </select>
 
-  <label for="price">Price:</label>
-  <select id="price" name="price">
-    <option value="">All</option>
+  <label for="price">Price:</label> <!-- Label for the price filter -->
+  <select id="price" name="price"> <!-- Dropdown to filter by price -->
+    <option value="">All</option> <!-- Default option for all prices -->
     <option value="5">until $5</option>
     <option value="25">until $25</option>
     <option value="50">until $50</option>
   </select>
-  <label for="address-query">Address:</label>
-  <select id="address-query" name="address-query">
-    <option value="">All</option>
+  <label for="address-query">Address:</label> <!-- Label for the address filter -->
+  <select id="address-query" name="address-query"> <!-- Dropdown to filter by address -->
+    <option value="">All</option> <!-- Default option for all addresses -->
   </select>
 </div>
   
 <form id="orderHistoryForm">
-    <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class --> 
+    <a href="/homepage" class="fas fa-reply custom-reply-icon"></a> <!-- "Back to homepage" link -->
 </form>
 <div id="orderListHistory">
-
 
 </div>
 <div id="itemsListHistory">
 
 </div>
 
-
 <!-- Filter button and category buttons -->
 
-
 <script>
-  // Replace this URL with your actual API endpoint to fetch product data
+  // Replace this URL with your actual API endpoint to fetch order data
   const apiEndpoint = 'http://localhost:3000/api/order';
-  const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('userId'); // Get user ID from local storage
   const nameListContainer=document.getElementById('name-query');
   const addressListContainer=document.getElementById('address-query');
-     $('#name-query').on('change', fetchqueryOrders);
-     $('#price').on('change', fetchqueryOrders);
-    $('#address-query').on('change', fetchqueryOrders);
-    function fetchqueryOrders() {
+  // Event listeners for filter changes
+  $('#name-query').on('change', fetchqueryOrders);
+  $('#price').on('change', fetchqueryOrders);
+  $('#address-query').on('change', fetchqueryOrders);
 
-        const name = $('#name-query').val();
-        const price = $('#price').val();
-        const address = $('#address-query').val();
-        
-        
-        $.ajax({
-          url: apiEndpoint,
-          method: 'GET',
-          dataType: 'json',
-          data: {
-            name:name|| undefined,
-            price: price || undefined,
-            address: address|| undefined
-              //|| help us make value with no value as undefined string like this "" consider to false
-          },
-          success: function (data) {
-            renderOrder(data);
-          },
-          error: function (err) {
-            alert(`Failed to get product data: ${err.responseJSON.errors}`);
-          }
-        });
-}
-
-  $.ajax({
+  function fetchqueryOrders() {
+    // Get filter values
+    const name = $('#name-query').val();
+    const price = $('#price').val();
+    const address = $('#address-query').val();
+    
+    // AJAX call to fetch filtered orders
+    $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
-      data:{
-        userId:userId 
+      data: {
+        name: name || undefined,
+        price: price || undefined,
+        address: address || undefined
       },
       success: function (data) {
-        // Product data received successfully
-        data.forEach(element => {
-          //name
-          const option = document.createElement('option');
-          option.value = element.name; // Set the value attribute of the option
-          option.textContent = element.name; // Set the text content of the option
-          nameListContainer.appendChild(option); // Append the option to the select  
-         //address
-         const option2 = document.createElement('option');
-          option2.value = element.address; // Set the value attribute of the option
-          option2.textContent = element.address; // Set the text content of the option
-          addressListContainer.appendChild(option2); // Append the option to the select  
-
-
-        });
-        
-
+        renderOrder(data); // Render fetched orders
       },
       error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch product data to query');
+        alert(`Failed to get order data: ${err.responseJSON.errors}`);
       }
-      });
+    });
+  }
 
-  
+  // Fetch and populate name and address filter options
+  $.ajax({
+    url: apiEndpoint,
+    method: 'GET',
+    dataType: 'json',
+    data: {
+      userId: userId
+    },
+    success: function (data) {
+      data.forEach(element => {
+        // Create options for name and address filters
+        const option = document.createElement('option');
+        option.value = element.name;
+        option.textContent = element.name;
+        nameListContainer.appendChild(option);
+
+        const option2 = document.createElement('option');
+        option2.value = element.address;
+        option2.textContent = element.address;
+        addressListContainer.appendChild(option2);
+      });
+    },
+    error: function (err) {
+      console.log(err);
+      alert('Failed to fetch order data for filtering');
+    }
+  });
+
+  // Function to fetch and render user's orders
   function GetOrderesUser() {
     $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
-      data:{
-        userId:userId 
+      data: {
+        userId: userId
       },
       success: function (data) {
-        // Product data received successfully
         renderOrder(data);
       },
       error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch product data.');
+        console.log(err);
+        alert('Failed to fetch order data.');
       }
-      });
+    });
   }
 
-  // Function to render the product data on the screen
+  // Function to render order details
   function renderOrder(orderes) {
     const orderListHistoryContainer = $('#orderListHistory');
-    orderListHistoryContainer.empty(); // Clear existing products
+    orderListHistoryContainer.empty(); // Clear existing orders
 
-    // Loop through each product and create an HTML element to display it
+    // Loop through each order and create an HTML element to display it
     orderes.forEach(function (order) {
-      const name=order.name;
-      const price=order.price;
-      const id=order._id;
-      const  address=order.address;
-      const credit_card=order.credit_card;
-      const  items=JSON.stringify(order.items);
-      const userId=order.userId;
+      // Extract order details
+      const name = order.name;
+      const price = order.price;
+      const id = order._id;
+      const address = order.address;
+      const credit_card = order.credit_card;
+      const items = JSON.stringify(order.items);
+      const userId = order.userId;
 
+      // Create an order element and append to the container
       const orderElement = `
-      <div class="order">
+        <div class="order">
           <h2>${order.name}</h2>
-          Price: ${order.price}$ 
-          <button onclick='renderItems(${items})'>detail</button>
-          <button onclick="closeDetail()">close</button>
-
+          Price: ${order.price}$
+          <button onclick='renderItems("${id}", ${items})'>detail</button>
+          <button onclick="closeDetail('${id}')">close</button>
+          <div id="itemsList_${id}"></div>
         </div>
       `;
       orderListHistoryContainer.append(orderElement);
     });
   }
-  function closeDetail()
-  {
-    const itemsListHistoryContainer = $('#itemsListHistory');
-    itemsListHistoryContainer.hide();
-  }
-  function renderItems(items)
-  {
-    const itemsListHistoryContainer = $('#itemsListHistory');
-    itemsListHistoryContainer.show();
-    itemsListHistoryContainer.empty(); // Clear existing products
 
-    // Loop through each product and create an HTML element to display it
+  // Function to close item details
+  function closeDetail(orderId) {
+    const itemsListHistoryContainer = $(`#itemsList_${orderId}`);
+    itemsListHistoryContainer.empty().hide();
+  }
+
+  // Function to render item details
+  function renderItems(orderId, items) {
+    const itemsListHistoryContainer = $(`#itemsList_${orderId}`);
+    itemsListHistoryContainer.empty().show(); // Clear and display container
+
+    // Loop through each item and fetch details
     items.forEach(function (item) {
-      
-    $.ajax({
-      url: `http://localhost:3000/api/products/${item}`,
-      method: 'GET',
-      dataType: 'json',
-      success: function (data) {
-        // Product data received successfully
-        console.log(data.name);
-        console.log(data.price);
-        console.log(data.image);
+      $.ajax({
+        url: `http://localhost:3000/api/products/${item}`,
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          // Display item details
+          console.log(data.name);
+          console.log(data.price);
+          console.log(data.image);
 
-        const itemElement = `
-        <div class="historyProduct">
-        <h2>${data.name}</h2>
-        Price: ${data.price}$
-        <p> <img src="${data.image}" alt="${data.name}" width="100"></p>
-      </div>
-      `;
-      itemsListHistoryContainer.append(itemElement);  
-      },
-      error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch render items.');
-      }
-    }); 
-    })
+          const itemElement = `
+            <div class="historyProduct">
+              <h2>${data.name}</h2>
+              Price: ${data.price}$
+              <p><img src="${data.image}" alt="${data.name}" width="100"></p>
+            </div>
+          `;
+
+          // Append item element to container
+          itemsListHistoryContainer.append(itemElement);
+        },
+        error: function (err) {
+          console.log(err);
+          alert('Failed to fetch item details.');
+        }
+      });
+    });
   }
 
-
-  
-
+  // Call the initial function when the document is ready
   $(document).ready(function () {
     console.log('insert to function');
     GetOrderesUser();
-    });
-  
+  });
 </script>
 </body>
 </html>

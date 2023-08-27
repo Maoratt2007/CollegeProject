@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose'); // Import mongoose library
 const Order = require('../modules/order')
 
 
@@ -37,23 +37,17 @@ const getProductuserID= async( userId)=>{
 }
 
 const groupOrdersByItems = async (usersgroupby) => {
-        const  ordersByItems  = [await Order.aggregate([
-        
-            { $match: { userId: {$in: usersgroupby.map(id=>mongoose.Types.ObjectId(id))}} },
-            { $group: { _id: '$userId', orderCount: { $sum: 1 } } }
-        ])]
-        const reasults=await Order.aggregate(ordersByItems);
-        
+    const array={ userId: { $in: usersgroupby.map(id => mongoose.Types.ObjectId(id)) } } ;
+    const aggregation = [
+        { $match: { userId: { $in: usersgroupby.map(id => mongoose.Types.ObjectId(id)) } } },
+        { $group: { _id: '$userId', orderCount: { $sum: 1 } } }
+    ];
 
-        if (ordersByItems.length > 0) {
-            ordersByItems.push(ordersByItems[0]);
-        } else {
-            ordersByItems.push({ _id: userId, orderCount: 0 });
-        }
-    
+    const ordersByItems = await Order.aggregate(aggregation);
 
     return ordersByItems;
 };
+
 
 //update
 

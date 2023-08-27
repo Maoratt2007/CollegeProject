@@ -43,15 +43,22 @@ const changePassword = async (req,res) => {
 
 
 const createUser=async(req,res)=>{
-    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager);
+    const new_user= await userService.creatUser(req.body.name,req.body.email,req.body.password,req.body.manager,req.body.passwordResetFlag);
     res.json(new_user);
 }
 
 const getUser = async(req,res)=>{
-    const user= await userService.getUser(req.user_id);
-    if(!user)
-        return res.status(404).json({errors:['user was not found']})
-    res.json(user);   
+
+    let user;
+
+         user=await userService.getUsers();
+        if(!user)
+        {
+            return res.status(404).json({errors:['user was not found']})
+
+        }
+    
+    res.json(user);
 }
 
 const findUserById=async(req,res)=>{
@@ -95,7 +102,7 @@ const updateUser=async(req,res)=>{
     }
 
 
-    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password);
+    const user= await userService.updateUser(req.params.id, req.body.name,req.body.email,req.body.password,req.body.manager,req.body.passwordResetFlag);
     if(!user)
     {
         return res.status(404).json({errors:['user was not found']})

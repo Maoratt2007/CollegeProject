@@ -153,44 +153,40 @@ let orderData1;
 
 
   function fetchusersDetails2() {
-    let users = []; // Define users array outside the AJAX calls
-    let  usersgroupby=[];
+    let usersgroupby = [];
 
-    $.ajax({
-        url: `http://localhost:3000/api/user`,
-        method: 'GET',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(data) {
-            users = data;
-            users.forEach(function(user) {
-                usersgroupby.push(user._id);
-            });
-            console.log(usersgroupby);
-            $.ajax({
-                    url: `http://localhost:3000/api/order`,
-                    method: 'GET',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    data: {
-                        group: true,
-                        usersgroupby:usersgroupby
-                    },
-                    success: function(data) {
-                        arr_users2 = data;
-                        const parsedData = parseData2(data);
-                        drawChart2(parsedData);
-                       
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
-        },
-        error: function(error) {
-            console.error(error);
-        }
-    });
+$.ajax({
+    url: `http://localhost:3000/api/user`,
+    method: 'GET',
+    dataType: 'json',
+    contentType: 'application/json',
+    success: function(data) {
+        usersgroupby = data.map(user => user._id);
+        console.log(usersgroupby);
+
+        $.ajax({
+            url: `http://localhost:3000/api/order`,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: {
+                group: true,
+                usersgroupby: usersgroupby
+            },
+            success: function(data) {
+                arr_users2 = data;
+                const parsedData = parseData2(data);
+                drawChart2(parsedData);
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    },
+    error: function(error) {
+        console.error(error);
+    }
+});
 
 
 }

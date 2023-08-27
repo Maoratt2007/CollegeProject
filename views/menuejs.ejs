@@ -137,6 +137,7 @@ function fetchqueryProducts() {
       const image=product.image;
       const isShow=product.isShow;
       const webServiceId=product.webServiceId;
+      const fat=product.fat;
 
 
       
@@ -147,7 +148,7 @@ function fetchqueryProducts() {
                 <p> <img src="${product.image}" alt="${product.name}" width="100"></p>
                 ${product.description}
                 <div class="calories"></div>
-                <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Add to order</button>
+                <button class="order-btn" onclick='addOrderProduct("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}","${webServiceId}","${fat}")'">Add to order</button>
             </div>
         `);
       if (webServiceId) {
@@ -166,7 +167,7 @@ function fetchqueryProducts() {
     });
   }
 
-function addOrderProduct(name, price, id, category,description, image,isShow) {
+function addOrderProduct(name, price, id, category,description, image,isShow,webServiceId,fat) {
     const orderListContainer = $('#orderList');
   // Prepare the data for the order
   const productData = {
@@ -176,19 +177,23 @@ function addOrderProduct(name, price, id, category,description, image,isShow) {
     category:category,
     description:description, 
     image:image,
-    isShow:isShow
+    isShow:isShow,
+    webServiceId:webServiceId,
+    fat:fat
     // Add other data fields as needed
   };
 
   // Send a POST request to the server's API endpoint for order creation
 
   const OrderProductElement = `
-    <div class="productOrder">
-      <h2>Name: "${productData.name}"</h2>
-      Price: "${productData.price}"$
-      <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
-    </div>
+  <div class="productOrder">
+    <h2>Name: "${productData.name}"</h2>
+    Price: "${productData.price}"$
+    <img src="${productData.image}" alt="${productData.name}" width="100">
+    <button class="removeProductOrder"> <a class="fas fa-trash" onclick='removeOrderProduct("${productData._id}")'></a></button>
+  </div>
   `;
+  
   items.push(productData._id);
   console.log(productData._id)
   orderListContainer.append(OrderProductElement);

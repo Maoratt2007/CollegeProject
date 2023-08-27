@@ -29,7 +29,7 @@
   <select id="price" name="price">
     <option value="">All</option>
     <option value="5">until $5</option>
-    <option value="15">until $15</option>
+    <option value="20">until $20</option>
     <option value="25">until $25</option>
   </select>
 </div>
@@ -112,10 +112,10 @@ function fetchqueryProducts() {
     data: {
       category: category || undefined,
       price: price || undefined,
-      isShow: true
-      //|| help us make value with no value as undefined string like this "" consider to false
+      isShow: true,
     },
     success: function (data) {
+      console.log(data)
       renderProducts(data);
     },
     error: function (err) {
@@ -123,6 +123,7 @@ function fetchqueryProducts() {
     }
   });
 }
+
 
 
 
@@ -150,6 +151,7 @@ function fetchqueryProducts() {
 
   // Function to render the product data on the screen
   function renderProducts(products) {
+    productListContainer.empty();
     // Loop through each product and create an HTML element to display it
     products.forEach(function (product) {
       const name=product.name;
@@ -159,6 +161,8 @@ function fetchqueryProducts() {
       const description=product.description;
       const image=product.image;
       const isShow=product.isShow;
+      const webServiceId=product.webServiceId;
+      const fat=product.fat;
 
       
       const productElement = `
@@ -167,7 +171,7 @@ function fetchqueryProducts() {
         
           <div class="product-price"> price: ${product.price}$</div>
           <input type="text" class="edit-product-price" value="${product.price}" style="display: none;">
-          <button class="order-btn" data-product-id="${id}" onclick='editProductPrice(this, "${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'> <i class="fas fa-edit"></i></button>
+          <button class="order-btn" data-product-id="${id}" onclick='editProductPrice(this, "${name}","${price}","${id}","${category}","${description}","${image}","${isShow}","${webServiceId}","${fat}")'> <i class="fas fa-edit"></i></button>
 
           <div class="product-description"> ${product.description}</div>
         
@@ -187,7 +191,7 @@ function fetchqueryProducts() {
 
 
 
-  function editProductPrice(button, name, price, id, category, description, image, isShow) 
+  function editProductPrice(button, name, price, id, category, description, image, isShow,webServiceId, fat) 
 {
   const productDiv = button.closest('.product');
   const productPrice = productDiv.querySelector('.product-price');

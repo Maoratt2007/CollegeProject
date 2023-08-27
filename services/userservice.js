@@ -46,7 +46,7 @@ const register = async (userDetails) => {
 
     const email = userDetails.email
 
-    const userExists = await User.findOne({email})
+    const userExists = await User.find({email})
 
     if(userExists) {
         throw new UserAlreadyExistsException("A user with this email already exists")
@@ -61,7 +61,7 @@ const register = async (userDetails) => {
     const token = sign({user_id:newUser._id},secret, {expiresIn:'3h'})
 
     
-    return token
+    return token;
 }
 
 
@@ -120,12 +120,21 @@ const changePassword = async (email, newPassword) => {
 const findUserById= async(_id)=>{
     return await User.findById(_id);
 }
-//get all
-const getUser= async (id)=>{
-    return await User.findById(id);
+//add category for method post
+const creatUser=async (name,email, password,manager,passwordResetFlag)=>{
+    const user =new User({
+        name:name,
+        email:email,
+        password:password,
+        manager:manager,
+        passwordResetFlag:passwordResetFlag
+    });
+    return await user.save(); 
+
 }
+
 //update
-const updateUser=async(_id,name,email, password,manager)=>{
+const updateUser=async(_id,name,email, password,manager,passwordResetFlag)=>{
     const user=await findUserById(_id);
     if(!user)
     {
@@ -135,6 +144,7 @@ const updateUser=async(_id,name,email, password,manager)=>{
     user.email=email;
     user.password=password;
     user.manager= manager;
+    user.passwordResetFlag=passwordResetFlag;
 
     return await user.save();
 }
@@ -147,14 +157,19 @@ const deleteUser=async(_id)=>{
     }
     return await user.deleteOne();
 }
+//get all
+const getUsers= async()=>{
+    return await User.find({});
+}
 
 module.exports={
+    getUsers,
     findUserById,
-    getUser,
     updateUser,
     deleteUser,
     register, 
     login,
     setPasswordResetFlag,
-    changePassword
+    changePassword,
+    creatUser
 }

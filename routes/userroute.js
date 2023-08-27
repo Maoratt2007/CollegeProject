@@ -12,7 +12,8 @@ router.route('/login')
     .post(UserController.login)
 
 router.route('/')
-    .get(isAuthenticated, UserController.getUser)
+    .get(UserController.getUser)
+    .post(UserController.createUser)
 
 router.route('/reset-pass-request')
     .post(UserController.setPasswordResetFlag)

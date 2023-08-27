@@ -6,8 +6,7 @@
   "price": 17,
   "category": "food",
   "image": "assets/pizza 1.jpg",
-  "description": "tomato sauce, fresh mozzarella chesse",
-  "isShow": "true"
+  "description": "tomato sauce, fresh mozzarella chesse"
 },
 {
   "_id": {
@@ -17,8 +16,7 @@
   "price": 20,
   "category": "food",
   "image": "assets/pizza 2.jpg",
-  "description": "tomato sauce, fresh mozzarella chesse, ortiz anchovies and kalamata olives",
-  "isShow": "true"
+  "description": "tomato sauce, fresh mozzarella chesse, ortiz anchovies and kalamata olives"
 },
 {
   "_id": {
@@ -28,8 +26,7 @@
   "price": 20,
   "category": "food",
   "image": "assets/pizza 3.jpg",
-  "description": "tomato sauce, fresh mozzarella chesse, confit garlic and basil",
-  "isShow": "true"
+  "description": "tomato sauce, fresh mozzarella chesse, confit garlic and basil"
 },
 {
   "_id": {
@@ -39,8 +36,7 @@
   "price": 20,
   "category": "food",
   "image": "assets/pizza 4.avif",
-  "description": "cream sauce, fresh mozzarella, sheep feta, gorgonzola, walnuts and spinach leaves",
-  "isShow": "true"
+  "description": "cream sauce, fresh mozzarella, sheep feta, gorgonzola, walnuts and spinach leaves"
 },
 {
   "_id": {
@@ -50,9 +46,7 @@
   "price": 25,
   "category": "food",
   "description": "cream sauce, fresh mozzarella, goat cheese, dried tomatoes, green onions",
-  "image": "assets/pizza 5.avif",
-  "isShow": "true"
-
+  "image": "assets/pizza 5.avif"
 },
 {
   "_id": {
@@ -62,8 +56,7 @@
   "price": 25,
   "category": "food",
   "description": "Spicy curry sauce contains walnuts, fresh mozzarella, sweet potatoes, mushrooms and green onions",
-  "image": "assets/pizza 6.avif",
-  "isShow": "true"
+  "image": "assets/pizza 6.avif"
 },
 {
   "_id": {
@@ -73,8 +66,7 @@
   "price": 25,
   "category": "food",
   "description": "Tomato sauce, fresh mozzarella, artichoke, arugula, balsamic cream and parmesan",
-  "image": "assets/pizza 7.avif",
-  "isShow": "true"
+  "image": "assets/pizza 7.avif"
 },
 {
   "_id": {
@@ -84,8 +76,7 @@
   "price": 25,
   "category": "food",
   "description": "Tomato sauce, fresh mozzarella, red onions, green onions and onion jam;",
-  "image": "assets/pizza 8.avif",
-  "isShow": "true"
+  "image": "assets/pizza 8.avif"
 },
 {
   "_id": {
@@ -95,8 +86,7 @@
   "price": 25,
   "category": "food",
   "description": "Polenta cream, fresh mozzarella, mushrooms, truffle oil and parsley",
-  "image": "assets/pizza 9.avif",
-  "isShow": "true"
+  "image": "assets/pizza 9.avif"
 },
 {
   "_id": {
@@ -106,8 +96,7 @@
   "price": 25,
   "category": "food",
   "description": "Pesto sauce contains walnuts, fresh mozzarella, dried tomatoes, sheep feta, walnuts and arugula",
-  "image": "assets/pizza 10.avif",
-  "isShow": "true"
+  "image": "assets/pizza 10.avif"
 },
 {
   "_id": {
@@ -117,8 +106,7 @@
   "price": 25,
   "category": "food",
   "description": "Beet cream, mozzarella, feta, spinach leaves, balsamic cream and roasted almonds",
-  "image": "assets/pizza 11.avif",
-  "isShow": "true"
+  "image": "assets/pizza 11.avif"
 },
 {
   "_id": {
@@ -128,8 +116,7 @@
   "price": 13,
   "category": "dessert",
   "description": "Pizza dough with Nutella and milk jam",
-  "image": "assets/dessert 2.avif",
-  "isShow": "true"
+  "image": "assets/dessert 2.avif"
 },
 {
   "_id": {
@@ -139,8 +126,7 @@
   "price": 15,
   "category": "dessert",
   "description": "Knafeh pizza with kadaif hairs in butter, chopped pistachios, white chocolate and pistachio paste",
-  "image": "assets/dessert 3.avif",
-  "isShow": "true"
+  "image": "assets/dessert 3.avif"
 },
 {
   "_id": {
@@ -150,8 +136,7 @@
   "price": 15,
   "category": "dessert",
   "description": "Fudge Pizza with white chocolate",
-  "image": "assets/dessert 4.avif",
-  "isShow": "true"
+  "image": "assets/dessert 4.avif"
 },
 {
   "_id": {
@@ -161,8 +146,7 @@
   "price": 5,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 1.avif",
-  "isShow": "true"
+  "image": "assets/drink 1.avif"
 },
 {
   "_id": {
@@ -172,8 +156,7 @@
   "price": 5,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 2.avif",
-  "isShow": "true"
+  "image": "assets/drink 2.avif"
 },
 {
   "_id": {
@@ -183,8 +166,7 @@
   "price": 3,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 3.avif",
-  "isShow": "true"
+  "image": "assets/drink 3.avif"
 },
 {
   "_id": {
@@ -194,8 +176,7 @@
   "price": 3,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 4.avif",
-  "isShow": "true"
+  "image": "assets/drink 4.avif"
 },
 {
   "_id": {
@@ -205,8 +186,7 @@
   "price": 4,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 5.avif",
-  "isShow": "true"
+  "image": "assets/drink 5.avif"
 },
 {
   "_id": {
@@ -216,8 +196,7 @@
   "price": 3,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 6.avif",
-  "isShow": "true"
+  "image": "assets/drink 6.avif"
 },
 {
   "_id": {
@@ -227,8 +206,7 @@
   "price": 3,
   "category": "drink",
   "description": "0,33",
-  "image": "assets/drink 7.avif",
-  "isShow": "true"
+  "image": "assets/drink 7.avif"
 },
 {
   "_id": {
@@ -238,8 +216,7 @@
   "price": 4,
   "category": "drink",
   "description": "0,5",
-  "image": "assets/drink 8.avif",
-  "isShow": "true"
+  "image": "assets/drink 8.avif"
 },
 {
   "_id": {
@@ -249,8 +226,7 @@
   "price": 3,
   "category": "drink",
   "description": "0,5",
-  "image": "assets/drink 9.avif",
-  "isShow": "true"
+  "image": "assets/drink 9.avif"
 },
 {
   "_id": {
@@ -260,6 +236,5 @@
   "price": 9,
   "category": "dessert",
   "description": "Hot dough sticks with white chocolate, nutella, milk jam and pistachio sauce",
-  "image": "assets/dessert 1.avif",
-  "isShow": "true"
+  "image": "assets/dessert 1.avif"
 }]

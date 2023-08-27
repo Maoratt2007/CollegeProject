@@ -23,7 +23,7 @@ const getOrder = async (req, res) => {
     }
 
     res.json(arr_Order);
-}
+};
 
 
 const getOrderById=async(req,res)=>{
