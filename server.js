@@ -9,7 +9,6 @@ const OrderRoute= require('./routes/orderroute');
 const MenuRoute=require('./routes/menuroute');
 const BranchesRoute=require('./routes/branchesroute');
 const AboutRoute=require('./routes/aboutroute');
-const ContactRoute=require('./routes/contactroute');
 const orderMenuRoute=require('./routes/ordermenuroute')
 const HistoryOrderRoute=require('./routes/historyorderroute');
 const userDetailRoute=require('./routes/userDetailRoute');
@@ -20,6 +19,7 @@ const branchManagaerRoute=require('./routes/branchmanagerroute');
 const historyCustomer=require('./routes/historycustomerroute');
 const managerDetail=require('./routes/managerdetailroute');
 const managerGraph=require('./routes/graph');
+const chatRoute=require('./routes/chat');
 
 
 
@@ -56,7 +56,6 @@ app.use('/api/order', OrderRoute);
 app.use('/menu', MenuRoute);
 app.use('/branch', BranchesRoute);
 app.use('/about', AboutRoute);
-app.use('/contact', ContactRoute);
 app.use('/order',orderMenuRoute);
 app.use('/historyorder',HistoryOrderRoute)
 app.use('/userdetail',userDetailRoute)
@@ -67,6 +66,7 @@ app.use('/branchmanager',branchManagaerRoute)
 app.use('/historycustomer',historyCustomer)
 app.use('/managerdetail',managerDetail)
 app.use('/graph',managerGraph)
+app.use('/chat',chatRoute)
 
 mongodbConnect();
 app.listen(port);

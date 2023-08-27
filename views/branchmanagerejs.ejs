@@ -57,7 +57,9 @@
       const phoneNumber=branch.phoneNumber;
       const activityTime=branch.activityTime;
       const manager=branch.manager;
-      const  is_show_branch=branch.is_show_branch;
+      const is_show_branch=branch.is_show_branch;
+      const lng=branch.lng;
+      const lat= branch.lat;
 
       const branchElement = `
                     <div class="branch">
@@ -67,8 +69,8 @@
                           location_on
                         </span>
                         <h2>${branch.name}</h2>
-                        <button class="branch-btn" onclick='addBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}")'">Add to Branches </button>
-                        <button class="branch-btn" onclick='removeBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}")'">Remove from Branches </button>
+                        <button class="branch-btn" onclick='addBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}", "${lng}", "${lat}")'">Add to Branches </button>
+                        <button class="branch-btn" onclick='removeBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}", "${lng}", "${lat}")'">Remove from Branches </button>
                         <div class="more" onclick="open_branch('${branch._id}',this)">
                           <span class="material-symbols-outlined">
                             expand_more
@@ -95,7 +97,7 @@
       branchListContainer.append(branchElement);
     });
   }
-  function addBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
+  function addBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch, lng, lat) {
   // Prepare the data for the order
   console.log(is_show_branch);
 
@@ -106,7 +108,9 @@
     phoneNumber:phoneNumber,
     activityTime:activityTime, 
     manager:manager,
-    is_show_branch:true
+    is_show_branch:true,
+    lng:lng,
+    lat:lat
     // Add other data fields as needed
   };
   $.ajax({
@@ -132,7 +136,7 @@
 
 }
 
-function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch) {
+function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch, lng, lat) {
   // Prepare the data for the order
   console.log(is_show_branch);
  
@@ -143,7 +147,9 @@ function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_b
     phoneNumber:phoneNumber,
     activityTime:activityTime, 
     manager:manager,
-    is_show_branch:false
+    is_show_branch:false,
+    lng:lng,
+    lat:lat
     // Add other data fields as needed
   };
   $.ajax({

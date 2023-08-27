@@ -297,6 +297,16 @@ header {
 .wrapper.active {
     height: 520px;
 }
+.nameTag {
+    padding:8px;
+    color:white;
+    font-weight: bold;
+}
+
+
+.logout {
+    display: none;
+}
 
 
 /* 

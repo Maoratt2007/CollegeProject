@@ -1,13 +1,15 @@
 const Branch=require('../modules/branch');
 //add category for method post
-const creatBranch=async (name,address,phoneNumber,activityTime, manager,is_show_branch)=>{
+const creatBranch=async (name,address,phoneNumber,activityTime, manager,is_show_branch,lat,lng)=>{
     const branch =new Branch({
         name:name,
         address:address,
         phoneNumber:phoneNumber,
         activityTime:activityTime,
         manager: manager,
-        is_show_branch:is_show_branch
+        is_show_branch:is_show_branch,
+        lat:lat,
+        lng:lng
     });
     return await branch.save();
 
@@ -37,6 +39,8 @@ const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager,is_s
     branch.activityTime=activityTime;
     branch.manager= manager;
     branch.is_show_branch=is_show_branch;
+    branch.lat=lat,
+    branch.lng=lng
     return await branch.save();
 }
 //delete

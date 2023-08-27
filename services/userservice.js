@@ -18,6 +18,13 @@ class UserAlreadyExistsException extends Error {
         super(message)
     }
 }
+
+class PasswordResetUnAuthorizedException extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 class UserDoesNotExistsException extends Error {
     constructor(message) {
         super(message)
@@ -35,6 +42,8 @@ class PasswordsDoNotMatchException extends Error {
 // Check that it doesnt exist already and create the user if not
 // userDetails is of the template of the User model
 const register = async (userDetails) => {
+
+
     const email = userDetails.email
 
     const userExists = await User.findOne({email})
@@ -47,8 +56,12 @@ const register = async (userDetails) => {
                    .update(userDetails.password)
                    .digest('hex');
     
-    await User.create({...userDetails, password:hashedPassword });
-    //const token = sign({user_id:newUser._id},secret, {expiresIn:'3h'})
+    const newUser = await User.create({...userDetails, password:hashedPassword });
+    
+    const token = sign({user_id:newUser._id},secret, {expiresIn:'3h'})
+
+    
+    return token
 }
 
 
@@ -73,31 +86,43 @@ const login = async (user) => {
 
     if(userExists.password !== hashedPassword) { // if the password the user entered does not match the one in database
         throw new PasswordsDoNotMatchException("Passwords do not match")
-    }
+    }        
+     
+     const token = sign({user_id:userExists._id}, secret, {expiresIn:'3h'})
 
-     //const token = sign(userExists.id,secret)
-
-     return {userId: userExists.id, manager: userExists.manager}
+     return token
 }
 
-//add category for method post
-const creatUser=async (name,email, password,manager)=>{
-    const user =new User({
-        name:name,
-        email:email,
-        password:password,
-        manager:manager
-    });
-    return await user.save(); 
+
+
+const setPasswordResetFlag = async (email) => {
+    const user = await User.findOne({email})
+    user.passwordResetFlag = true
+    await user.save()
+}
+
+const changePassword = async (email, newPassword) => {
+    const user = await User.findOne({email:email.trim()})
+    if(!user.passwordResetFlag) 
+        throw new PasswordResetUnAuthorizedException()
+    const secret = process.env.SECRET_KEY;
+    const hashedPassword = crypto.createHmac('sha1', secret)
+                   .update(newPassword)
+                   .digest('hex');
+
+    user.password = hashedPassword
+     return await user.save()
+
 
 }
+
 //find by id 
 const findUserById= async(_id)=>{
     return await User.findById(_id);
 }
 //get all
-const getUsers= async()=>{
-    return await User.find({});
+const getUser= async (id)=>{
+    return await User.findById(id);
 }
 //update
 const updateUser=async(_id,name,email, password,manager)=>{
@@ -123,13 +148,13 @@ const deleteUser=async(_id)=>{
     return await user.deleteOne();
 }
 
-
 module.exports={
-    creatUser,
     findUserById,
-    getUsers,
+    getUser,
     updateUser,
     deleteUser,
     register, 
     login,
+    setPasswordResetFlag,
+    changePassword
 }

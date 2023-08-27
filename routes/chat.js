@@ -3,6 +3,6 @@ const route= express.Router();
 
 route.get('/',(req,res)=>
 {
-    res.render('contactejs');
+    res.render('chat');
 })
 module.exports=route;

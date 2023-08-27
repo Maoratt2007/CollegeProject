@@ -30,10 +30,10 @@
             <a href="/menu">Order</a>
             <a href="/branch">Branches</a>
             <a href="/about">About</a>
-            <a href="/contact">Contact</a>
+            <a href="/chat">Contact</a>
             <a href="/historyorder" class="fas fa-history"></a><!--icon for shopping cart-->
             <a href="/userdetail" class="fas fa-user"></a><!--icon for user-->
-         
+            <button class="btnLogin-popup logout">Logout</button><!--login button-->
         </nav> 
     </header>
     
@@ -42,6 +42,24 @@
 </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        const logoutBtn = document.querySelector(".logout")
+        const logout = (e) => {
+    if(confirm("Are you sure you would like to log out?")) {
+        localStorage.removeItem('token')
+        alert("Logged out successfully")
+        window.location.reload()
+    }
+}
+const showLogout = () => {
+    logoutBtn.style.display = 'flex'
+    logoutBtn.style.alignItems = 'center'
+    logoutBtn.style.justifyContent = 'center'
+    btnPopup.style.display = 'none'
+}
+
+logoutBtn.addEventListener('click',logout)
+    </script>
     
 </body>
 </html>

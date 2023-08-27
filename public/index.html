@@ -18,12 +18,42 @@
     integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
     crossorigin="anonymous">
 </script>
+<script type="text/javascript" 
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript" 
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+    (function(){
+        emailjs.init("PeJvw3UkZPZ16ftEK");
+        window.sendEmail = async (to) => {
+            var templateParams = {
+                toname: to.split("@")[0],
+                message: 'Reset password',
+                pass_reset:`http://localhost:3000/api/user/reset-pass-form/${to}`,
+                to_email:to
+            };
+            try {
+                await emailjs.send('service_9pqqcvl', 'template_ll7ewza', templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });
+            } catch(ignored) {}
+        }
+    })();
+</script>
+
+</script>
 </head>
 
 <body>
     <nav class="navigation"><!--navigation bar-->
         <button class="btnLogin-popup">Login</button><!--login button-->
     </nav>
+
     <div class="wrapper">
         <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span><!--icon for close button-->
         <div class="form-box login">

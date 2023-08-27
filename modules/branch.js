@@ -30,6 +30,15 @@ const Branch= new Schema({
     },
     is_show_branch:{
         type:Boolean
+    },
+    lng: { // x Coordinates
+        type: Number,
+        required: true
+    },
+
+    lat: { // y Coordinates
+        type: Number,
+        required: true
     }
 
 });
