@@ -16,6 +16,10 @@
   
 <h1>Product List</h1>
 
+
+</div>
+
+
 <div class="filter-buttons">
   <label for="category">Category:</label>
   <select id="category" name="category">
@@ -28,18 +32,46 @@
   <label for="price">Price:</label>
   <select id="price" name="price">
     <option value="">All</option>
-    <option value="5">until $5</option>
+    <option value="4">until $4</option>
     <option value="20">until $20</option>
     <option value="25">until $25</option>
   </select>
 </div>
 
 <div id="order-class">
-  <div id="orderList">
-
-  </div>
-
+  <div id="orderList"></div>
 </div>
+
+<form id="inputForm">
+<button id="openInputsBtn" style="display: block; margin: auto; margin-bottom: 10px;">Open Inputs</button>
+<div id="inputContainer" style="display: none; text-align: center;">
+  <!-- Input fields will be added here -->
+  <label for="nameInput">Name:</label>
+  <input type="text" id="nameInput" placeholder="Enter name" required>
+
+  <label for="priceInput">Price:</label>
+<input type="number" id="priceInput" placeholder="Enter price" required min="1">
+
+  <label for="categoryInput">Category:</label>
+  <input type="text" id="categoryInput" placeholder="Enter category" pattern="^(food|dessert|drink)$"  required>
+
+  <label for="descriptionInput">Description:</label>
+  <input type="text" id="descriptionInput" placeholder="Enter description" maxlength="50" pattern=".{0,50}" title="Please enter up to 100 characters" required>
+
+  <label for="imageInput">Image Link:</label>
+  <input type="text" id="imageInput" placeholder="Enter image link" pattern="^assets\/[\w\s-]+\.(?:png|jpg|jpeg|gif|bmp|svg|webp|avif)$/i"  required>
+
+  <label for="fatInput">Fat:</label>
+  <input type="number" id="fatInput" placeholder="Enter fat" required min="0">
+
+  <button id="submitProductBtn" onclick="validateInputs()" style="display: block; margin: auto; margin-top: 10px;">Add Your New Product</button>
+</div>
+</form>
+
+
+
+
+
 
 <!-- Filter button and category buttons -->
 <a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> <!-- Add the "custom-reply-icon" class -->
@@ -54,6 +86,103 @@
   const apiEndpoint = 'http://localhost:3000/api/products';
   const orderListContainer=document.getElementById('orderList');
   const productListContainer = $('#productList');
+
+
+  function validateInputs() {
+  const name = document.getElementById('nameInput').value;
+
+  const price = document.getElementById('priceInput').value;
+  if (price < 1) {
+    document.getElementById('priceInput').value = "";
+    alert('Please enter a valid positive number for the price.');
+    return;
+  }
+
+  const category = document.getElementById('categoryInput').value;
+    const validCategories = ['food', 'drink', 'dessert'];     // Check if category is valid
+  if (!validCategories.includes(category)) {
+    document.getElementById('categoryInput').value = "";
+    alert('Please enter a valid category ("food", "drink", or "dessert").');
+    return;
+  }
+
+  const description = document.getElementById('descriptionInput').value;
+  const image = document.getElementById('imageInput').value.trim();
+
+  const imagePattern = /^assets\/[\w\s-]+\.(png|jpg|jpeg|gif|bmp|svg|webp|avif)$/i;
+  if (!image.match(imagePattern)) {
+    document.getElementById('imageInput').value = "";
+    alert("Please enter a valid image link. The link should start with 'assets/' and end with a valid image extension (png, jpg, jpeg, gif, bmp, svg, webp, avif)");
+    return;
+  }
+
+
+  const fat = document.getElementById('fatInput').value;
+    // Check if fat is a number
+    if (fat<0) {
+      document.getElementById('fatInput').value = "";
+    alert('Please enter a valid number for the fat.');
+    return;
+  }
+
+  // Check if any required input is empty
+  if (!name || !price || !category || !description || !image  || !fat) {
+    alert('Please fill in all required fields correctly');
+    return; // Return false to prevent form submission
+  }
+
+
+
+  
+  AddNewProductAsTheManageChoice(); // All inputs are valid
+}
+
+
+function AddNewProductAsTheManageChoice() {
+
+
+  const name = document.getElementById('nameInput').value;
+  const price = document.getElementById('priceInput').value;
+  const category = document.getElementById('categoryInput').value;
+  const description = document.getElementById('descriptionInput').value;
+  const image = document.getElementById('imageInput').value;
+  const fat = document.getElementById('fatInput').value;
+
+  // Set isShow to true for the new product
+  const isShow = 'false'; // Set to true here
+
+  const newProductData = {
+    name: name,
+    price: price,
+    category: category,
+    description: description,
+    image: image,
+    fat: fat,
+    isShow: isShow// Include isShow in the new product data
+  };
+
+
+
+  $.ajax({
+    url: 'http://localhost:3000/api/products',
+    method: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(newProductData),
+    success: function (data) {
+      // Product added successfully
+      console.log('Product added:', data);
+      // // Clear the input fields and update the UI here
+      alert('Product added successfully');
+    },
+    error: function (err) {
+      // Error handling in case the API call fails
+      console.error('Failed to add product:', err.responseJSON.errors);
+      alert('Failed to add product');
+    }
+  });
+}
+
 
   function facebookfuncadd(name)
 {
@@ -211,13 +340,13 @@ function fetchqueryProducts() {
     button.textContent = 'Edit Price';
     
     const productId = button.getAttribute('data-product-id'); // Get the productId from the button's data attribute
-    UpdatePriceInDataBase(productId, name, newPrice, id, category, description, image, isShow);
+    UpdatePriceInDataBase(productId, name, newPrice, id, category, description, image, isShow, webServiceId, fat);
 
 }
 }
 
 
-function UpdatePriceInDataBase(productId, name, price, id, category, description, image, isShow)
+function UpdatePriceInDataBase(productId, name, price, id, category, description, image, isShow, webServiceId, fat)
 {
 
   const updateData={
@@ -228,6 +357,9 @@ function UpdatePriceInDataBase(productId, name, price, id, category, description
     description:description,
     image:image,
     isShow:isShow,
+    webServiceId:webServiceId,
+    fat:fat
+
   };
 
   $.ajax({
@@ -256,6 +388,7 @@ function removefromdatabase(id)
         }
 
   });
+  
 
 }
 
@@ -356,7 +489,14 @@ function itmesIsExist()
     $('.product').hide();
     $(`.product.${selectedCategory}`).show();
   });
-  
+ 
+  // Toggle the visibility of input container and "Add Your New Product" button
+  $('#openInputsBtn').click(function () {
+    $('#inputContainer').show();
+    $ ('#submitProductBtn').show();
+   
+  });
+
     // Fetch the product data when the page loads
   $(document).ready(function () {
   console.log('insert to function');

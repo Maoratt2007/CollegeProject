@@ -46,7 +46,7 @@ const register = async (userDetails) => {
 
     const email = userDetails.email
 
-    const userExists = await User.find({email})
+    const userExists = await User.findOne({email})
 
     if(userExists) {
         throw new UserAlreadyExistsException("A user with this email already exists")
