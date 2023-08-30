@@ -2,45 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title> homepage</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"><!--the link that enables us to use icons -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script><!--call to bootstrap-->
-    <script
-    src="https://code.jquery.com/jquery-3.7.0.js"
-    integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-    crossorigin="anonymous"></script>
-
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
-    integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0="
-    crossorigin="anonymous">
-</script>
+    <style>
+        #contentContainer {
+            display: none; /* Initially hide the content */
+        }
+    </style>
 </head>
-
 <body>
+    <h1 id="passwordTitle">Password For Manager</h1>
+    <link rel="stylesheet" href="password.css">
+    <label for="PasswordInput">Password:</label>
+    <input type="text" id="PasswordInput" placeholder="Enter password" required>
+    <button id="submitButton" onclick="CheckIfManager()">Submit Password</button>
+    <div id="contentContainer">
+        <!-- EJS content will be displayed here -->
+    </div>
 
-    <header>
-        <!--header is the top of the web-->
-        <h2 class="logo">Manager</h2>
-        <img src="assets/home-pizza.png" class="logo-pic" alt="..."><!--image logo for the site-->
-        <nav class="navigation"><!--navigation bar-->
-            <a href="/menumanager">Order</a>
-            <a href="/branchmanager">Branches</a>
-            <a href="/graph">Graph</a>
-            <a href="/historycustomer" class="fas fa-history"></a><!--icon for shopping cart-->
-            <a href="/managerdetail" class="fas fa-user"></a><!--icon for user-->
-         
-        </nav> 
-    </header>
-    
-<script>
+    <!-- Hidden template element -->
+    <template id="ejsTemplate">
+        <html lang="en">
+        <head>
+            <link rel="stylesheet" href="index.css">
+            <meta charset="UTF-8">
+            <title> homepage</title>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+        </head>
+        <body>
+            <header>
+                <h2 class="logo">Manager</h2>
+                <img src="assets/home-pizza.png" class="logo-pic" alt="...">
+                <nav class="navigation">
+                    <a href="/menumanager">Order</a>
+                    <a href="/branchmanager">Branches</a>
+                    <a href="/graph">Graph</a>
+                    <a href="/historycustomer" class="fas fa-history"></a>
+                    <a href="/managerdetail" class="fas fa-user"></a>
+                    <a href="/homepage">to homepage</a>
+                </nav> 
+            </header>
+        </body>
+        </html>
+    </template>
 
-</script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
+    <script>
+        function CheckIfManager() {
+            const CorrectPassword = 'BestPizzaInTheWorld01';
+            const Password = document.getElementById('PasswordInput').value;
+            if (Password === CorrectPassword) {
+                const contentContainer = document.getElementById('contentContainer');
+                const ejsTemplate = document.getElementById('ejsTemplate');
+                contentContainer.innerHTML = ejsTemplate.innerHTML;
+                contentContainer.style.display = 'block';
+                // Hide password input and submit button
+                document.getElementById('PasswordInput').style.display = 'none';
+                document.getElementById('submitButton').style.display = 'none';
+                document.getElementById('passwordTitle').style.display = 'none';
+            } else {
+                alert("Incorrect password. Redirecting to homepage.");
+                console.log('Incorrect password. Redirecting to homepage.');
+                window.location.href = "homepage";
+            }
+        }
+    </script>
 </body>
 </html>

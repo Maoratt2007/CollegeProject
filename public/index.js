@@ -16,38 +16,38 @@ const saveToken = (token) => {
     localStorage.setItem("token", token)
 }
 
-
-
 registerForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     const name = e.target[0].value
     const email = e.target[1].value
     const password = e.target[2].value
-    const user = {name,email,password,manager}
+    const user = {name,email,password,manager:false}
 
-    // send the user details to the register route and get a response (May be error)
     try {
         // send the user details to the register route and get a response (May be error)
         const response = await fetch("/api/user/register", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
         const { token } = await response.json()
-        if (!response.ok) {
-           alert(data.errors)
+        if(!response.ok)
+        {
+            alert(error.message)
+            console.log(error)
         }
 
         if(token ){ 
             saveToken(token)
             getUser()
+            alert("you regisetered to the web!")
         }
 
     } catch(error) {
         alert(error.message)
         console.log(error)
     }
-    
-
 
 
 })
+
+
 
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault()
@@ -56,15 +56,23 @@ loginForm.addEventListener('submit', async (e) => {
     let user = {email ,password}
     try {
             const response = await fetch("/api/user/login", { method:"POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(user)})
-            const { token } = await response.json()
-            console.log("Token", token)
+            const { user_id, token } = await response.json();
+            console.log("User ID:", user_id);
+            console.log("Token:", token);
+
+            localStorage.setItem("userId", user_id);
+
             saveToken(token)
+
             user = await getUser()
+
             const { manager } = user
-        if(manager === false)
+            if(manager === false)
             window.location.href= "homepage";
-        else
+        else{
+            alert("you can acsses the manager page with this password- BestPizzaInTheWorld01 ");
             window.location.href="homepagemanager";
+        }
         } catch(e) {
             alert("could not login with these credentials.")
             console.log(e)
@@ -75,6 +83,7 @@ loginForm.addEventListener('submit', async (e) => {
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');//change to register-page
 });
+
 
 loginLink.addEventListener('click', ()=> {
     wrapper.classList.remove('active');//change to login-page
@@ -141,7 +150,7 @@ const getUser = async () => {
             return res.json()
         }).then(theUser => {
             currentUser = theUser;
-            greet(currentUser)
+            // greet(currentUser)
             return currentUser
         }).catch(e => {
             currentUser = null

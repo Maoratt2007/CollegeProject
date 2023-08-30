@@ -71,23 +71,23 @@ var total_price=0;
 $('#category').on('change', fetchqueryProducts);
 $('#price').on('change', fetchqueryProducts);
 $('#fat').on('change', fetchqueryProducts);
-
-
-function fetchqueryProducts() {
-  const category = $('#category').val();
-  const price = $('#price').val();
+const category = $('#category').val();
+const price = $('#price').val();
   const fat = $('#fat').val();
 
-
+function fetchqueryProducts() {
+  const category2 = $('#category').val();
+const price2 = $('#price').val();
+  const fat2 = $('#fat').val();
   $.ajax({
     url: apiEndpoint,
     method: 'GET',
     dataType: 'json',
     data: {
-      category: category || undefined,
-      price: price || undefined,
+      category: category2 || undefined,
+      price: price2 || undefined,
       isShow: true,
-      fat:fat|| undefined
+      fat:fat2|| undefined
       //|| help us make value with no value as undefined string like this "" consider to false
     },
     success: function (data) {
@@ -107,7 +107,10 @@ function fetchqueryProducts() {
       method: 'GET',
       dataType: 'json',
       data:{
-      isShow: true
+          category: category || undefined,
+          price: price || undefined,
+          isShow: true,
+           fat:fat|| undefined
           },
       success: function (data) {
         // Product data received successfully

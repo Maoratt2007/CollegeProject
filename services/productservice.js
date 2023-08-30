@@ -68,7 +68,7 @@ const getFilterOrder = async (category, price,fat,isShow ) => {
 
     }
     if (fat) {
-        filters.fat =fat;
+        filters.fat ={ $lte: fat };
     }
   
     try {

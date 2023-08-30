@@ -44,19 +44,21 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
         const logoutBtn = document.querySelector(".logout")
-        const logout = (e) => {
+        const showLogout = () => {
+        logoutBtn.style.display = 'flex'
+        logoutBtn.style.alignItems = 'center'
+        logoutBtn.style.justifyContent = 'center'
+        }
+        showLogout();
+    const logout = (e) => {
     if(confirm("Are you sure you would like to log out?")) {
         localStorage.removeItem('token')
         alert("Logged out successfully")
-        window.location.reload()
+        window.location.href= "/";
+
     }
 }
-const showLogout = () => {
-    logoutBtn.style.display = 'flex'
-    logoutBtn.style.alignItems = 'center'
-    logoutBtn.style.justifyContent = 'center'
-    btnPopup.style.display = 'none'
-}
+
 
 logoutBtn.addEventListener('click',logout)
     </script>

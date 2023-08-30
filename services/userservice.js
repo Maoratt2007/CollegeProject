@@ -1,3 +1,4 @@
+const { error } = require('console');
 const User = require('../modules/user')
 const crypto = require('crypto')
 const dotenv= require('dotenv');
@@ -46,10 +47,10 @@ const register = async (userDetails) => {
 
     const email = userDetails.email
 
-    const userExists = await User.findOne({email})
+    const userExists = await User.findOne({ email });
 
     if(userExists) {
-        throw new UserAlreadyExistsException("A user with this email already exists")
+        throw new Error("A user with this email already exists")
     }
     const secret = process.env.SECRET_KEY;
     const hashedPassword = crypto.createHmac('sha1', secret)
@@ -89,8 +90,7 @@ const login = async (user) => {
     }        
      
      const token = sign({user_id:userExists._id}, secret, {expiresIn:'3h'})
-
-     return token
+     return { user_id: userExists._id, token }; 
 }
 
 
@@ -161,6 +161,9 @@ const deleteUser=async(_id)=>{
 const getUsers= async()=>{
     return await User.find({});
 }
+const getUser= async (id)=>{
+    return await User.findById(id);
+}
 
 module.exports={
     getUsers,
@@ -171,5 +174,6 @@ module.exports={
     login,
     setPasswordResetFlag,
     changePassword,
-    creatUser
+    creatUser,
+    getUser
 }

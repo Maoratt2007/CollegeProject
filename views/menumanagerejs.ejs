@@ -32,9 +32,16 @@
   <label for="price">Price:</label>
   <select id="price" name="price">
     <option value="">All</option>
-    <option value="4">until $4</option>
-    <option value="20">until $20</option>
+    <option value="5">until $5</option>
+    <option value="15">until $15</option>
     <option value="25">until $25</option>
+  </select>
+  <label for="fat">Fat:</label>
+  <select id="fat" name="fat">
+    <option value="">All</option>
+    <option value="5">5 kcal</option>
+    <option value="15">10</option>
+    <option value="25">15 </option>
   </select>
 </div>
 
@@ -158,7 +165,7 @@ function AddNewProductAsTheManageChoice() {
     description: description,
     image: image,
     fat: fat,
-    isShow: isShow// Include isShow in the new product data
+    isShow: isShow,
   };
 
 
@@ -177,7 +184,7 @@ function AddNewProductAsTheManageChoice() {
     },
     error: function (err) {
       // Error handling in case the API call fails
-      console.error('Failed to add product:', err.responseJSON.errors);
+      console.error('Failed to add product to this manager page');
       alert('Failed to add product');
     }
   });
@@ -226,13 +233,18 @@ function AddNewProductAsTheManageChoice() {
       });
     }
 
-    //query
+//query
+// Add event listeners for category and price selection
 $('#category').on('change', fetchqueryProducts);
 $('#price').on('change', fetchqueryProducts);
+$('#fat').on('change', fetchqueryProducts);
+
 
 function fetchqueryProducts() {
   const category = $('#category').val();
   const price = $('#price').val();
+  const fat = $('#fat').val();
+
 
   $.ajax({
     url: apiEndpoint,
@@ -242,9 +254,10 @@ function fetchqueryProducts() {
       category: category || undefined,
       price: price || undefined,
       isShow: true,
+      fat:fat|| undefined
+      //|| help us make value with no value as undefined string like this "" consider to false
     },
     success: function (data) {
-      console.log(data)
       renderProducts(data);
     },
     error: function (err) {
@@ -309,7 +322,6 @@ function fetchqueryProducts() {
 
           <button class="order-btn" onclick='addProductMenu("${name}","${price}","${id}","${category}","${description}","${image}")'">Add to menu</button>
           <button class="order-btn" onclick='removeProductMenu("${name}","${price}","${id}","${category}","${description}","${image}","${isShow}")'">Remove from menu</button>
-          <button class="order-btn" onclick='removefromdatabase("${id}")'">Remove from database</button>
         </div>
       `;
 
@@ -374,23 +386,7 @@ function UpdatePriceInDataBase(productId, name, price, id, category, description
 
 
 
-function removefromdatabase(id)
-{
-  $.ajax({
-      url: `http://localhost:3000/api/products/${id}`,
-      method: 'DELETE',
-      dataType: 'json',
-      success: function(response) {
-            console.log("Product removed from database successfully", response);
-        },
-        error: function(error) {
-            console.error("Error removing product from database ", error);
-        }
 
-  });
-  
-
-}
 
 
 

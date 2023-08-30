@@ -36,17 +36,6 @@ const getProductuserID= async( userId)=>{
     return await Order.find({userId});
 }
 
-const groupOrdersByItems = async (usersgroupby) => {
-    const array={ userId: { $in: usersgroupby.map(id => mongoose.Types.ObjectId(id)) } } ;
-    const aggregation = [
-        { $match: { userId: { $in: usersgroupby.map(id => mongoose.Types.ObjectId(id)) } } },
-        { $group: { _id: '$userId', orderCount: { $sum: 1 } } }
-    ];
-
-    const ordersByItems = await Order.aggregate(aggregation);
-
-    return ordersByItems;
-};
 
 
 //update
@@ -76,7 +65,11 @@ const deleteOrder= async(_id)=>{
     return await order.deleteOne();
 }
 
-const getFilterOrder = async (name, price, address) => {
+const getFilterOrder = async (name, price, address,userId) => {
+    if(! userId)
+    {
+        return null;
+    }
     const filters = {};
   
     if (name) {
@@ -91,12 +84,54 @@ const getFilterOrder = async (name, price, address) => {
     }
   
     try {
+        const ordersofuser=[];
       const orders = await Order.find(filters);
-      return orders;
+      orders.forEach(function (order) {
+        if(order.userId==userId)
+        {
+            ordersofuser.push(order);
+        }
+      })
+      return ordersofuser;
     } catch (error) {
       throw Error(`No order match the criteria`);
     }
   };
+
+  const groupOrdersByUser = async () => {
+    try {
+        const pipeline = [
+            {
+                $group: {
+                    _id: '$userId',
+                    totalOrders: { $sum: 1 }
+                }
+            }
+        ];
+
+        const userOrderStats = await Order.aggregate(pipeline);
+        return userOrderStats;
+    } catch (error) {
+        throw new Error(`Error while grouping orders by user: ${error.message}`);
+    }
+};
+const groupOrdersByUserPrice = async () => {
+    try {
+        const pipeline = [
+            {
+                $group: {
+                    _id: '$userId',
+                    totalOrdersPrice: { $sum: '$price' }
+                }
+            }
+        ];
+
+        const userOrderStats = await Order.aggregate(pipeline);
+        return userOrderStats;
+    } catch (error) {
+        throw new Error(`Error while grouping orders by user: ${error.message}`);
+    }
+};
 
 module.exports={
     createOrder,
@@ -105,6 +140,7 @@ module.exports={
     updateOrder,
     deleteOrder,
     getProductuserID,
-    groupOrdersByItems,
-    getFilterOrder
+    groupOrdersByUser,
+    getFilterOrder,
+    groupOrdersByUserPrice
 }

@@ -6,24 +6,31 @@ const createOrder = async(req,res)=>{
 }
 
 const getOrder = async (req, res) => {
-    let arr_Order;
+    try {
+        let arr_Order;
 
-    if (req.query.group) {
-        arr_Order = await OrderService.groupOrdersByItems(req.query.usersgroupby);
-    } else if (req.query.userId) {
-        arr_Order = await OrderService.getProductuserID(req.query.userId);
-    } else if (req.query.price || req.query.address || req.query.name) {
-        arr_Order = await OrderService.getFilterOrder(req.query.name, req.query.price, req.query.address);
-    } else {
-        arr_Order = await OrderService.getOrder();
+        if (req.query.groupamount) {
+            arr_Order = await OrderService.groupOrdersByUser();
+        }else if (req.query.groupprice) {
+            arr_Order = await OrderService.groupOrdersByUserPrice();
+        } else if (req.query.price || req.query.address || req.query.name) {
+            arr_Order = await OrderService.getFilterOrder(req.query.name, req.query.price, req.query.address,req.query.userId);
+        } else if (req.query.userId) {
+            arr_Order = await OrderService.getProductuserID(req.query.userId);
+        }else {
+            arr_Order = await OrderService.getOrder();
+        }
+
+        if (!arr_Order) {
+            return res.status(404).json({ errors: ['Order was not found'] });
+        }
+
+        res.json(arr_Order);
+    } catch (error) {
+        return res.status(500).json({ errors: [error.message] });
     }
-
-    if (!arr_Order) {
-        res.status(404).json({ errors: ['Order was not found'] });
-    }
-
-    res.json(arr_Order);
 };
+
 
 
 const getOrderById=async(req,res)=>{

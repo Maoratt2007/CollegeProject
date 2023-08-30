@@ -22,8 +22,9 @@ const findBranchById= async(_id)=>{
 const getBranches= async()=>{
     return await Branch.find({});
 }
+
 //update
-const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager,is_show_branch)=>{
+const updateBranch=async(_id,name,address,phoneNumber,activityTime, manager,is_show_branch, lng,lat)=>{
     const branch=await findBranchById(_id);
     if(!branch)
     {

@@ -20,9 +20,9 @@ const historyCustomer=require('./routes/historycustomerroute');
 const managerDetail=require('./routes/managerdetailroute');
 const managerGraph=require('./routes/graph');
 const chatRoute=require('./routes/chat');
-
-
-
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 const dotenv= require('dotenv');
 dotenv.config();
 
@@ -37,7 +37,6 @@ const mongodbConnect = async () => {
 }
     const port = 3000;
 
-const app = express(); // מופע של השרת
 
 // app.use(express.json()) // add the option to use json
 app.use(express.urlencoded({extended:true})) // add the option to use data from form
@@ -48,7 +47,6 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(bodyParser.json());
 app.use(bodyParser.text());
-
 app.use('/api/products', ProductRoute);
 app.use('/api/user', UserRoute);
 app.use('/api/branch', BranchRoute);
@@ -69,4 +67,15 @@ app.use('/graph',managerGraph)
 app.use('/chat',chatRoute)
 
 mongodbConnect();
+io.on("connection", function(socket){
+    socket.on("newuser", function(username){
+        socket.broadcast.emit("update", username + " has joined the Chatroom");
+    });
+    socket.on("exituser", function(username){
+        socket.broadcast.emit("update", username + " has left the Chatroom");
+    });
+    socket.on("chat", function(message){
+        socket.broadcast.emit("chat", message);
+    });
+})
 app.listen(port);

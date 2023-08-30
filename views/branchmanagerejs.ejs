@@ -2,101 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png"><!--the icon of our web-->
+  <link rel="shortcut icon" type="x-icon" href="assets/home-pizza.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product List</title>
-  <!-- Include jQuery library -->
-  <script src="jquery.js"></script>
+  <title>Branches List</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <h1>Branches List</h1>
 <div id="branchesList">
-  <!-- Product list will be rendered here -->
+  <!-- Branch list will be rendered here -->
 </div>
-<a href="/homepagemanager" class="fas fa-reply custom-reply-icon"></a> 
-
 
 <script>
-  // Replace this URL with your actual API endpoint to fetch product data
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="_ib",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>""+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+    key: "AIzaSyDHemJD0ZSctj0hfRTetYUF8rOabylfywA",
+    v: "weekly",
+  });
+</script>
+<script>
+  // Replace this URL with your actual API endpoint to fetch branch data
   const apiEndpoint = 'http://localhost:3000/api/branch';
-  const orderListContainer=document.getElementById('orderList');
-  const productListContainer = $('#productList');
-  
-  // Function to fetch and render product data
-  function fetchProducts() {
+
+  function fetchBranches() {
     $.ajax({
       url: apiEndpoint,
       method: 'GET',
       dataType: 'json',
       success: function (data) {
-        // Product data received successfully
-        renderBranches(data)
-
-    },
+        renderBranches(data);
+      },
       error: function (err) {
-        // Error handling in case API call fails
-        console.log(err)
-        alert('Failed to fetch product data.');
+        console.log(err);
+        alert('Failed to fetch branch data.');
       }
     });
   }
 
-
-
-  // Function to render the product data on the screen
   function renderBranches(branches) {
     const branchListContainer = $('#branchesList');
 
-    // Loop through each product and create an HTML element to display it
     branches.forEach(function (branch) {
-        const name=branch.name;
-      const address=branch.address;
-      const id=branch._id;
-      const phoneNumber=branch.phoneNumber;
-      const activityTime=branch.activityTime;
-      const manager=branch.manager;
-      const is_show_branch=branch.is_show_branch;
-      const lng=branch.lng;
-      const lat= branch.lat;
-
+      console.log(branch._id)
       const branchElement = `
-                    <div class="branch">
-                        
-                      <div class ="branch-header">
-                        <span class="material-symbols-outlined">
-                          location_on
-                        </span>
-                        <h2>${branch.name}</h2>
-                        <button class="branch-btn" onclick='addBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}", "${lng}", "${lat}")'">Add to Branches </button>
-                        <button class="branch-btn" onclick='removeBranch("${name}","${address}","${id}","${phoneNumber}","${activityTime}","${manager}","${is_show_branch}", "${lng}", "${lat}")'">Remove from Branches </button>
-                        <div class="more" onclick="open_branch('${branch._id}',this)">
-                          <span class="material-symbols-outlined">
-                            expand_more
-                          </span>
-                        </div>
-                        </div>
-
-
-                        <div class ="branch-slide">
-
-                        <div class ="branch-details closed_branch" id="${branch._id}">
-                          <div>
-                            <p>Address: ${branch.address}</p>
-                            <p>Phone Number:${branch.phoneNumber}</p>
-                            <p>Activity Hours:${branch.activityTime}</p>
-                          <div>
-                            <div id="map">
-                              
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                `;
+        <div class="branch">
+          <div class="branch-header">
+            <span class="material-icons">location_on</span>
+            <h2>${branch.name}</h2>
+            <button class="branch-btn" onclick='addBranch("${branch.name}","${branch.address}","${branch._id}","${branch.phoneNumber}","${branch.activityTime}","${branch.manager}","${branch.is_show_branch}", "${branch.lng}", "${branch.lat}")'">Add to Branches </button>
+             <button class="branch-btn" onclick='removeBranch("${branch.name}","${branch.address}","${branch._id}","${branch.phoneNumber}","${branch.activityTime}","${branch.manager}","${branch.is_show_branch}", "${branch.lng}", "${branch.lat}")'">Remove from Branches </button>
+            <div class="more" onclick="open_branch('${branch._id}', this)">
+              <span class="material-icons">expand_more</span>
+            </div>
+          </div>
+          <div class="branch-slide">
+            <div class="branch-details closed_branch" id="${branch._id}">
+              <p>Address: ${branch.address}</p>
+              <p>Phone Number: ${branch.phoneNumber}</p>
+              <p>Activity Hours: ${branch.activityTime}</p>
+              <div id="map-${branch._id}" class="map"></div>
+            </div>
+          </div>
+        </div>`;
       branchListContainer.append(branchElement);
     });
   }
+
+  function open_branch(id, element) {
+    const branch_element = document.getElementById(id);
+
+    $.ajax({
+      url: `http://localhost:3000/api/branch/${id}`,
+      method: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        async function initMap() {
+          const position = { lat: data.lat, lng: data.lng };
+          const { Map } = await google.maps.importLibrary("maps");
+          const mapContainer = document.getElementById(`map-${id}`);
+          const map = new Map(mapContainer, {
+            zoom: 10,
+            center: position,
+          });
+
+          const marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: data.name,
+          });
+        }
+
+        initMap();
+
+        if (branch_element.classList.contains("closed_branch")) {
+          branch_element.classList.add('opened_branch')
+          branch_element.classList.remove('closed_branch')
+          element.querySelector('.material-icons').classList.add('rotate180');
+        } else {
+          branch_element.classList.remove('opened_branch')
+          branch_element.classList.add('closed_branch')
+          element.querySelector('.material-icons').classList.remove('rotate180');
+        }
+      },
+      error: function (err) {
+        console.log(err);
+        alert('Failed to fetch map data.');
+      }
+    });
+  }
+
   function addBranch(name,address,id,phoneNumber,activityTime,manager,is_show_branch, lng, lat) {
   // Prepare the data for the order
   console.log(is_show_branch);
@@ -174,96 +189,75 @@ function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_b
 
 }
 
+  $(document).ready(function () {
+    fetchBranches();
+  });
 
-
-
-function open_branch(id,element) {
-    const branch_element = document.getElementById(id)
-
-    if(branch_element.classList.contains("closed_branch")) {
-      branch_element.classList.add('opened_branch')
-      branch_element.classList.remove('closed_branch')
-      element.classList.add('rotate180')
-    } else {
-      branch_element.classList.remove('opened_branch')
-      branch_element.classList.add('closed_branch')
-      element.classList.remove('rotate180')
-    }
-  }
-    // Fetch the product data when the page loads
-    $(document).ready(function () {
-    console.log('insert to function');
-    fetchProducts();
-
-    });
-
-    
-  
 </script>
 <style>
+  /* CSS styles here */
+  .branch-slide {
+    overflow: hidden;
+    max-height: 400px;
+  }
 
-    .branch-slide {
-      overflow: hidden;
-      max-height: 400px;
-    }
-  
-    .more {
-      margin-left: auto;
-      cursor: pointer;
-      transition: .2s linear;
-    }
-    .branch {
-      padding:8px;
-      display:flex;
-      flex-direction: column;
-      row-gap: 8px;
-      max-width:1000px;
-    }
-    .closed_branch {
-      transition: .3s ease-in-out;
-      transform:translateY(-500px);
-      opacity:0;
-    }
-    .opened_branch {
-      transition: .3s ease-in-out;
-      transform:translateY(0px);
-      opacity: 1;
-    }
-    .rotate180 {
-      transform: rotateZ(180deg) translateY(4px);
-    }
-  
-    .branch-details {
-      border:1px solid lightgray;
-      margin-block:8px;
-      display:grid;
-      padding:8px;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr;
-    }
-  
-    .branch-details div:first-child {
-      flex-direction: column;
-      display: flex;
-    }
-    /* .branch-details p {
-      
-    } */
-    
-    .branch-header {
-      background:#bd3333;
-      color:white;
-      padding:12px;
-      display:flex;
-      flex-direction: row;
-      border:1px solid gray;
-      align-items: center;
-      column-gap: 12px;
-    }
-    /* .map {
-        
-    } */
-    
-  </style>
+  .more {
+    margin-left: auto;
+    cursor: pointer;
+    transition: .2s linear;
+  }
+
+  .branch {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    max-width: 1000px;
+  }
+
+  .closed_branch {
+    transition: .3s ease-in-out;
+    transform: translateY(-500px);
+    opacity: 0;
+  }
+
+  .opened_branch {
+    transition: .3s ease-in-out;
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  .rotate180 {
+    transform: rotateZ(180deg) translateY(4px);
+  }
+
+  .branch-details {
+    border: 1px solid lightgray;
+    margin-block: 8px;
+    display: grid;
+    padding: 8px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .branch-details div:first-child {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .branch-header {
+    background: #bd3333;
+    color: white;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid gray;
+    align-items: center;
+    column-gap: 12px;
+  }
+</style>
+
+<!-- Include Google Maps JavaScript API library -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHemJD0ZSctj0hfRTetYUF8rOabylfywA&libraries=places"></script>
 </body>
 </html>

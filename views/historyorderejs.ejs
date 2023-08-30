@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+order history:<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -61,12 +61,13 @@
   $('#name-query').on('change', fetchqueryOrders);
   $('#price').on('change', fetchqueryOrders);
   $('#address-query').on('change', fetchqueryOrders);
+  const name = $('#name-query').val();
+    const price = $('#price').val();
+    const address = $('#address-query').val();
 
   function fetchqueryOrders() {
     // Get filter values
-    const name = $('#name-query').val();
-    const price = $('#price').val();
-    const address = $('#address-query').val();
+  
     
     // AJAX call to fetch filtered orders
     $.ajax({
@@ -76,7 +77,9 @@
       data: {
         name: name || undefined,
         price: price || undefined,
-        address: address || undefined
+        address: address || undefined,
+        userId: userId
+
       },
       success: function (data) {
         renderOrder(data); // Render fetched orders
@@ -93,7 +96,10 @@
     method: 'GET',
     dataType: 'json',
     data: {
-      userId: userId
+      name: name || undefined,
+        price: price || undefined,
+        address: address || undefined,
+        userId: userId
     },
     success: function (data) {
       data.forEach(element => {

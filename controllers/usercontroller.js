@@ -12,8 +12,8 @@ const register = async(req,res)=>{
 
 const login = async(req,res)=>{
     try {
-        const token = await userService.login(req.body)
-        return res.status(200).json({token})
+        const { user_id, token } = await userService.login(req.body)
+        return res.status(200).json({ user_id, token })
     } catch(e) {
         return res.status(400).json({errors:[e.message]})
     }
@@ -50,13 +50,24 @@ const createUser=async(req,res)=>{
 const getUser = async(req,res)=>{
 
     let user;
-
-         user=await userService.getUsers();
+    if(req.user_id)
+    {
+        user= await userService.getUser(req.user_id);
         if(!user)
-        {
             return res.status(404).json({errors:['user was not found']})
 
+    }
+    else
+    {
+        user=await userService.getUsers();
+        if(!user)
+        {
+            return res.status(404).json({errors:['users were not found']})
+
         }
+    }
+ 
+
     
     res.json(user);
 }

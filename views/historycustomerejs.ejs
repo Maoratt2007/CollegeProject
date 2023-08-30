@@ -34,7 +34,6 @@
 
 
 
-
 <!-- Filter button and category buttons -->
 
 
@@ -46,7 +45,7 @@
   function GetUseres(){
 
     $.ajax({
-      url: 'http://localhost:3000/api/user',
+      url: 'http://localhost:3000/api/user/getall',
       method: 'GET',
       dataType: 'json',
       success: function (data) {
@@ -77,9 +76,11 @@
     success: function (orders) {
       const userElement = $(`
         <div class="user" data-user-id="${user._id}">
-          <h2>${user.name}</h2>
+          <h2>${user.name} </h2>
+          <button id="bemanagerbtn" onclick="BeManager('${user._id}', '${user.name}', '${user.email}', '${user.manager}', '${user.password}', '${user.passwordResetFlag}')">+</button>
           <button onclick='renderOrder(${JSON.stringify(user)}, ${JSON.stringify(orders)})'>all the orders</button>
           <button onclick="closeOrderDetail($(this).parent())">close all the orders</button>
+
         </div>
       `);
       usersListHistoryContainer.append(userElement);
@@ -100,14 +101,44 @@ function closeOrderDetail(userElement) {
 }
 
 
-  
+function BeManager(_id, name, email, manager, password, passwordResetFlag) {
+    const userdata = {
+        _id: _id, 
+        name: name,
+        email: email,
+        manager: true, //be manager
+        password: password,
+        passwordResetFlag: passwordResetFlag,
+        // Add other data fields as needed
+    };
+    
+    $.ajax({
+        url: `http://localhost:3000/api/user/${_id}`,
+        method: 'PUT',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(userdata),
+        success: function (response) {
+            console.log(response);
+            alert('User is now a manager.');
+
+        },
+        error: function (err) {
+            console.log(err);
+            alert('Failed to update user status.');
+        }
+    });
+}
+
+
+
 function renderOrder(user, orders) {
   const userElement = $('#usersListHistory').find(`[data-user-id="${user._id}"]`);
   const orderListHistoryContainer = userElement.find('.orderList');
 
   if (orderListHistoryContainer.length === 0) {
     userElement.append(`<div class="orderList"></div>`);
-    orderListHistoryContainer = userElement.find('.orderList');
+    // orderListHistoryContainer = userElement.find('.orderList');
   }
 
   orderListHistoryContainer.empty(); // Clear existing orders

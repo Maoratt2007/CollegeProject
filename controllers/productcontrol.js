@@ -12,10 +12,8 @@ const getProducts=async(req,res)=> {
     
     if(req.query.isShow)
     {
-        arr_pro=await productService.getProductShow(req.query.isShow);
-        //filter
         
-        if((req.query.category)||(req.query.name)||(req.query.price))
+        if((req.query.category)||(req.query.name)||(req.query.price)||(req.query.isShow))
         {
           arr_pro=await productService.getFilterOrder(req.query.category, req.query.price, req.query.fat,req.query.isShow)
           if(arr_pro.length==0)
