@@ -60,6 +60,21 @@
     font-size: 1.2em;
     color: #666;
   }
+  /* styles.css */
+
+  .customer-side-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #c41717;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .customer-side-link:hover {
+    text-decoration: underline;
+  }
+
   
   /* Responsive styles */
   @media (max-width: 768px) {

@@ -18,6 +18,7 @@ header {
     color: #fff;
     text-align: center;
     padding: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
 }
 
 /* Style the about section */
@@ -51,6 +52,7 @@ header {
     height: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    column-count: 2;
 }
 
 /* Align and style the images in one line */
@@ -64,15 +66,20 @@ header {
 .about-images img {
     max-width: 200px;
     height: auto;
+
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Style the custom reply icon */
 .custom-reply-icon {
-    font-size: 24px; /* Adjust the size as needed */
-    color: #c41717; /* Set the desired color */
-    float: left; /* Float the icon to the left */
-    margin-left: 0; /* Remove any left margin */
+    font-size: 24px;
+    color: #c41717; 
+    float: left; 
+    margin-left: 0; 
+}
+footer {
+    text-align: center;
+
 }
 
