@@ -1,5 +1,13 @@
-<script>
-    async function onResetPassword(){
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="resetpass.css">
+
+</head>
+<body>
+    <script>
+         async function onResetPassword(){
                 const newPass = document.querySelector('#newpass').value
                 const email = document.querySelector("#email").innerHTML
                 if(!newPass) return alert('new password must be entered!')
@@ -9,12 +17,14 @@
                 }).catch(e =>  {
                     alert('There was a problem reseting your password, please contact site moderators')
                 });
-    }
- </script>
-<h1>
-<div id="email">
-    <%= email %>
-</div>
-    <input id ="newpass" placeholder="Enter new password" type="password">
-    <button onclick="onResetPassword()">Reset</button>
-</h1>
+            }
+    </script>
+    <h1>
+        <div id="email">
+            <%= email %>
+        </div>
+        <input id="newpass" placeholder="Enter new password" type="password">
+        <button onclick="onResetPassword()">Reset</button>
+    </h1>
+</body>
+</html>

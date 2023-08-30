@@ -1,0 +1,93 @@
+/* historyorder.css */
+
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set a background color for the body */
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-color: #f4f4f4;
+}
+
+/* Style the header */
+header {
+    background-color: #c41717;
+    color: #fff;
+    padding: 50px;
+}
+
+/* Style the heading */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+
+/* Style the custom reply icon */
+.custom-reply-icon {
+    font-size: 24px; /* Adjust the size as needed */
+    color: white; /* Set the desired color */
+    float: left; /* Float the icon to the left */
+    margin-left: 0; /* Remove any left margin */
+    text-decoration: none;
+}
+
+/* Style the filter buttons container */
+.filter-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 700px;
+    margin-left: 70px;
+}
+
+/* Style the filter labels */
+.filter-buttons label {
+    font-weight: bold;
+    margin-right: 5px;
+        justify-content: space-between;
+    align-items: center;
+}
+
+/* Style the filter dropdowns */
+.filter-buttons select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style the order list container */
+#orderListHistory {
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
+}
+
+/* Style individual order elements */
+.order {
+    border: 1px solid #c41717;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+/* Style item details container */
+.historyProduct {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}

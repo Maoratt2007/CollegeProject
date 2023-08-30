@@ -23,6 +23,8 @@ const chatRoute=require('./routes/chat');
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
+
+
 const dotenv= require('dotenv');
 dotenv.config();
 
@@ -39,7 +41,9 @@ const mongodbConnect = async () => {
 
 
 // app.use(express.json()) // add the option to use json
+//app.use(cors());
 app.use(express.urlencoded({extended:true})) // add the option to use data from form
+app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client-dist'));
 app.use(express.static(path.join(__dirname, 'public')))  // express.static means that the app will have permision to access the folder 'public' __dirname is the fodler we were in and when you join __dirname and public it takes you to that path (app)
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('Views'));
@@ -68,6 +72,7 @@ app.use('/chat',chatRoute)
 
 mongodbConnect();
 io.on("connection", function(socket){
+    console.log(socket.id)
     socket.on("newuser", function(username){
         socket.broadcast.emit("update", username + " has joined the Chatroom");
     });
@@ -78,4 +83,5 @@ io.on("connection", function(socket){
         socket.broadcast.emit("chat", message);
     });
 })
+
 app.listen(port);

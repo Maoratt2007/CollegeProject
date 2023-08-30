@@ -58,6 +58,21 @@ header {
     margin-left: 40px; /* Adjusted margin */
     margin-right: 20px; /* Adjusted margin */
 }
+.logout {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #c41717;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.logout:hover {
+    background-color: #8f0000;
+}
+
 
 .navigation a::after {
     content: '';

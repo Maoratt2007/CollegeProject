@@ -231,14 +231,6 @@ function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_b
     transform: rotateZ(180deg) translateY(4px);
   }
 
-  .branch-details {
-    border: 1px solid lightgray;
-    margin-block: 8px;
-    display: grid;
-    padding: 8px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-  }
 
   .branch-details div:first-child {
     flex-direction: column;
@@ -255,6 +247,25 @@ function removeBranch(name,address,id,phoneNumber,activityTime,manager,is_show_b
     align-items: center;
     column-gap: 12px;
   }
+  .branch-details {
+  border: 1px solid lightgray;
+  margin-block: 8px;
+  display: flex;
+  flex-direction: column; /* Set flex-direction to column to stack child elements vertically */
+  padding: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Style the individual 'p' elements */
+.branch-details p {
+  margin-bottom: 8px; /* Add some margin to separate the 'p' elements vertically */
+}
+
+
+/* Adjust the map container styles */
+.map {
+  height: 200px; /* Set the desired height for the map */
+}
 </style>
 
 <!-- Include Google Maps JavaScript API library -->

@@ -66,7 +66,7 @@
   <input type="text" id="descriptionInput" placeholder="Enter description" maxlength="50" pattern=".{0,50}" title="Please enter up to 100 characters" required>
 
   <label for="imageInput">Image Link:</label>
-  <input type="text" id="imageInput" placeholder="Enter image link" pattern="^assets\/[\w\s-]+\.(?:png|jpg|jpeg|gif|bmp|svg|webp|avif)$/i"  required>
+  <input type="text" id="imageInput" placeholder="Enter image link" pattern="^assets\/[\\w\\s-]+\\.(png|jpg|jpeg|gif|bmp|svg|webp|avif)$" required>
 
   <label for="fatInput">Fat:</label>
   <input type="number" id="fatInput" placeholder="Enter fat" required min="0">
@@ -116,7 +116,8 @@
   const description = document.getElementById('descriptionInput').value;
   const image = document.getElementById('imageInput').value.trim();
 
-  const imagePattern = /^assets\/[\w\s-]+\.(png|jpg|jpeg|gif|bmp|svg|webp|avif)$/i;
+  const imagePattern ="^assets\/[\\w\\s-]+\\.(png|jpg|jpeg|gif|bmp|svg|webp|avif)$"
+
   if (!image.match(imagePattern)) {
     document.getElementById('imageInput').value = "";
     alert("Please enter a valid image link. The link should start with 'assets/' and end with a valid image extension (png, jpg, jpeg, gif, bmp, svg, webp, avif)");

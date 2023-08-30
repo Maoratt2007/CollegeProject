@@ -101,7 +101,13 @@ function closeOrderDetail(userElement) {
 }
 
 
-function BeManager(_id, name, email, manager, password, passwordResetFlag) {
+function BeManager(_id, name, email, manager, password, passwordResetFlag)
+ {
+   if(manager=="true")
+   {
+      alert("user is already a manager");
+      return;
+   }  
     const userdata = {
         _id: _id, 
         name: name,
@@ -111,7 +117,6 @@ function BeManager(_id, name, email, manager, password, passwordResetFlag) {
         passwordResetFlag: passwordResetFlag,
         // Add other data fields as needed
     };
-    
     $.ajax({
         url: `http://localhost:3000/api/user/${_id}`,
         method: 'PUT',
