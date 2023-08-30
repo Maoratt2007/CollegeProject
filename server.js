@@ -21,8 +21,8 @@ const managerDetail=require('./routes/managerdetailroute');
 const managerGraph=require('./routes/graph');
 const chatRoute=require('./routes/chat');
 const app = express();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const http = require('http').Server(app);
+const io = require("socket.io")(http);
 
 
 const dotenv= require('dotenv');
@@ -72,7 +72,7 @@ app.use('/chat',chatRoute)
 
 mongodbConnect();
 io.on("connection", function(socket){
-    console.log(socket.id)
+    console.log("socket connected")
     socket.on("newuser", function(username){
         socket.broadcast.emit("update", username + " has joined the Chatroom");
     });
@@ -84,4 +84,4 @@ io.on("connection", function(socket){
     });
 })
 
-app.listen(port);
+http.listen(port);
