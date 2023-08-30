@@ -58,21 +58,6 @@ header {
     margin-left: 40px; /* Adjusted margin */
     margin-right: 20px; /* Adjusted margin */
 }
-.logout {
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #c41717;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.logout:hover {
-    background-color: #8f0000;
-}
-
 
 .navigation a::after {
     content: '';
@@ -128,7 +113,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /*hide the sign up to sign in*/
+    overflow: hidden; 
     transform: scale(0);
     transition: transform .5s ease, height .2s ease;
   
@@ -322,49 +307,43 @@ header {
 .logout {
     display: none;
 }
-
-
-/* 
-
-.services {
-    background:whitesmoke;
-    display: grid;
-    place-items: center;
-    position: absolute;
-    bottom: 0px;
-    min-height:100px;
-    width:100%;
-} */
-/* 
-.serviceList {
-    display:flex;
-    flex-direction: column;
+section {
+    padding: 2rem 9%;
+    width: 100%;
+    height:100vh;
+    /* background:#fff; */
+    display: flex;
     align-items: center;
-    text-align: center;
-    padding:8px;
-    row-gap: 8px;
-    padding:4px;
-} */
-/* .serviceContinentLabel {
-    font-weight: bold;
-    font-size: 22px;
 }
 
-.cityLabel {
-    width:max-content;
-    font-size: 20px;
-    padding:4px;
+/* section:nth-child(even) {
+    background: #eee;
+} */
+/* Existing CSS styles */
+
+/* Style for the button link */
+.btn-slide {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #c41717;
+    color: black; /* Set the font color to black */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-.cityLabel:hover {
-    text-decoration: underline;
-    cursor: pointer;
-} */
 
-/* .serviceWrapper {
-    width:50%;
-    padding:16px;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-around;
+/* Hover effect for the button link */
+.btn-slide:hover {
+    background-color: #fff; /* Change background color on hover */
+    color: #c41717; /* Change font color on hover */
+}
+/* Existing CSS styles */
 
-} */
+/* Style for the content div */
+.content {
+    color: white; /* Set the background color to white */
+}
+
+
+
+
